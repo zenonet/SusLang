@@ -1,0 +1,36 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v5.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v5.0": {
+      "SusLang/1.0.0": {
+        "dependencies": {
+          "SusLangCompiler": "1.0.0"
+        },
+        "runtime": {
+          "SusLang.dll": {}
+        }
+      },
+      "SusLangCompiler/1.0.0": {
+        "runtime": {
+          "SusLangCompiler.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "SusLang/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "SusLangCompiler/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}

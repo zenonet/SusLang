@@ -1,0 +1,12 @@
+C:\Users\Hackerstation\RiderProjects\SusLang\SusLangCompiler\obj\Debug\net5.0\SusLangCompiler.csproj.AssemblyReference.cache
+C:\Users\Hackerstation\RiderProjects\SusLang\SusLangCompiler\obj\Debug\net5.0\SusLangCompiler.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Hackerstation\RiderProjects\SusLang\SusLangCompiler\obj\Debug\net5.0\SusLangCompiler.AssemblyInfoInputs.cache
+C:\Users\Hackerstation\RiderProjects\SusLang\SusLangCompiler\obj\Debug\net5.0\SusLangCompiler.AssemblyInfo.cs
+C:\Users\Hackerstation\RiderProjects\SusLang\SusLangCompiler\obj\Debug\net5.0\SusLangCompiler.csproj.CoreCompileInputs.cache
+C:\Users\Hackerstation\RiderProjects\SusLang\SusLangCompiler\bin\Debug\net5.0\SusLangCompiler.deps.json
+C:\Users\Hackerstation\RiderProjects\SusLang\SusLangCompiler\bin\Debug\net5.0\SusLangCompiler.dll
+C:\Users\Hackerstation\RiderProjects\SusLang\SusLangCompiler\bin\Debug\net5.0\ref\SusLangCompiler.dll
+C:\Users\Hackerstation\RiderProjects\SusLang\SusLangCompiler\bin\Debug\net5.0\SusLangCompiler.pdb
+C:\Users\Hackerstation\RiderProjects\SusLang\SusLangCompiler\obj\Debug\net5.0\SusLangCompiler.dll
+C:\Users\Hackerstation\RiderProjects\SusLang\SusLangCompiler\obj\Debug\net5.0\ref\SusLangCompiler.dll
+C:\Users\Hackerstation\RiderProjects\SusLang\SusLangCompiler\obj\Debug\net5.0\SusLangCompiler.pdb
