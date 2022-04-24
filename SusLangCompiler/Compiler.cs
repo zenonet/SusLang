@@ -7,6 +7,8 @@ namespace SusLang
 {
     public static class Compiler
     {
+        public static readonly Version CompilerVersion = new (0, 1);
+        
         #region compilationNeededFields
 
         internal static Crewmate SussedColor;
