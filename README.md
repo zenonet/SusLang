@@ -121,4 +121,6 @@ cyan vented
 emergencyMeeting
 sus red
 red vented
-emergencyMeeting```
+emergencyMeeting
+```
+You can find a version with explanation [here](Examples/helloWorld.sus)
