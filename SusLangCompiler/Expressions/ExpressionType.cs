@@ -8,6 +8,7 @@ namespace SusLang.Expressions
         WasWithMe,
         DidVisual,
         EmergencyMeeting,
+        Who,
         Comment,
         EmptyLine
     }

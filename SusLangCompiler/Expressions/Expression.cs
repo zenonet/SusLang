@@ -58,7 +58,14 @@ namespace SusLang.Expressions
                             )
                         );
                     break;
-                }                
+                }
+                case ExpressionType.Who:
+                {
+                    Compiler.SussedColor = ParseColor(Console.ReadLine());
+                    break;
+                }
+                
+                
                 case ExpressionType.Comment:
                 {
                     break;
@@ -98,6 +105,9 @@ namespace SusLang.Expressions
             {@"^(\w+) didVisual", ExpressionType.DidVisual},
             {@"^sus (\w+)", ExpressionType.Sus},
             {@"^emergencyMeeting", ExpressionType.EmergencyMeeting},
+            {@"^who\?", ExpressionType.Who},
+            
+            
             {@"^(?:\s|\n|\r|\t)+", ExpressionType.EmptyLine},
             {@"^(?:\/\/.*|(trashtalk).*)", ExpressionType.Comment},
         };
