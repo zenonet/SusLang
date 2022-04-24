@@ -7,7 +7,7 @@ namespace SusLang
 {
     public static class Compiler
     {
-        public static readonly Version CompilerVersion = new (0, 1);
+        public static readonly Version CompilerVersion = new (0, 2);
         
         #region compilationNeededFields
 
@@ -46,6 +46,7 @@ namespace SusLang
             internal static void LogError(string error)
             {
                 LogRaw($"\nSabotage in line {executingLine}: {error}\n");
+                Environment.Exit(1);
             }
 
             internal static void LogProgramOutput(string msg)
