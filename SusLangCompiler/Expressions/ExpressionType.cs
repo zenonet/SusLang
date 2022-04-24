@@ -9,5 +9,6 @@ namespace SusLang.Expressions
         DidVisual,
         EmergencyMeeting,
         Comment,
+        EmptyLine
     }
 }

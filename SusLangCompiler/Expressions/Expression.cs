@@ -61,7 +61,10 @@ namespace SusLang.Expressions
                 }                
                 case ExpressionType.Comment:
                 {
-                    
+                    break;
+                }
+                case ExpressionType.EmptyLine:
+                {
                     break;
                 }
                 default:
@@ -78,7 +81,8 @@ namespace SusLang.Expressions
             {@"^(\w+) didVisual", ExpressionType.DidVisual},
             {@"^sus (\w+)", ExpressionType.Sus},
             {@"^emergencyMeeting", ExpressionType.EmergencyMeeting},
-            {@"^\/\/.*|(trashtalk).*", ExpressionType.Comment},
+            {@"^(?:\s|\n|\r|\t)+", ExpressionType.EmptyLine},
+            {@"^(?:\/\/.*|(trashtalk).*)", ExpressionType.Comment},
         };
 
 
