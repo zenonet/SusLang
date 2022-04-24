@@ -18,35 +18,35 @@ namespace SusLang.Expressions
                 case ExpressionType.Sus:
                 {
                     string rest = RawExpression.Replace("sus", "");
-                    Crewmate color = Enum.Parse<Crewmate>(rest, true);
+                    Crewmate color = ParseColor(rest);
                     Compiler.SussedColor = color;
                     break;
                 }
                 case ExpressionType.Vented:
                 {
                     string rest = RawExpression.Replace("vented", "");
-                    Crewmate color = Enum.Parse<Crewmate>(rest, true);
+                    Crewmate color = ParseColor(rest);
                     Compiler.Crewmates[color] += 1;
                     break;
                 }
                 case ExpressionType.Killed:
                 {
                     string rest = RawExpression.Replace("killed", "");
-                    Crewmate color = Enum.Parse<Crewmate>(rest, true);
+                    Crewmate color = ParseColor(rest);
                     Compiler.Crewmates[color] += 10;
                     break;
                 }
                 case ExpressionType.WasWithMe:
                 {
                     string rest = RawExpression.Replace("wasWithMe", "");
-                    Crewmate color = Enum.Parse<Crewmate>(rest, true);
+                    Crewmate color = ParseColor(rest);
                     Compiler.Crewmates[color] -= 1;
                     break;
                 }
                 case ExpressionType.DidVisual:
                 {
                     string rest = RawExpression.Replace("didVisual", "");
-                    Crewmate color = Enum.Parse<Crewmate>(rest, true);
+                    Crewmate color = ParseColor(rest);
                     Compiler.Crewmates[color] -= 10;
                     break;
                 }
@@ -73,6 +73,23 @@ namespace SusLang.Expressions
         }
 
 
+        private static Crewmate ParseColor(string code)
+        {
+            if (code.ToLower().Replace(" ", "") != "he")
+                try
+                {
+                    Crewmate color = Enum.Parse<Crewmate>(code, true);
+                    return color;
+                }
+                catch (Exception)
+                {
+                    Compiler.Logging.LogError($"Can't parse color {code}");
+                    throw;
+                }
+
+            return Compiler.SussedColor;
+        }
+        
         private static readonly Dictionary<string, ExpressionType> Patterns = new()
         {
             {@"^(\w+) vented", ExpressionType.Vented},
