@@ -68,10 +68,10 @@ You can use these options:
     private static void AddAssemblyToPath()
     {
         var scope = EnvironmentVariableTarget.User;
-        string assemblyPath = Path.GetDirectoryName(Assembly.GetAssembly(typeof(Program))?.Location);
-        
+        string assemblyPath = AppContext.BaseDirectory;
+
         var oldValue = Environment.GetEnvironmentVariable("PATH", scope);
-        if (oldValue == null || assemblyPath == null)
+        if (oldValue == null)
         {
             Console.WriteLine("Unable to add this directory to Path");
             Environment.Exit(1);
@@ -91,13 +91,12 @@ You can use these options:
     private static void RemoveAssemblyFromPath()
     {
         var scope = EnvironmentVariableTarget.User;
-        string assemblyPath = Path.GetDirectoryName(Assembly.GetAssembly(typeof(Program))?.Location);
-        
+        string assemblyPath = AppContext.BaseDirectory;
         var oldValue = Environment.GetEnvironmentVariable("PATH", scope);
         
-        if (oldValue == null || assemblyPath == null)
+        if (oldValue == null)
         {
-            Console.WriteLine("Unable to add this directory to Path");
+            Console.WriteLine("Unable to remove this directory from Path");
             Environment.Exit(1);
         }
 
