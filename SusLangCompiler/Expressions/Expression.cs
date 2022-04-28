@@ -18,54 +18,80 @@ namespace SusLang.Expressions
                 case ExpressionType.Sus:
                 {
                     string rest = RawExpression.Replace("sus", "");
-                    Crewmate color = ParseColor(rest);
+                    Crewmate? _color = ParseColor(rest);
+                    if (_color is null)
+                        return;
+                    Crewmate color = (Crewmate) _color;
+                    
                     Compiler.SussedColor = color;
                     break;
                 }
                 case ExpressionType.Vented:
                 {
                     string rest = RawExpression.Replace("vented", "");
-                    Crewmate color = ParseColor(rest);
+                    Crewmate? _color = ParseColor(rest);
+                    if (_color is null)
+                        return;
+                    Crewmate color = (Crewmate) _color;
+                    
                     Compiler.Crewmates[color] += 1;
                     break;
                 }
                 case ExpressionType.Killed:
                 {
                     string rest = RawExpression.Replace("killed", "");
-                    Crewmate color = ParseColor(rest);
+                    Crewmate? _color = ParseColor(rest);
+                    if (_color is null)
+                        return;
+                    Crewmate color = (Crewmate) _color;
+
                     Compiler.Crewmates[color] += 10;
                     break;
                 }
                 case ExpressionType.WasWithMe:
                 {
                     string rest = RawExpression.Replace("wasWithMe", "");
-                    Crewmate color = ParseColor(rest);
+                    Crewmate? _color = ParseColor(rest);
+                    if (_color is null)
+                        return;
+                    Crewmate color = (Crewmate) _color;
+
                     Compiler.Crewmates[color] -= 1;
                     break;
                 }
                 case ExpressionType.DidVisual:
                 {
                     string rest = RawExpression.Replace("didVisual", "");
-                    Crewmate color = ParseColor(rest);
+                    Crewmate? _color = ParseColor(rest);
+                    if (_color is null)
+                        return;
+                    Crewmate color = (Crewmate) _color;
+
                     Compiler.Crewmates[color] -= 10;
                     break;
                 }
                 case ExpressionType.EmergencyMeeting:
                 {
                     Compiler.Logging.LogProgramOutput(
-                        Encoding.ASCII.GetString(new []{
-                             Compiler.Crewmates[Compiler.SussedColor]}
-                            )
-                        );
+                        Encoding.ASCII.GetString(new[]
+                            {
+                                Compiler.Crewmates[Compiler.SussedColor]
+                            }
+                        )
+                    );
                     break;
                 }
                 case ExpressionType.Who:
                 {
-                    Compiler.SussedColor = ParseColor(Console.ReadLine());
+                    Crewmate? _color = ParseColor(Console.ReadLine());
+                    if (_color is null)
+                        return;
+
+                    Compiler.SussedColor = (Crewmate) _color;
                     break;
                 }
-                
-                
+
+
                 case ExpressionType.Comment:
                 {
                     break;
@@ -80,7 +106,7 @@ namespace SusLang.Expressions
         }
 
 
-        private static Crewmate ParseColor(string code)
+        private static Crewmate? ParseColor(string code)
         {
             if (code.ToLower().Replace(" ", "") != "he")
                 try
@@ -91,12 +117,12 @@ namespace SusLang.Expressions
                 catch (Exception)
                 {
                     Compiler.Logging.LogError($"Can't parse color {code}");
-                    throw;
+                    return null;
                 }
 
             return Compiler.SussedColor;
         }
-        
+
         private static readonly Dictionary<string, ExpressionType> Patterns = new()
         {
             {@"^(\w+) vented", ExpressionType.Vented},
@@ -106,8 +132,8 @@ namespace SusLang.Expressions
             {@"^sus (\w+)", ExpressionType.Sus},
             {@"^emergencyMeeting", ExpressionType.EmergencyMeeting},
             {@"^who\?", ExpressionType.Who},
-            
-            
+
+
             {@"^(?:\s|\n|\r|\t)+", ExpressionType.EmptyLine},
             {@"^(?:\/\/.*|(trashtalk).*)", ExpressionType.Comment},
         };
@@ -137,6 +163,7 @@ namespace SusLang.Expressions
             {
                 Compiler.Logging.LogError($"Couldn't parse '{Regex.Match(code, $@"[^\s\\]+").Value}'");
                 rest = code;
+                return null;
             }
 
             rest = restBuffer;
