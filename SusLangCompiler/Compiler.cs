@@ -28,7 +28,13 @@ namespace SusLang
             while (code.Length > 0)
             {
                 executingLine++;
-                Expression.Parse(code, out code).Execute();
+                
+                Expression expression = Expression.Parse(code, out code);
+                if(expression != null)
+                    expression.Execute();
+                else
+                    return;
+                
                 code = code.TrimStart('\r');
                 code = code.TrimStart('\n');
             }
@@ -46,7 +52,6 @@ namespace SusLang
             internal static void LogError(string error)
             {
                 LogRaw($"\nSabotage in line {executingLine}: {error}\n");
-                Environment.Exit(1);
             }
 
             internal static void LogProgramOutput(string msg)
