@@ -21,10 +21,17 @@ namespace SusLang
 
         public static void Execute(string code)
         {
+            Crewmates.Clear();
+            
             //Fill the crewmate dict with all the crewmates from the enum
             foreach (Crewmate crewmate in Enum.GetValues<Crewmate>())
                 Crewmates.Add(crewmate, 0);
 
+            ExecuteLines(code);
+        }
+
+        internal static void ExecuteLines(string code)
+        {
             while (code.Length > 0)
             {
                 executingLine++;
@@ -64,7 +71,7 @@ namespace SusLang
                 if (Stream == null)
                     Stream = Console.Out;
 
-                Stream.Write(msg);
+                Stream.Write(msg);  
                 Stream.Flush();
             }
         }

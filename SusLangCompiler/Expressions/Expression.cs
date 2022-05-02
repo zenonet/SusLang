@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Net.Security;
 using System.Text;
 using System.Text.RegularExpressions;
 
@@ -90,6 +91,16 @@ namespace SusLang.Expressions
                     Compiler.SussedColor = (Crewmate) _color;
                     break;
                 }
+                case ExpressionType.Loop:
+                {
+                    string inside = ParsingUtility.FindBetweenBrackets(ref RawExpression);
+                    while (Compiler.Crewmates[Compiler.SussedColor] > 0)
+                    {
+                        Compiler.ExecuteLines(inside);
+                    }
+                    Compiler.ExecuteLines(RawExpression);
+                    break;
+                }
 
 
                 case ExpressionType.Comment:
@@ -132,7 +143,7 @@ namespace SusLang.Expressions
             {@"^sus (\w+)", ExpressionType.Sus},
             {@"^emergencyMeeting", ExpressionType.EmergencyMeeting},
             {@"^who\?", ExpressionType.Who},
-
+            {@"^\[(?:.|\s)*", ExpressionType.Loop},
 
             {@"^(?:\s|\n|\r|\t)+", ExpressionType.EmptyLine},
             {@"^(?:\/\/.*|(trashtalk).*)", ExpressionType.Comment},
