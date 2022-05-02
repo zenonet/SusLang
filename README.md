@@ -54,6 +54,19 @@ Since the sus-meter is printed in ASCII and the first letter in ASCII is at numb
 use `cyan vented` once to get to a sus-meter of 65 or `A` in ASCII.
 You can find an ASCII table [here](https://en.wikipedia.org/wiki/ASCII#Printable_characters).
 
+<h4>The Who?-Statement</h4>
+
+Using the line `who?` you can let the interpreter wait for the user to input a color. This color will then be selected.
+
+<h4>Comments</h4>
+
+If you begin a line with `trashtalk `, the interpreter will ignore the entire line, so you can use that for comments.
+Alternatively you can also use `//`
+
+
+
+For example you could write `trashtalk this is for writing an A` and the interpreter will completely ignore it
+
 <h3>Hello World Script</h3>
 Using all these statements, we can now create a Hello-World-Script like this:
 
