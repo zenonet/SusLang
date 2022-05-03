@@ -26,9 +26,11 @@ The sus-meters of all colors/variables is 0 by default.
 
 You can select a color/variable using the `sus`-Statement
 
+
 <h4>The emergencyMeeting statement</h4>
 
 Using the statement `emergencyMeeting` you can output the sus-meter of the currently selected color/variable encoded into ASCII
+
 
 <h4>Statements for modifying the sus-meter</h4>
 
@@ -54,18 +56,27 @@ Since the sus-meter is printed in ASCII and the first letter in ASCII is at numb
 use `cyan vented` once to get to a sus-meter of 65 or `A` in ASCII.
 You can find an ASCII table [here](https://en.wikipedia.org/wiki/ASCII#Printable_characters).
 
+<br>
+<br>
+
 <h4>The Who?-Statement</h4>
 
 Using the line `who?` you can let the interpreter wait for the user to input a color. This color will then be selected.
+
+
+<h4>Loops</h4>
+
+You can put parts of your code in brackets (`[]`) to create a loop. This loop will run until the selected colors sus-meter turns 0.
+If you want to learn more about SusLang-Loops, you can read [this](https://github.com/zenonet/SusLang/wiki/Loops) the wiki article.
+
 
 <h4>Comments</h4>
 
 If you begin a line with `trashtalk `, the interpreter will ignore the entire line, so you can use that for comments.
 Alternatively you can also use `//`
 
-
-
 For example you could write `trashtalk this is for writing an A` and the interpreter will completely ignore it
+
 
 <h3>Hello World Script</h3>
 Using all these statements, we can now create a Hello-World-Script like this:
