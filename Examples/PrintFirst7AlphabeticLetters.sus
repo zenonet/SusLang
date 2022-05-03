@@ -1,0 +1,35 @@
+sus cyan //select cyan as the counter-variable
+
+//Bring its value to 7:
+cyan killed
+cyan wasWithMe
+cyan wasWithMe
+cyan wasWithMe
+
+sus red //Select red as the letter we want to print
+
+//Bring its value to the letter A
+red killed
+red killed
+red killed
+red killed
+red killed
+red killed
+red vented
+red vented
+red vented
+red vented
+red vented
+
+//Start the loop
+
+[
+    sus red    //Select red
+    emergencyMeeting    //Output the value
+    red vented    //Increase the value by 1
+    sus cyan    //Select cyan
+    cyan wasWithMe //Decrease cyan (the counter) by 1
+    
+    //Here, it's important that cyan is the last color to be selected since
+    //It should be the color tested by the loop
+]
