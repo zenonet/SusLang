@@ -51,7 +51,7 @@ namespace SusLang.Expressions
                 }
                 case ExpressionType.WasWithMe:
                 {
-                    string rest = RawExpression.Replace("wasWithMe", "");
+                    string rest = RawExpression.Replace("was with me", "");
                     Crewmate? _color = ParseColor(rest);
                     if (_color is null)
                         return;
@@ -62,7 +62,7 @@ namespace SusLang.Expressions
                 }
                 case ExpressionType.DidVisual:
                 {
-                    string rest = RawExpression.Replace("didVisual", "");
+                    string rest = RawExpression.Replace("did visual", "");
                     Crewmate? _color = ParseColor(rest);
                     if (_color is null)
                         return;
@@ -103,7 +103,7 @@ namespace SusLang.Expressions
                 }
                 case ExpressionType.WasWith:
                 {
-                    string[] colors = RawExpression.Split("wasWith");
+                    string[] colors = RawExpression.Split("was with");
                     Crewmate? _color0 = ParseColor(colors[0]);
                     Crewmate? _color1 = ParseColor(colors[1]);
                     if (_color0 is null || _color1 is null)
@@ -153,13 +153,13 @@ namespace SusLang.Expressions
         {
             {@"^(\w+) vented", ExpressionType.Vented},
             {@"^(\w+) killed", ExpressionType.Killed},
-            {@"^(\w+) wasWithMe", ExpressionType.WasWithMe},
-            {@"^(\w+) didVisual", ExpressionType.DidVisual},
+            {@"^(\w+) was with me", ExpressionType.WasWithMe},
+            {@"^(\w+) did visual", ExpressionType.DidVisual},
             {@"^sus (\w+)", ExpressionType.Sus},
             {@"^emergencyMeeting", ExpressionType.EmergencyMeeting},
             {@"^who\?", ExpressionType.Who},
             {@"^\[(?:.|\s)*", ExpressionType.Loop},
-            {@"^\w+ wasWith \w+", ExpressionType.WasWith},
+            {@"^\w+ was with (?!me)\w+", ExpressionType.WasWith},
 
             {@"^(?:\s|\n|\r|\t)+", ExpressionType.EmptyLine},
             {@"^(?:\/\/.*|(trashtalk).*)", ExpressionType.Comment},

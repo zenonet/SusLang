@@ -17,14 +17,14 @@ emergencyMeeting
 cyan killed
 cyan killed
 cyan killed
-cyan wasWithMe
+cyan was with me
 emergencyMeeting
 
 // Writing l
 cyan killed
-cyan wasWithMe
-cyan wasWithMe
-cyan wasWithMe
+cyan was with me
+cyan was with me
+cyan was with me
 emergencyMeeting
 
 // Writing the l again
@@ -47,12 +47,13 @@ emergencyMeeting
 
 // Writing W
 sus cyan
-cyan didVisual
-cyan didVisual
-cyan wasWithMe
-cyan wasWithMe
-cyan wasWithMe
-cyan wasWithMe
+cyan did visual
+cyan did visual
+cyan was with me
+cyan was with me
+cyan was with me
+cyan was with me
+
 emergencyMeeting
 
 // Writing o
@@ -71,7 +72,7 @@ cyan vented
 emergencyMeeting
 
 // Writing l
-cyan didVisual
+cyan did visual
 cyan vented
 cyan vented
 cyan vented
@@ -79,7 +80,7 @@ cyan vented
 emergencyMeeting
 
 // Writing d
-cyan didVisual
+cyan did visual
 cyan vented
 cyan vented
 emergencyMeeting
