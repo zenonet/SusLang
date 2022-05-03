@@ -10,6 +10,7 @@ namespace SusLang.Expressions
         EmergencyMeeting,
         Who,
         Loop,
+        WasWith,
         Comment,
         EmptyLine
     }

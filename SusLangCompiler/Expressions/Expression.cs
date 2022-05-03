@@ -101,6 +101,21 @@ namespace SusLang.Expressions
                     Compiler.ExecuteLines(RawExpression);
                     break;
                 }
+                case ExpressionType.WasWith:
+                {
+                    string[] colors = RawExpression.Split("wasWith");
+                    Crewmate? _color0 = ParseColor(colors[0]);
+                    Crewmate? _color1 = ParseColor(colors[1]);
+                    if (_color0 is null || _color1 is null)
+                        return;
+                    
+                    Crewmate color0 = (Crewmate) _color0;
+                    Crewmate color1 = (Crewmate) _color1;
+
+                    Compiler.Crewmates[color0] = Compiler.Crewmates[color1];
+                    
+                    break;
+                }
 
 
                 case ExpressionType.Comment:
@@ -144,6 +159,7 @@ namespace SusLang.Expressions
             {@"^emergencyMeeting", ExpressionType.EmergencyMeeting},
             {@"^who\?", ExpressionType.Who},
             {@"^\[(?:.|\s)*", ExpressionType.Loop},
+            {@"^\w+ wasWith \w+", ExpressionType.WasWith},
 
             {@"^(?:\s|\n|\r|\t)+", ExpressionType.EmptyLine},
             {@"^(?:\/\/.*|(trashtalk).*)", ExpressionType.Comment},
@@ -159,7 +175,6 @@ namespace SusLang.Expressions
             {
                 Match match = Regex.Match(code, pair.Key);
 
-                //TODO: Check if Match.Success is the right thing to do in this situation
                 if (!match.Success)
                     continue;
                 expression = new Expression
