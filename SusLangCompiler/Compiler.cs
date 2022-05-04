@@ -27,10 +27,15 @@ namespace SusLang
             foreach (Crewmate crewmate in Enum.GetValues<Crewmate>())
                 Crewmates.Add(crewmate, 0);
 
-            ExecuteLines(code);
+            ExecuteInternal(code);
         }
 
-        internal static void ExecuteLines(string code)
+        /// <summary>
+        /// Executes a piece of code
+        /// </summary>
+        /// <param name="code">The input code to execute</param>
+        /// <returns>Whether the code was executed successfully (and not errors were thrown)</returns>
+        internal static bool ExecuteInternal(string code)
         {
             while (code.Length > 0)
             {
@@ -40,11 +45,13 @@ namespace SusLang
                 if(expression != null)
                     expression.Execute();
                 else
-                    return;
+                    return false;
                 
                 code = code.TrimStart('\r');
                 code = code.TrimStart('\n');
             }
+
+            return true;
         }
 
 

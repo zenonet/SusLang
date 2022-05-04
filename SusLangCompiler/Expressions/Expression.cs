@@ -96,9 +96,11 @@ namespace SusLang.Expressions
                     string inside = ParsingUtility.FindBetweenBrackets(ref RawExpression);
                     while (Compiler.Crewmates[Compiler.SussedColor] > 0)
                     {
-                        Compiler.ExecuteLines(inside);
+                        //If the loop wasn't successfully executed, return
+                        if(!Compiler.ExecuteInternal(inside))
+                            return;
                     }
-                    Compiler.ExecuteLines(RawExpression);
+                    Compiler.ExecuteInternal(RawExpression);
                     break;
                 }
                 case ExpressionType.WasWith:
