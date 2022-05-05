@@ -1,5 +1,5 @@
 # SusLang
-A simple among-us-themed esolang written in C#
+A simple among-us-themed esolang written in C#.<br>
 You can find an online interpreter [here](http://api.zenonet.de/SusLang/)
 
 <h2>The file format</h2>
