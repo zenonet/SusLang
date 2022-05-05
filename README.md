@@ -1,9 +1,6 @@
 # SusLang
 A simple among-us-themed esolang written in C#
-
-I made this in a couple hours because I was bored. I suggest not trying it out, it isn't fun, this language doesn't even support loops
-I might add loops when I am bored again.
-
+You can find an online interpreter [here](http://api.zenonet.de/SusLang/)
 
 <h2>The file format</h2>
 
