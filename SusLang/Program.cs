@@ -3,15 +3,17 @@ using System;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using SusLangBuildEngine;
 
 public static class Program
 {
-    private const string help = 
+    private const string Help = 
         @"Usage:
 SusLang [option or path to source file]
 You can use these options:
     -version    to print out the compiler version
     -info   to print out the link to the github repo
+    -build  to create a .exe file of a script that can run without SusLang or Dotnet. Syntax: -build {sourcePath} {destinationPath}
     -addpath   adds the directory of this executable to path
     -removepath   removes the directory of this executable from path";
     
@@ -31,6 +33,10 @@ You can use these options:
                     case "-info" or "-i":
                         Console.WriteLine(
                             "SusLang is an among-us-themed esolang written in C#. Visit https://github.com/zenonet/SusLang for more information");
+                        break;
+                    case "-build" or "-b":
+                        BuildEngine.BuildSusLangScriptFromFile(args[1], args[2]);
+                        Console.WriteLine($"Successfully built {args[1]} to {args[2]}");
                         break;
                     case "-addpath" or "-ap":
                         Console.WriteLine(
@@ -61,7 +67,7 @@ You can use these options:
         }
         else
         {
-            Console.WriteLine(help);
+            Console.WriteLine(Help);
         }
     }
 

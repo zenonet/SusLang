@@ -6,8 +6,19 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\SusLangBuildEngine\SusLangBuildEngine.csproj" />
       <ProjectReference Include="..\SusLangCompiler\SusLangCompiler.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Compile Remove="obj\**" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <EmbeddedResource Remove="obj\**" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Remove="obj\**" />
     </ItemGroup>
 
 </Project>
