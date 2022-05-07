@@ -62,7 +62,16 @@ namespace SusLang
         {
             public static TextWriter Stream;
 
-
+            public static event Func<string> OnInputExpected; 
+            internal static string WaitForInput()
+            {
+                //Fallback:
+                if (OnInputExpected is null || OnInputExpected.GetInvocationList().Length < 1)
+                    return Console.ReadLine();
+                
+                return OnInputExpected?.Invoke();
+            }
+            
             internal static void LogError(string error)
             {
                 LogRaw($"\nSabotage in line {executingLine}: {error}\n");
@@ -81,6 +90,8 @@ namespace SusLang
                 Stream.Write(msg);  
                 Stream.Flush();
             }
+
+
         }
 
         #endregion

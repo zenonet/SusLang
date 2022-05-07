@@ -83,7 +83,7 @@ namespace SusLang.Expressions
                 }
                 case ExpressionType.Who:
                 {
-                    Crewmate? _color = ParseColor(Console.ReadLine());
+                    Crewmate? _color = ParseColor(Compiler.Logging.WaitForInput());
                     if (_color is null)
                         return;
 
