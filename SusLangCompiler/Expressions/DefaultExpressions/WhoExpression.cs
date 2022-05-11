@@ -2,6 +2,15 @@ namespace SusLang.Expressions.DefaultExpressions
 {
     public class WhoExpression : Expression
     {
-        //TODO: Logic go here
+        private Crewmate color;
+
+        public override bool Execute()
+        {
+            color = ParseColor(Compiler.Logging.WaitForInput());
+            if (color is Crewmate.Null)
+                return false;
+
+            return true;
+        }
     }
 }

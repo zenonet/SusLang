@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="LocationsWithSilentDeleteHolder">
+    <option name="locations">
+      <list>
+        <option value="$PROJECT_DIR$/SusLang/bin/Release/net5.0/publish/PortableDotnet" />
+        <option value="$PROJECT_DIR$/SusLang/bin/Release/net5.0/publish/Win-x86" />
+      </list>
+    </option>
+  </component>
+</project>

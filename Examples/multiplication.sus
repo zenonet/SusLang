@@ -1,0 +1,36 @@
+//Set factor 1 to 4
+lime vented
+lime vented
+lime vented
+lime vented
+
+//Set factor 2 to 3
+cyan vented
+cyan vented
+cyan vented
+
+orange wasWith lime //Set the factor buffer to factor 2
+
+
+
+//Select the counting variable for the loop
+sus cyan
+
+[
+    red wasWith orange
+
+    sus red
+    [
+        lime vented
+        red wasWithMe
+    ]
+    sus lime
+    report
+
+    cyan wasWithMe
+    sus cyan
+]
+
+//Output the result
+sus lime
+report
