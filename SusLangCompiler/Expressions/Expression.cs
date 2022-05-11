@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Text.RegularExpressions;
+using SusLang.Expressions.DefaultExpressions;
 
 namespace SusLang.Expressions
 {
@@ -10,7 +11,7 @@ namespace SusLang.Expressions
         public ExpressionType Type;
         public string RawExpression;
 
-        public void Execute()
+        public virtual void Execute()
         {
             switch (Type)
             {
@@ -125,7 +126,7 @@ namespace SusLang.Expressions
         }
 
 
-        private static Crewmate ParseColor(string code)
+        protected static Crewmate ParseColor(string code)
         {
             if (code.ToLower().Replace(" ", "") != "he")
                 try
@@ -142,20 +143,20 @@ namespace SusLang.Expressions
             return Compiler.SussedColor;
         }
 
-        private static readonly Dictionary<string, ExpressionType> Patterns = new()
+        private static readonly Dictionary<string, Type> Patterns = new()
         {
-            {@"^(\w+) vented", ExpressionType.Vented},
-            {@"^(\w+) killed", ExpressionType.Killed},
-            {@"^(\w+) wasWithMe", ExpressionType.WasWithMe},
-            {@"^(\w+) didVisual", ExpressionType.DidVisual},
-            {@"^sus (\w+)", ExpressionType.Sus},
-            {@"^emergencyMeeting", ExpressionType.EmergencyMeeting},
-            {@"^who\?", ExpressionType.Who},
-            {@"^\[(?:.|\s)*", ExpressionType.Loop},
-            {@"^\w+ wasWith \w+", ExpressionType.WasWith},
+            {@"^(\w+) vented", typeof(ValueModificator)},
+            {@"^(\w+) killed", typeof(ValueModificator)},
+            {@"^(\w+) wasWithMe", typeof(ValueModificator)},
+            {@"^(\w+) didVisual", typeof(ValueModificator)},
+            {@"^sus (\w+)", typeof(SusExpression)},
+            {@"^emergencyMeeting", typeof(OutputExpression)},
+            {@"^who\?", typeof(WhoExpression)},
+            {@"^\[(?:.|\s)*", typeof(Loop)},
+            {@"^\w+ wasWith \w+", typeof(SetterExpression)},
 
-            {@"^(?:\s|\n|\r|\t)+", ExpressionType.EmptyLine},
-            {@"^(?:\/\/.*|(trashtalk).*)", ExpressionType.Comment},
+            {@"^(?:\s|\n|\r|\t)+", typeof(DummyExpression)},
+            {@"^(?:\/\/.*|(trashtalk).*)", typeof(DummyExpression)},
         };
 
 
@@ -164,18 +165,28 @@ namespace SusLang.Expressions
             Expression expression = null;
             string restBuffer = code;
 
-            foreach (KeyValuePair<string, ExpressionType> pair in Patterns)
+            foreach (KeyValuePair<string, Type> pair in Patterns)
             {
                 Match match = Regex.Match(code, pair.Key);
 
                 if (!match.Success)
                     continue;
-                expression = new Expression
+                expression = Activator.CreateInstance(pair.Value) as Expression;
+
+                if (expression is null)
                 {
-                    Type = pair.Value,
-                    RawExpression = match.Value
-                };
+                    Compiler.Logging.LogError($"There was a problem parsing '{Regex.Match(code, $@"[^\s\\]+").Value}'");
+                    rest = code;
+                    return null;
+                }
+                
+                
+                
+                expression.RawExpression = match.Value;
                 restBuffer = code.Substring(match.Length);
+
+                //Call the subclasses OnParse callback
+                expression.OnParse(ref code);
             }
 
             if (expression == null)
@@ -189,6 +200,11 @@ namespace SusLang.Expressions
 
 
             return expression;
+        }
+
+        protected virtual bool OnParse(ref string code)
+        {
+            return false;
         }
     }
 }
