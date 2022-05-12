@@ -41,7 +41,7 @@ namespace SusLang
             {
                 _executingLine++;
                 
-                Expression expression = Expression.Parse(code, out code);
+                Expression expression = Expression.Parse(ref code);
                 if(expression != null)
                     expression.Execute();
                 else

@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Text.RegularExpressions;
+using SusLang.Expressions.DefaultExpressions;
 
 namespace SusLang.Expressions
 {
@@ -10,122 +11,10 @@ namespace SusLang.Expressions
         public ExpressionType Type;
         public string RawExpression;
 
-        public void Execute()
-        {
-            switch (Type)
-            {
-                //Set the currently sussed Crewmate
-                case ExpressionType.Sus:
-                {
-                    string rest = RawExpression.Replace("sus", "");
-                    Crewmate color = ParseColor(rest);
-                    if (color is Crewmate.Null)
-                        return;
-                    
-                    Compiler.SussedColor = color;
-                    break;
-                }
-                case ExpressionType.Vented:
-                {
-                    string rest = RawExpression.Replace("vented", "");
-                    Crewmate color = ParseColor(rest);
-                    if (color is Crewmate.Null)
-                        return;
-                    
-                    Compiler.Crewmates[color] += 1;
-                    break;
-                }
-                case ExpressionType.Killed:
-                {
-                    string rest = RawExpression.Replace("killed", "");
-                    Crewmate color = ParseColor(rest);
-                    if (color is Crewmate.Null)
-                        return;
-
-                    Compiler.Crewmates[color] += 10;
-                    break;
-                }
-                case ExpressionType.WasWithMe:
-                {
-                    string rest = RawExpression.Replace("wasWithMe", "");
-                    Crewmate color = ParseColor(rest);
-                    if (color is Crewmate.Null)
-                        return;
-
-                    Compiler.Crewmates[color] -= 1;
-                    break;
-                }
-                case ExpressionType.DidVisual:
-                {
-                    string rest = RawExpression.Replace("didVisual", "");
-                    Crewmate color = ParseColor(rest);
-                    if (color is Crewmate.Null)
-                        return;
-
-                    Compiler.Crewmates[color] -= 10;
-                    break;
-                }
-                case ExpressionType.EmergencyMeeting:
-                {
-                    Compiler.Logging.LogProgramOutput(
-                        Encoding.ASCII.GetString(new[]
-                            {
-                                Compiler.Crewmates[Compiler.SussedColor]
-                            }
-                        )
-                    );
-                    break;
-                }
-                case ExpressionType.Who:
-                {
-                    Crewmate color = ParseColor(Compiler.Logging.WaitForInput());
-                    if (color is Crewmate.Null)
-                        return;
-
-                    Compiler.SussedColor = color;
-                    break;
-                }
-                case ExpressionType.Loop:
-                {
-                    string inside = ParsingUtility.FindBetweenBrackets(ref RawExpression);
-                    while (Compiler.Crewmates[Compiler.SussedColor] > 0)
-                    {
-                        //If the loop wasn't successfully executed, return
-                        if(!Compiler.ExecuteInternal(inside))
-                            return;
-                    }
-                    Compiler.ExecuteInternal(RawExpression);
-                    break;
-                }
-                case ExpressionType.WasWith:
-                {
-                    string[] colors = RawExpression.Split("wasWith");
-                    Crewmate color0 = ParseColor(colors[0]);
-                    Crewmate color1 = ParseColor(colors[1]);
-                    if (color0 is Crewmate.Null || color1 is Crewmate.Null)
-                        return;
-                    
-                    Compiler.Crewmates[color0] = Compiler.Crewmates[color1];
-                    
-                    break;
-                }
+        public virtual bool Execute() => true;
 
 
-                case ExpressionType.Comment:
-                {
-                    break;
-                }
-                case ExpressionType.EmptyLine:
-                {
-                    break;
-                }
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
-        }
-
-
-        private static Crewmate ParseColor(string code)
+        protected static Crewmate ParseColor(string code)
         {
             if (code.ToLower().Replace(" ", "") != "he")
                 try
@@ -142,53 +31,70 @@ namespace SusLang.Expressions
             return Compiler.SussedColor;
         }
 
-        private static readonly Dictionary<string, ExpressionType> Patterns = new()
+        private static readonly Dictionary<string, Type> Patterns = new()
         {
-            {@"^(\w+) vented", ExpressionType.Vented},
-            {@"^(\w+) killed", ExpressionType.Killed},
-            {@"^(\w+) wasWithMe", ExpressionType.WasWithMe},
-            {@"^(\w+) didVisual", ExpressionType.DidVisual},
-            {@"^sus (\w+)", ExpressionType.Sus},
-            {@"^emergencyMeeting", ExpressionType.EmergencyMeeting},
-            {@"^who\?", ExpressionType.Who},
-            {@"^\[(?:.|\s)*", ExpressionType.Loop},
-            {@"^\w+ wasWith \w+", ExpressionType.WasWith},
+            {@"^(\w+) vented", typeof(ValueModificator)},
+            {@"^(\w+) killed", typeof(ValueModificator)},
+            {@"^(\w+) wasWithMe", typeof(ValueModificator)},
+            {@"^(\w+) didVisual", typeof(ValueModificator)},
+            {@"^sus (\w+)", typeof(SusExpression)},
+            {@"^emergencyMeeting", typeof(OutputExpression)},
+            {@"^who\?", typeof(WhoExpression)},
+            {@"^\[(?:.|\s)*", typeof(Loop)},
+            {@"^\w+ wasWith \w+", typeof(SetterExpression)},
 
-            {@"^(?:\s|\n|\r|\t)+", ExpressionType.EmptyLine},
-            {@"^(?:\/\/.*|(trashtalk).*)", ExpressionType.Comment},
+            {@"^(?:\s|\n|\r|\t)+", typeof(DummyExpression)},
+            {@"^(?:\/\/.*|(trashtalk).*)", typeof(DummyExpression)},
         };
 
 
-        public static Expression Parse(string code, out string rest)
+        public static Expression Parse(ref string code)
         {
             Expression expression = null;
             string restBuffer = code;
 
-            foreach (KeyValuePair<string, ExpressionType> pair in Patterns)
+            foreach (KeyValuePair<string, Type> pair in Patterns)
             {
                 Match match = Regex.Match(code, pair.Key);
 
                 if (!match.Success)
                     continue;
-                expression = new Expression
+                expression = Activator.CreateInstance(pair.Value) as Expression;
+
+                if (expression is null)
                 {
-                    Type = pair.Value,
-                    RawExpression = match.Value
-                };
+                    Compiler.Logging.LogError($"There was a problem parsing '{Regex.Match(code, $@"[^\s\\]+").Value}'");
+                    return null;
+                }
+                
+                
+                
+                expression.RawExpression = match.Value;
                 restBuffer = code.Substring(match.Length);
+
+                //Call the subclasses OnParse callback
+                expression.OnParse(ref code);
+                
+
+                break;
             }
 
             if (expression == null)
             {
                 Compiler.Logging.LogError($"Couldn't parse '{Regex.Match(code, $@"[^\s\\]+").Value}'");
-                rest = code;
                 return null;
             }
 
-            rest = restBuffer;
-
-
+            if (!expression.IsCuttingCode())
+                code = restBuffer;
             return expression;
         }
+
+        protected virtual bool OnParse(ref string code)
+        {
+            return true;
+        }
+
+        protected virtual bool IsCuttingCode() => false;
     }
 }
