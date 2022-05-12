@@ -39,6 +39,7 @@ namespace SusLang.Expressions
             {@"^(\w+) didVisual", typeof(ValueModificator)},
             {@"^sus (\w+)", typeof(SusExpression)},
             {@"^emergencyMeeting", typeof(OutputExpression)},
+            {@"^report", typeof(OutputExpression)},
             {@"^who\?", typeof(WhoExpression)},
             {@"^\[(?:.|\s)*", typeof(Loop)},
             {@"^\w+ wasWith \w+", typeof(SetterExpression)},

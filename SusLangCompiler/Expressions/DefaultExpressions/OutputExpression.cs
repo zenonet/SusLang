@@ -13,8 +13,12 @@ namespace SusLang.Expressions.DefaultExpressions
                 case "emergencyMeeting":
                     _outputType = 0;
                     break;
+                case "report":
+                    _outputType = 1;
+                    break;
                 default:
-                    Compiler.Logging.LogError($"Couldn't parse '{RawExpression}'");
+                    Compiler.Logging.LogRaw(
+                        "Internal error. Please report this and your code at https://github.com/zenonet/SusLang/issues so that I can fix it!");
                     return false;
             }
 
