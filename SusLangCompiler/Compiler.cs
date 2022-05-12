@@ -7,7 +7,7 @@ namespace SusLang
 {
     public static class Compiler
     {
-        public static readonly Version CompilerVersion = new (0, 3);
+        public static readonly Version CompilerVersion = new (0, 4);
         
         #region compilationNeededFields
 
