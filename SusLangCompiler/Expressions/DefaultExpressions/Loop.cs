@@ -21,12 +21,18 @@ namespace SusLang.Expressions.DefaultExpressions
 
         }
 
-        public override void Execute()
+        public override bool Execute()
         {
             while (Compiler.Crewmates[Compiler.SussedColor] > 0)
             {
-                foreach (Expression expression in _expressions) expression.Execute();
+                foreach (Expression expression in _expressions)
+                {
+                    if (!expression.Execute())
+                        return false;
+                }
             }
+
+            return true;
         }
     }
 }

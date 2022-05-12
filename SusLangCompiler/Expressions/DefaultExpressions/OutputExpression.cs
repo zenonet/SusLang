@@ -19,7 +19,7 @@ namespace SusLang.Expressions.DefaultExpressions
             return true;
         }
 
-        public override void Execute()
+        public override bool Execute()
         {
             switch (_outputType)
             {
@@ -37,7 +37,7 @@ namespace SusLang.Expressions.DefaultExpressions
                     );
                     break;
             }
-
+            return true;
         }
     }
 }

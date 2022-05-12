@@ -12,9 +12,10 @@ namespace SusLang.Expressions.DefaultExpressions
             return _target is not Crewmate.Null;
         }
 
-        public override void Execute()
+        public override bool Execute()
         {
             Compiler.SussedColor = _target;
+            return true;
         }
     }
 }

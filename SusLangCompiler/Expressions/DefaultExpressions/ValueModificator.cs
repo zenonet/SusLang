@@ -39,9 +39,10 @@ namespace SusLang.Expressions.DefaultExpressions
             return true;
         }
 
-        public override void Execute()
+        public override bool Execute()
         {
             Compiler.Crewmates[color] = (byte) (Compiler.Crewmates[color] + _addent);
+            return true;
         }
     }
 }
