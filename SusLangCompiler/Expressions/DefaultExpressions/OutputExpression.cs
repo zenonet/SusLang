@@ -1,3 +1,4 @@
+using System;
 using System.Text;
 
 namespace SusLang.Expressions.DefaultExpressions
@@ -13,6 +14,7 @@ namespace SusLang.Expressions.DefaultExpressions
                     _outputType = 0;
                     break;
                 default:
+                    Compiler.Logging.LogError($"Couldn't parse '{RawExpression}'");
                     return false;
             }
 

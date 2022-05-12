@@ -5,12 +5,15 @@ namespace SusLang.Expressions.DefaultExpressions
     public class Loop : Expression
     {
         private readonly Queue<Expression> _expressions = new();
+
+
+        protected override bool IsCuttingCode() => true;
         protected override bool OnParse(ref string code)
         {
             string inside = ParsingUtility.FindBetweenBrackets(ref code);
             while (inside.Length > 0)
             {
-                Expression expression = Expression.Parse(inside, out inside);
+                Expression expression = Expression.Parse(ref inside);
                 if (expression is null)
                     return false;
                 

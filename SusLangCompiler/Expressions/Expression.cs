@@ -11,7 +11,7 @@ namespace SusLang.Expressions
         public ExpressionType Type;
         public string RawExpression;
 
-        public virtual bool Execute() => false;
+        public virtual bool Execute() => true;
 
 
         protected static Crewmate ParseColor(string code)
@@ -48,7 +48,7 @@ namespace SusLang.Expressions
         };
 
 
-        public static Expression Parse(string code, out string rest)
+        public static Expression Parse(ref string code)
         {
             Expression expression = null;
             string restBuffer = code;
@@ -64,7 +64,6 @@ namespace SusLang.Expressions
                 if (expression is null)
                 {
                     Compiler.Logging.LogError($"There was a problem parsing '{Regex.Match(code, $@"[^\s\\]+").Value}'");
-                    rest = code;
                     return null;
                 }
                 
@@ -75,24 +74,27 @@ namespace SusLang.Expressions
 
                 //Call the subclasses OnParse callback
                 expression.OnParse(ref code);
+                
+
+                break;
             }
 
             if (expression == null)
             {
                 Compiler.Logging.LogError($"Couldn't parse '{Regex.Match(code, $@"[^\s\\]+").Value}'");
-                rest = code;
                 return null;
             }
 
-            rest = restBuffer;
-
-
+            if (!expression.IsCuttingCode())
+                code = restBuffer;
             return expression;
         }
 
         protected virtual bool OnParse(ref string code)
         {
-            return false;
+            return true;
         }
+
+        protected virtual bool IsCuttingCode() => false;
     }
 }
