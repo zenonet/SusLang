@@ -7,7 +7,6 @@ namespace SusLang.Expressions
 {
     public class Expression
     {
-        public ExpressionType Type;
         public string RawExpression;
 
         public virtual bool Execute() => true;
