@@ -1,0 +1,31 @@
+//Factor1: (3)
+sus red
+he vented
+he vented
+he vented
+
+//Factor2: (2)
+sus blue
+he vented
+he vented
+
+
+//It's important that something is selected at this point, that is not 0 because otherwise the loop won't even start
+[
+    orange wasWith blue //Buffer blue because factor2 will change in this loop
+    sus orange //Select orange as the counter for the coming loop
+    [
+        
+        green vented //Increase the output
+        
+        orange wasWithMe //Decrease the counter
+    ]
+    
+    sus red //Reselect the counter of the first loop
+    red wasWithMe //Decrease the counter of the first loop
+]
+
+//Print the output variable as a number
+sus green 
+report //Outputs 6
+
