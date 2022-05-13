@@ -43,6 +43,7 @@ namespace SusLang.Expressions
             {@"^who\?", typeof(WhoExpression)},
             {@"^\[(?:.|\s)*", typeof(Loop)},
             {@"^\w+ wasWith \w+", typeof(SetterExpression)},
+            {@"^breakpoint", typeof(Breakpoint)},
 
             {@"^(?:\s|\n|\r|\t)+", typeof(DummyExpression)},
             {@"^(?:\/\/.*|(trashtalk).*)", typeof(DummyExpression)},
