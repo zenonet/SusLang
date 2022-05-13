@@ -32,10 +32,12 @@ namespace SusLang
                 break;
             }
 
+            //Removes the bracket itself from the string
             List<char> list = code.ToList();
             list.RemoveAt(relaxIndex);
             code = new string(list.ToArray());
             
+            //Return everything before relaxIndex. If relaxIndex is 0 (no closing bracket was found) return null
             string ret = relaxIndex == 0 ? null : code[..relaxIndex];
             code = code[relaxIndex..];
             return ret;
