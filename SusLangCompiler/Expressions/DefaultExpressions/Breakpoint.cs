@@ -4,7 +4,7 @@ namespace SusLang.Expressions.DefaultExpressions
 {
     public class Breakpoint : Expression
     {
-
+        public static event Action OnBreakpointExecuted;
         private static bool shouldContinue = true;
         public static void Continue()
         {
@@ -18,9 +18,13 @@ namespace SusLang.Expressions.DefaultExpressions
             return Compiler.Crewmates[crewmate];
         }
 
+        public static Crewmate Selected => Compiler.SussedColor;
+
         public override bool Execute()
         {
             shouldContinue = false;
+            OnBreakpointExecuted?.Invoke();
+            
             while (!shouldContinue)
             {
                 //Wait

@@ -2,6 +2,9 @@
 using System;
 using System.IO;
 using System.Linq;
+using System.Text;
+using SusLang;
+using SusLang.Expressions.DefaultExpressions;
 using SusLangBuildEngine;
 
 public static class Program
@@ -18,6 +21,24 @@ You can use these options:
     
     static void Main(string[] args)
     {
+        Breakpoint.OnBreakpointExecuted += () =>
+        {
+            Console.OutputEncoding = Encoding.ASCII;
+            Console.WriteLine("\n----------\nBreakpoint activated:");
+            foreach (Crewmate crewmate in Enum.GetValues<Crewmate>())
+            {
+                if(crewmate is Crewmate.Null)
+                    continue;
+                byte value = Breakpoint.GetValue(crewmate);
+                Console.Write($"{crewmate}: {value}  or in ASCII:  {Encoding.ASCII.GetString(new[]{value})}");
+            }
+            Console.WriteLine($"Currently selected color: {Breakpoint.Selected}");
+            Console.WriteLine("Press Enter to continue program execution");
+            Console.WriteLine("----------");
+            Console.ReadLine();
+            Breakpoint.Continue();
+        };
+
         if (args.Length > 0)
         {
             if (File.Exists(args[0]))
