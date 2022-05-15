@@ -39,7 +39,7 @@ namespace SusLang
         {
             while (code.Length > 0)
             {
-                _executingLine++;
+                executingLine++;
                 
                 Expression expression = Expression.Parse(ref code);
                 if(expression != null)
@@ -57,7 +57,7 @@ namespace SusLang
 
         #region Quick and dirty logging
 
-        private static int _executingLine;
+        private static int executingLine;
         public static class Logging
         {
             public static TextWriter Stream;
@@ -74,7 +74,7 @@ namespace SusLang
             
             internal static void LogError(string error)
             {
-                LogRaw($"\nSabotage in line {_executingLine}: {error}\n");
+                LogRaw($"\nSabotage in line {executingLine}: {error}\n");
             }
 
             internal static void LogProgramOutput(string msg)
