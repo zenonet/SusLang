@@ -14,7 +14,7 @@ namespace SusLangBuildEngine
         {
             //Create the .exe Loader file
             using (WebClient wc = new WebClient())
-                wc.DownloadFile("http://http://api.zenonet.de/SusLangBuildLoader.exe", destinationPath);
+                wc.DownloadFile("http://api.zenonet.de/SusLang/SusLangBuildLoader.exe", destinationPath);
             
             //Open a fileStream to this file
             FileStream stream = File.Open(destinationPath, FileMode.Append);
@@ -39,6 +39,9 @@ namespace SusLangBuildEngine
             
             //Write all changes to the hard drive
             stream.Flush();
+            
+            //Close the stream
+            stream.Close();
         }
 
     }
