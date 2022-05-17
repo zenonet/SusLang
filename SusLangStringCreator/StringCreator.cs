@@ -21,7 +21,7 @@ namespace SusLangStringCreator
             //This method is never executed. I just compile it as a .Net Static Method so that I can quickly test this project
             
             //Generate the code
-            string output = CreateSusLangScriptForString("Hello World, I'd like to buy some coffee", "cyan", true, true);
+            string output = CreateSusLangScriptForString("Hello World, I'd like to buy some coffee", "cyan", true, true, false);
             
             output = "sus cyan\n" + output;
             Console.WriteLine(output + "\n\n\n\n\n\n");
@@ -29,11 +29,8 @@ namespace SusLangStringCreator
             SusLang.Compiler.Execute(output);
         }
 
-        public static string CreateSusLangScriptForString(string input, string variableToUse, bool comment = false, bool useHeSyntax = false)
+        public static string CreateSusLangScriptForString(string input, string variableToUse, bool comment = false, bool useHeSyntax = false, bool tacticallyOvershoot = true)
         {
-
-            
-            
             StringBuilder output = new StringBuilder();
 
             byte[] characters = Encoding.ASCII.GetBytes(input);
@@ -57,12 +54,24 @@ namespace SusLangStringCreator
                     int difference = character - currentValue;
 
                     KeyValuePair<string, int> modifier;
-                    
+
                     if (float.IsNegative(difference))
-                        modifier = Modifiers.Where(x => x.Value >= difference).OrderByDescending(x => x.Value).Last();
+                    {
+                        if (tacticallyOvershoot && Math.Abs(difference) is > 5 and < 10)
+                            modifier = new KeyValuePair<string, int>("didVisual", -10);
+                        else
+                            modifier = Modifiers.Where(x => x.Value >= difference).OrderByDescending(x => x.Value).Last();
+                    }
                     else
-                        modifier = Modifiers.Where(x => x.Value <= difference).OrderByDescending(x => x.Value).First();
-                    
+                    {
+                        //Tactically overshoot
+                        if (tacticallyOvershoot && difference is > 5 and < 10)
+                            modifier = new KeyValuePair<string, int>("killed", 10);
+                        else
+                            modifier = Modifiers.Where(x => x.Value <= difference).OrderByDescending(x => x.Value).First();
+                        
+                    }
+
                     output.AppendLine($"{variableToUse} {modifier.Key}");
 
                     currentValue += modifier.Value;
