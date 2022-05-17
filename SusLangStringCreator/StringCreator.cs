@@ -21,38 +21,64 @@ namespace SusLangStringCreator
             //This method is never executed. I just compile it as a .Net Static Method so that I can quickly test this project
             
             //Generate the code
-            string output = CreateSusLangScriptForString("\n", "cyan");
+            string output = CreateSusLangScriptForString("Hello World, I'd like to buy some coffee", "cyan", true, true);
             
-            //Add some code to output 
-            output += "\nsus cyan\nemergencyMeeting";
+            output = "sus cyan\n" + output;
+            Console.WriteLine(output + "\n\n\n\n\n\n");
+            
             SusLang.Compiler.Execute(output);
         }
 
-        public static string CreateSusLangScriptForString(string input, string variableToUse)
+        public static string CreateSusLangScriptForString(string input, string variableToUse, bool comment = false, bool useHeSyntax = false)
         {
+
+            
+            
             StringBuilder output = new StringBuilder();
 
             byte[] characters = Encoding.ASCII.GetBytes(input);
-            
+
+            if (useHeSyntax)
+            {
+                output.Append($"sus {variableToUse}\n");
+                variableToUse = "he";
+            }
+
+
+
+            int currentValue = 0;
             foreach (byte character in characters)
             {
-                int currentValue = 0;
-
-                while (currentValue < character)
+                if (comment)
+                    output.Append($"\n//Print {Encoding.ASCII.GetString(new []{character})}:\n");
+                
+                while (currentValue != character)
                 {
                     int difference = character - currentValue;
-                    KeyValuePair<string, int> modifier = Modifiers.Where(x => x.Value <= difference).OrderByDescending(x => x.Value).First();
+
+                    KeyValuePair<string, int> modifier;
+                    
+                    if (float.IsNegative(difference))
+                        modifier = Modifiers.Where(x => x.Value >= difference).OrderByDescending(x => x.Value).Last();
+                    else
+                        modifier = Modifiers.Where(x => x.Value <= difference).OrderByDescending(x => x.Value).First();
                     
                     output.AppendLine($"{variableToUse} {modifier.Key}");
 
                     currentValue += modifier.Value;
-                }
-                
-                
-                
-            }
+                    
+                    
 
-            return output.ToString();
+                }
+
+                //Output the character
+                output.AppendLine("emergencyMeeting");
+
+
+            }
+                
+
+            return output.ToString().TrimStart('\n');
         }
     }
 }
