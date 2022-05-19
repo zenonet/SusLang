@@ -11,7 +11,7 @@ The only file format this language uses is the .sus format for source code files
 
 Every statement is exactly one line.
 
-There are 18 variables you can use, named after the 18 possible colors of among us players. You can see a list of all colors [here](https://among-us.fandom.com/wiki/Colors). However in contrast to the list, you need to write the color-names in lowercase.
+There are 18 variables you can use, named after the 18 possible colors of among us players. You can see a list of all colors [here](https://among-us.fandom.com/wiki/Colors#List_of_colors). However in contrast to the list, you need to write the color-names in lowercase.
 Every color/variable can hold an integer value of the size of one byte so a number from 0 to 255</br>
 This value is called the sus-meter of the color.
 The sus-meters of all colors/variables is 0 by default.
