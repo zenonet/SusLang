@@ -1,20 +1,19 @@
-using System;
 using System.Text;
 
 namespace SusLang.Expressions.DefaultExpressions
 {
     public class OutputExpression : Expression
     {
-        private byte _outputType;
+        private byte outputType;
         protected override bool OnParse(ref string code)
         {
             switch (RawExpression)
             {
                 case "emergencyMeeting":
-                    _outputType = 0;
+                    outputType = 0;
                     break;
                 case "report":
-                    _outputType = 1;
+                    outputType = 1;
                     break;
                 default:
                     Compiler.Logging.LogRaw(
@@ -27,7 +26,7 @@ namespace SusLang.Expressions.DefaultExpressions
 
         public override bool Execute()
         {
-            switch (_outputType)
+            switch (outputType)
             {
                 case 0: //emergencyMeeting
                     Compiler.Logging.LogProgramOutput(
