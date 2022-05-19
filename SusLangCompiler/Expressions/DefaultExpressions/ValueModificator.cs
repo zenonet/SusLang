@@ -2,7 +2,7 @@ namespace SusLang.Expressions.DefaultExpressions
 {
     public class ValueModificator : Expression
     {
-        private short _addent;
+        private short addent;
         private Crewmate color;
         protected override bool OnParse(ref string code)
         {
@@ -16,22 +16,22 @@ namespace SusLang.Expressions.DefaultExpressions
             {
                 case "vented":
                 {
-                    _addent = 1;
+                    addent = 1;
                     break;
                 }
                 case "killed":
                 {
-                    _addent = 10;
+                    addent = 10;
                     break;
                 }
                 case "wasWithMe":
                 {
-                    _addent = -1;
+                    addent = -1;
                     break;
                 }
                 case "didVisual":
                 {
-                    _addent = -10;
+                    addent = -10;
                     break;
                 }
             }
@@ -41,7 +41,7 @@ namespace SusLang.Expressions.DefaultExpressions
 
         public override bool Execute()
         {
-            Compiler.Crewmates[color] = (byte) (Compiler.Crewmates[color] + _addent);
+            Compiler.Crewmates[color] = (byte) (Compiler.Crewmates[color] + addent);
             return true;
         }
     }

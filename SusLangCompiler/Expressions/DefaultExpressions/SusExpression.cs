@@ -2,19 +2,19 @@ namespace SusLang.Expressions.DefaultExpressions
 {
     public class SusExpression : Expression
     {
-        private Crewmate _target;
+        private Crewmate target;
         
         protected override bool OnParse(ref string code)
         {
-            _target = ParseColor(RawExpression.Replace("sus", ""));
+            target = ParseColor(RawExpression.Replace("sus", ""));
             
             //If _target is Crewmate.Null, return false
-            return _target is not Crewmate.Null;
+            return target is not Crewmate.Null;
         }
 
         public override bool Execute()
         {
-            Compiler.SussedColor = _target;
+            Compiler.SussedColor = target;
             return true;
         }
     }

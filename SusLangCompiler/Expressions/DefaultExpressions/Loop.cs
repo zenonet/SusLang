@@ -4,7 +4,7 @@ namespace SusLang.Expressions.DefaultExpressions
 {
     public class Loop : Expression
     {
-        private readonly Queue<Expression> _expressions = new();
+        private readonly Queue<Expression> expressions = new();
 
 
         protected override bool IsCuttingCode() => true;
@@ -17,7 +17,7 @@ namespace SusLang.Expressions.DefaultExpressions
                 if (expression is null)
                     return false;
                 
-                _expressions.Enqueue(expression);
+                expressions.Enqueue(expression);
             }
 
             return true;
@@ -28,7 +28,7 @@ namespace SusLang.Expressions.DefaultExpressions
         {
             while (Compiler.Crewmates[Compiler.SussedColor] > 0)
             {
-                foreach (Expression expression in _expressions)
+                foreach (Expression expression in expressions)
                 {
                     if (!expression.Execute())
                         return false;

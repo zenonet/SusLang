@@ -21,6 +21,13 @@ You can use these options:
     
     static void Main(string[] args)
     {
+        if (args[0] is "-api")
+        {
+            RunApi();
+            return;
+        }
+        
+        
         Breakpoint.OnBreakpointExecuted += () =>
         {
             Console.OutputEncoding = Encoding.ASCII;
@@ -88,6 +95,16 @@ You can use these options:
         else
         {
             Console.WriteLine(Help);
+        }
+    }
+
+    public static void RunApi()
+    {
+        Stream stdIn = Console.OpenStandardInput();
+        Stream stdOut = Console.OpenStandardOutput();
+        while (true)
+        {
+            
         }
     }
 
