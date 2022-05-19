@@ -12,7 +12,7 @@ namespace SusLang.Expressions
         public virtual bool Execute() => true;
 
 
-        protected static Crewmate ParseColor(string code)
+        protected static Crewmate ParseColor(string code, bool logErrors = true)
         {
             if (code.ToLower().Replace(" ", "") != "he")
                 try
@@ -22,7 +22,8 @@ namespace SusLang.Expressions
                 }
                 catch (Exception)
                 {
-                    Compiler.Logging.LogError($"Can't parse color {code}");
+                    if(logErrors)
+                        Compiler.Logging.LogError($"Can't parse color {code}");
                     return Crewmate.Null;
                 }
 
