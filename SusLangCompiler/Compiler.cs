@@ -63,6 +63,7 @@ namespace SusLang
             public static TextWriter Stream;
 
             public static event Func<string> OnInputExpected; 
+            public static event Action<string> OnOutput;
             internal static string WaitForInput()
             {
                 //Fallback:
@@ -84,11 +85,12 @@ namespace SusLang
 
             internal static void LogRaw(string msg)
             {
-                if (Stream == null)
-                    Stream = Console.Out;
+                Stream ??= Console.Out;
 
                 Stream.Write(msg);  
                 Stream.Flush();
+                
+                OnOutput?.Invoke(msg);
             }
 
 
