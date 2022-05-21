@@ -4,7 +4,7 @@ using System.IO;
 using System.Reflection;
 using System.Text;
 
-namespace SusLangBuildLoader
+namespace SusLang.BuildLoader
 {
     internal static class Program
     {

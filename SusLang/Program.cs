@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using SusLang;
 using SusLang.Expressions.DefaultExpressions;
-using SusLangBuildEngine;
+using SusLang.BuildEngine;
 
 public static class Program
 {
@@ -95,7 +95,7 @@ You can use these options:
                         bool useHeSyntax = args.Contains("-heSyntax") || args.Contains("-hs");
 
                         Console.WriteLine(
-                            SusLangStringCreator.StringCreator.CreateSusLangScriptForString(
+                            SusLang.CodeGen.StringCreator.CreateSusLangScriptForString(
                                 args.Last(),
                                 color,
                                 comment,

@@ -3,7 +3,7 @@ using System.IO;
 using System.Net;
 using System.Text;
 
-namespace SusLangBuildEngine
+namespace SusLang.BuildEngine
 {
     public static class BuildEngine
     {
