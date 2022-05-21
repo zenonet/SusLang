@@ -1,5 +1,4 @@
-﻿
-using System;
+﻿using System;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -9,7 +8,7 @@ using SusLangBuildEngine;
 
 public static class Program
 {
-    private const string Help = 
+    private const string Help =
         @"Usage:
 SusLang [option or path to source file]
 You can use these options:
@@ -18,27 +17,28 @@ You can use these options:
     -build  to create a .exe file of a script that can run without SusLang or Dotnet. Syntax: -build {sourcePath} {destinationPath}
     -addpath   adds the directory of this executable to path
     -removepath   removes the directory of this executable from path";
-    
+
     static void Main(string[] args)
     {
-        if (args[0] is "-api")
+        if (args.Length > 0 && args[0] is "-api")
         {
             RunApi();
             return;
         }
-        
-        
+
+
         Breakpoint.OnBreakpointExecuted += () =>
         {
             Console.OutputEncoding = Encoding.ASCII;
             Console.WriteLine("\n----------\nBreakpoint activated:");
             foreach (Crewmate crewmate in Enum.GetValues<Crewmate>())
             {
-                if(crewmate is Crewmate.Null)
+                if (crewmate is Crewmate.Null)
                     continue;
                 byte value = Breakpoint.GetValue(crewmate);
-                Console.Write($"{crewmate}: {value}  or in ASCII:  {Encoding.ASCII.GetString(new[]{value})}");
+                Console.Write($"{crewmate}: {value}  or in ASCII:  {Encoding.ASCII.GetString(new[] {value})}");
             }
+
             Console.WriteLine($"Currently selected color: {Breakpoint.Selected}");
             Console.WriteLine("Press Enter to continue program execution");
             Console.WriteLine("----------");
@@ -74,8 +74,9 @@ You can use these options:
                         {
                             AddAssemblyToPath();
                         }
+
                         break;
-                    
+
                     case "-removepath" or "-rp":
                         Console.WriteLine(
                             "Do you really want to remove the directory this executable is in from path?\n" +
@@ -85,7 +86,25 @@ You can use these options:
                         {
                             RemoveAssemblyFromPath();
                         }
+
                         break;
+                    case "-translate":
+                        string color = args[1];
+                        bool tacticallyOvershoot = args.Contains("-tacticallyOvershoot") || args.Contains("-to");
+                        bool comment = args.Contains("-comment") || args.Contains("-cmt");
+                        bool useHeSyntax = args.Contains("-heSyntax") || args.Contains("-hs");
+
+                        Console.WriteLine(
+                            SusLangStringCreator.StringCreator.CreateSusLangScriptForString(
+                                args.Last(),
+                                color,
+                                comment,
+                                useHeSyntax,
+                                tacticallyOvershoot)
+                        );
+
+                        break;
+
                     default:
                         Console.WriteLine($"File {args[0]} not found");
                         break;
@@ -104,7 +123,6 @@ You can use these options:
         Stream stdOut = Console.OpenStandardOutput();
         while (true)
         {
-            
         }
     }
 
@@ -125,8 +143,8 @@ You can use these options:
             Console.WriteLine("This directory is already in Path");
             Environment.Exit(1);
         }
-        
-        string newValue  = oldValue + ";" + assemblyPath;
+
+        string newValue = oldValue + ";" + assemblyPath;
         Environment.SetEnvironmentVariable("PATH", newValue, scope);
         Console.WriteLine("Done!");
     }
@@ -136,7 +154,7 @@ You can use these options:
         var scope = EnvironmentVariableTarget.User;
         string assemblyPath = AppContext.BaseDirectory;
         var oldValue = Environment.GetEnvironmentVariable("PATH", scope);
-        
+
         if (oldValue == null)
         {
             Console.WriteLine("Unable to remove this directory from Path");
@@ -148,9 +166,9 @@ You can use these options:
             Console.WriteLine("This directory is not in Path");
             Environment.Exit(1);
         }
-        
+
         //Here, i replace twice so that it work even when there is no semicolon in front of the PATH entry
-        string newValue  = oldValue.Replace(";" + assemblyPath, "").Replace(assemblyPath, "");
+        string newValue = oldValue.Replace(";" + assemblyPath, "").Replace(assemblyPath, "");
         Environment.SetEnvironmentVariable("PATH", newValue, scope);
         Console.WriteLine("Done!");
     }
