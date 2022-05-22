@@ -1,0 +1,37 @@
+yellow killed //line break
+
+purple killed //Iterations (don't make it more than 13 or the byte will overflow)
+
+red vented //Current
+
+//cyan = Last
+
+sus purple
+[ //Loop through all iterations
+    
+    blue wasWith red //Buffer current (becomes last later)
+    
+    //Add red to cyan (current = current + last)
+    sus red
+    [
+        red wasWithMe //Decrease addent 1
+
+        cyan vented //Increase addent 2
+    ]
+    
+    
+    //Copy current (cyan at this point) into red (the variable for current)
+    red wasWith cyan
+    
+    //Copy the old current into cyan from buffer
+    cyan wasWith blue
+    
+    //Output the current number
+    report red
+    
+    //Output a line break
+    emergencyMeeting yellow
+
+    sus purple
+    he wasWithMe
+]
