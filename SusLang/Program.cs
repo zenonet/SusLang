@@ -95,7 +95,7 @@ You can use these options:
                         bool useHeSyntax = args.Contains("-heSyntax") || args.Contains("-hs");
 
                         Console.WriteLine(
-                            SusLang.CodeGen.StringCreator.CreateSusLangScriptForString(
+                            SusLang.Tools.StringCreator.CreateSusLangScriptForString(
                                 args.Last(),
                                 color,
                                 comment,

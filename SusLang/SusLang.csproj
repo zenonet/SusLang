@@ -8,7 +8,7 @@
     <ItemGroup>
       <ProjectReference Include="..\SusLangBuildEngine\SusLangBuildEngine.csproj" />
       <ProjectReference Include="..\SusLangCompiler\SusLangCompiler.csproj" />
-      <ProjectReference Include="..\CodeGen\CodeGen.csproj" />
+      <ProjectReference Include="..\SusLang.Tools\SusLang.Tools.csproj" />
     </ItemGroup>
 
 </Project>
