@@ -16,7 +16,14 @@ You can use these options:
     -info   to print out the link to the github repo
     -build  to create a .exe file of a script that can run without SusLang or Dotnet. Syntax: -build {sourcePath} {destinationPath}
     -addpath   adds the directory of this executable to path
-    -removepath   removes the directory of this executable from path";
+    -removepath   removes the directory of this executable from path
+    -translate  to generate a script that outputs a user defined string. Syntax: -translate {colorToUse} {parameters}
+        You can use the following parameters:
+            -comment or -cmt   to let the generator comment the script
+            -tacticallyOvershoot or -to   might make scripts a little bit shorter
+            -heSyntax or -hs    to make the generator select the color first and then access it using 'he'
+        After that the generator will ask you to input your string";
+    
 
     static void Main(string[] args)
     {
@@ -88,15 +95,18 @@ You can use these options:
                         }
 
                         break;
-                    case "-translate":
+                    case "-translate" or "tr":
                         string color = args[1];
                         bool tacticallyOvershoot = args.Contains("-tacticallyOvershoot") || args.Contains("-to");
                         bool comment = args.Contains("-comment") || args.Contains("-cmt");
                         bool useHeSyntax = args.Contains("-heSyntax") || args.Contains("-hs");
-
+                        
+                        Console.WriteLine("Please enter your string here:");
+                        string text = Console.ReadLine()!.Replace("\\n", "\n");
+                        
                         Console.WriteLine(
                             SusLang.Tools.StringCreator.CreateSusLangScriptForString(
-                                args.Last(),
+                                text,
                                 color,
                                 comment,
                                 useHeSyntax,
