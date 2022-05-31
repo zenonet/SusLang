@@ -17,8 +17,16 @@ namespace SusLang
         #endregion
 
 
+        /// <summary>
+        /// Executes a piece of code from a file path
+        /// </summary>
+        /// <param name="path">The path to load the script from</param>
         public static void ExecuteFromFile(string path) => Execute(File.ReadAllText(path));
 
+        /// <summary>
+        /// Executes a piece of code
+        /// </summary>
+        /// <param name="code">The input code to execute</param>
         public static void Execute(string code)
         {
             Crewmates.Clear();
@@ -28,6 +36,18 @@ namespace SusLang
                 Crewmates.Add(crewmate, 0);
 
             ExecuteInternal(code);
+        }
+
+        /// <summary>
+        /// Executes a piece of code without resetting any changes the script made
+        /// </summary>
+        /// <param name="code">The code to continue with</param>
+        public static void ContinueExecute(string code)
+        {
+            if(Crewmates.Count > 0)
+                ExecuteInternal(code);
+            else
+                Execute(code);
         }
 
         /// <summary>
