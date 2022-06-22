@@ -14,18 +14,18 @@ namespace SusLang.Expressions
 
         protected static Crewmate ParseColor(string code, bool logErrors = true)
         {
-            if (code.ToLower().Replace(" ", "") != "he")
-                try
-                {
-                    Crewmate color = Enum.Parse<Crewmate>(code, true);
-                    return color;
-                }
-                catch (Exception)
-                {
-                    if(logErrors)
-                        Compiler.Logging.LogError($"Can't parse color {code}");
-                    return Crewmate.Null;
-                }
+            if (code.ToLower().Replace(" ", "") == "he") return Compiler.SussedColor;
+            try
+            {
+                Crewmate color = Enum.Parse<Crewmate>(code, true);
+                return color;
+            }
+            catch (Exception)
+            {
+                if(logErrors)
+                    Compiler.Logging.LogError($"Can't parse color {code}");
+                return Crewmate.Null;
+            }
 
             return Compiler.SussedColor;
         }
