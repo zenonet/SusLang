@@ -20,6 +20,6 @@ namespace SusLang
         Gray,
         Tan,
         Coral,
-        Null
+        Null,
     }
 }
