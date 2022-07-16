@@ -59,16 +59,17 @@ namespace SusLang
         {
             while (code.Length > 0)
             {
-                executingLine++;
+                while (code.StartsWith(Environment.NewLine))
+                {
+                    code = code.Substring(Environment.NewLine.Length);
+                    ExecutingLine++;
+                }
                 
                 Expression expression = Expression.Parse(ref code);
                 if(expression != null)
                     expression.Execute();
                 else
                     return false;
-                
-                code = code.TrimStart('\r');
-                code = code.TrimStart('\n');
             }
 
             return true;
@@ -77,7 +78,7 @@ namespace SusLang
 
         #region Quick and dirty logging
 
-        private static int executingLine;
+        internal static int ExecutingLine;
         public static class Logging
         {
             public static TextWriter Stream;
@@ -95,7 +96,7 @@ namespace SusLang
             
             internal static void LogError(string error)
             {
-                LogRaw($"\nSabotage in line {executingLine}: {error}\n");
+                LogRaw($"\nSabotage in line {ExecutingLine}: {error}\n");
             }
 
             internal static void LogProgramOutput(string msg)
