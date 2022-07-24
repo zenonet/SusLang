@@ -53,15 +53,16 @@ namespace SusLang.Expressions
                 case ExpressionType.EmergencyMeeting:
                 {
                     Compiler.Logging.LogProgramOutput(
-                        Encoding.ASCII.GetString(new []{
-                             Compiler.Crewmates[Compiler.SussedColor]}
-                            )
-                        );
+                        Encoding.ASCII.GetString(new[]
+                            {
+                                Compiler.Crewmates[Compiler.SussedColor]
+                            }
+                        )
+                    );
                     break;
-                }                
+                }
                 case ExpressionType.Comment:
                 {
-                    
                     break;
                 }
                 default:
@@ -91,9 +92,9 @@ namespace SusLang.Expressions
             {
                 Match match = Regex.Match(code, pair.Key);
 
-                //TODO: Check if Match.Success is the right thing to do in this situation
                 if (!match.Success)
                     continue;
+
                 expression = new Expression
                 {
                     Type = pair.Value,
