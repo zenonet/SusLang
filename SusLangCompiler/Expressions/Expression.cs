@@ -1,118 +1,113 @@
 using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Text.RegularExpressions;
+using SusLang.Expressions.DefaultExpressions;
 
 namespace SusLang.Expressions
 {
     public class Expression
     {
-        public ExpressionType Type;
         public string RawExpression;
 
-        public void Execute()
+        public virtual bool Execute() => true;
+
+
+        protected static Crewmate ParseColor(string code, bool logErrors = true)
         {
-            switch (Type)
+            if (code.ToLower().Replace(" ", "") != "he")
+                try
+                {
+                    Crewmate color = Enum.Parse<Crewmate>(code, true);
+                    return color;
+                }
+                catch (Exception)
+                {
+                    if(logErrors)
+                        Compiler.Logging.LogError($"Can't parse color {code}");
+                    return Crewmate.Null;
+                }
+            if (code.ToLower().Replace(" ", "") == "he") return Compiler.SussedColor;
+            try
             {
-                //Set the currently sussed Crewmate
-                case ExpressionType.Sus:
-                {
-                    string rest = RawExpression.Replace("sus", "");
-                    Crewmate color = Enum.Parse<Crewmate>(rest, true);
-                    Compiler.SussedColor = color;
-                    break;
-                }
-                case ExpressionType.Vented:
-                {
-                    string rest = RawExpression.Replace("vented", "");
-                    Crewmate color = Enum.Parse<Crewmate>(rest, true);
-                    Compiler.Crewmates[color] += 1;
-                    break;
-                }
-                case ExpressionType.Killed:
-                {
-                    string rest = RawExpression.Replace("killed", "");
-                    Crewmate color = Enum.Parse<Crewmate>(rest, true);
-                    Compiler.Crewmates[color] += 10;
-                    break;
-                }
-                case ExpressionType.WasWithMe:
-                {
-                    string rest = RawExpression.Replace("wasWithMe", "");
-                    Crewmate color = Enum.Parse<Crewmate>(rest, true);
-                    Compiler.Crewmates[color] -= 1;
-                    break;
-                }
-                case ExpressionType.DidVisual:
-                {
-                    string rest = RawExpression.Replace("didVisual", "");
-                    Crewmate color = Enum.Parse<Crewmate>(rest, true);
-                    Compiler.Crewmates[color] -= 10;
-                    break;
-                }
-                case ExpressionType.EmergencyMeeting:
-                {
-                    Compiler.Logging.LogProgramOutput(
-                        Encoding.ASCII.GetString(new[]
-                            {
-                                Compiler.Crewmates[Compiler.SussedColor]
-                            }
-                        )
-                    );
-                    break;
-                }
-                case ExpressionType.Comment:
-                {
-                    break;
-                }
-                default:
-                    throw new ArgumentOutOfRangeException();
+                Crewmate color = Enum.Parse<Crewmate>(code, true);
+                return color;
             }
+            catch (Exception)
+            {
+                if(logErrors)
+                    Compiler.Logging.LogError($"Can't parse color {code}");
+                return Crewmate.Null;
+            }
+
+            return Compiler.SussedColor;
         }
 
-
-        private static readonly Dictionary<string, ExpressionType> Patterns = new()
+        private static readonly Dictionary<string, Type> Patterns = new()
         {
-            {@"^(\w+) vented", ExpressionType.Vented},
-            {@"^(\w+) killed", ExpressionType.Killed},
-            {@"^(\w+) wasWithMe", ExpressionType.WasWithMe},
-            {@"^(\w+) didVisual", ExpressionType.DidVisual},
-            {@"^sus (\w+)", ExpressionType.Sus},
-            {@"^emergencyMeeting", ExpressionType.EmergencyMeeting},
-            {@"^\/\/.*|(trashtalk).*", ExpressionType.Comment},
+            {@"^(\w+) vented", typeof(ValueModificator)},
+            {@"^(\w+) killed", typeof(ValueModificator)},
+            {@"^(\w+) wasWithMe", typeof(ValueModificator)},
+            {@"^(\w+) didVisual", typeof(ValueModificator)},
+            {@"^sus (\w+)", typeof(SusExpression)},
+            {@"^emergencyMeeting", typeof(OutputExpression)},
+            {@"^report", typeof(OutputExpression)},
+            {@"^who\?", typeof(WhoExpression)},
+            {@"^\[(?:.|\s)*", typeof(Loop)},
+            {@"^\w+ wasWith \w+", typeof(SetterExpression)},
+            {@"^breakpoint", typeof(Breakpoint)},
+
+            {@"^(?:\s|\n|\r|\t)+", typeof(DummyExpression)},
+            {@"^(?:\/\/.*|(trashtalk).*)", typeof(DummyExpression)},
         };
 
 
-        public static Expression Parse(string code, out string rest)
+        public static Expression Parse(ref string code)
         {
             Expression expression = null;
             string restBuffer = code;
 
-            foreach (KeyValuePair<string, ExpressionType> pair in Patterns)
+            foreach (KeyValuePair<string, Type> pair in Patterns)
             {
                 Match match = Regex.Match(code, pair.Key);
 
                 if (!match.Success)
                     continue;
+                expression = Activator.CreateInstance(pair.Value) as Expression;
 
-                expression = new Expression
+                if (expression is null)
                 {
-                    Type = pair.Value,
-                    RawExpression = match.Value
-                };
+                    Compiler.Logging.LogError($"There was a problem parsing '{Regex.Match(code, $@"[^\s\\]+").Value}'");
+                    return null;
+                }
+                
+                
+                
+                expression.RawExpression = match.Value;
                 restBuffer = code.Substring(match.Length);
+
+                //Call the subclasses OnParse callback
+                expression.OnParse(ref code);
+                
+
+                break;
             }
 
             if (expression == null)
             {
                 Compiler.Logging.LogError($"Couldn't parse '{Regex.Match(code, $@"[^\s\\]+").Value}'");
-                rest = code;
+                return null;
             }
 
-            rest = restBuffer;
-
-
+            if (!expression.IsCuttingCode())
+                code = restBuffer;
             return expression;
         }
+
+        protected virtual bool OnParse(ref string code)
+        {
+            return true;
+        }
+
+        protected virtual bool IsCuttingCode() => false;
     }
 }
