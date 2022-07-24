@@ -3,12 +3,23 @@
     <PropertyGroup>
         <OutputType>Exe</OutputType>
         <TargetFramework>net5.0</TargetFramework>
+        <RootNamespace>SusLang.BuildLoader</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\SusLangBuildEngine\SusLangBuildEngine.csproj" />
       <ProjectReference Include="..\SusLangCompiler\SusLangCompiler.csproj" />
-      <ProjectReference Include="..\SusLang.Tools\SusLang.Tools.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Compile Remove="obj\**" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <EmbeddedResource Remove="obj\**" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Remove="obj\**" />
     </ItemGroup>
 
 </Project>

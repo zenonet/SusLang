@@ -19,6 +19,7 @@ namespace SusLang
         Banana,
         Gray,
         Tan,
-        Coral
+        Coral,
+        Null,
     }
 }

@@ -1,0 +1,24 @@
+//Set addend 1 to 10
+lime killed
+
+//Set addend 2 to 3
+cyan vented
+cyan vented
+cyan vented
+
+//Select the counting variable for the loop
+sus cyan
+
+[
+//Increase addend 1
+lime vented
+
+//Decrease addend 2
+cyan wasWithMe
+
+//When addend 2 becomes 0, the loop will exit and the addition is done
+]
+
+//Output the result
+sus lime
+report
