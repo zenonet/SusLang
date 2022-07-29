@@ -6,7 +6,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\SusLangCompiler\SusLangCompiler.csproj" />
+      <ProjectReference Include="..\SusLang.Compiler\SusLang.Compiler.csproj" />
     </ItemGroup>
 
 </Project>
