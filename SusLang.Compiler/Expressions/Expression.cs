@@ -14,6 +14,18 @@ namespace SusLang.Expressions
 
         protected static Crewmate ParseColor(string code, bool logErrors = true)
         {
+            if (code.ToLower().Replace(" ", "") != "he")
+                try
+                {
+                    Crewmate color = Enum.Parse<Crewmate>(code, true);
+                    return color;
+                }
+                catch (Exception)
+                {
+                    if(logErrors)
+                        Compiler.Logging.LogError($"Can't parse color {code}");
+                    return Crewmate.Null;
+                }
             if (code.ToLower().Replace(" ", "") == "he") return Compiler.SussedColor;
             try
             {
@@ -64,7 +76,7 @@ namespace SusLang.Expressions
 
                 if (expression is null)
                 {
-                    Compiler.Logging.LogError($"There was a problem parsing '{Regex.Match(code, @"[^\s\\]+").Value}'");
+                    Compiler.Logging.LogError($"There was a problem parsing '{Regex.Match(code, $@"[^\s\\]+").Value}'");
                     return null;
                 }
                 

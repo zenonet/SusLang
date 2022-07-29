@@ -28,25 +28,26 @@ namespace SusLang.Expressions.DefaultExpressions
             }
 
             //Optionally specified color:
-            string optColor = code.Replace(RawExpression, "").Split(new []{"\n", "//"}, StringSplitOptions.TrimEntries)[0];
+            string optColor =
+                code.Replace(RawExpression, "").Split(new[] {"\n", "//"}, StringSplitOptions.TrimEntries)[0];
             Crewmate color = ParseColor(optColor, false);
-            
+
             //Cut RawExpression:
             code = code.Substring(RawExpression.Length);
-            
+
             if (color != Crewmate.Null)
             {
                 target = color;
-                
+
                 //Cut the specified color out too
                 Regex regex = new Regex(@"\s*" + optColor + @"\s*");
-                code = regex.Replace(code, "", 1);   
+                code = regex.Replace(code, "", 1);
             }
             else
             {
                 target = Compiler.SussedColor;
             }
-            
+
             return true;
         }
 
@@ -68,6 +69,7 @@ namespace SusLang.Expressions.DefaultExpressions
                     );
                     break;
             }
+
             return true;
         }
     }
