@@ -4,6 +4,13 @@
         <TargetFramework>net5.0</TargetFramework>
         <RootNamespace>SusLang</RootNamespace>
         <Company>zenonet</Company>
+        <Authors>zenonet</Authors>
+        <PackageVersion>1.0.0</PackageVersion>
+        <RepositoryUrl>https://github.com/zenonet/SusLang</RepositoryUrl>
     </PropertyGroup>
+
+    <ItemGroup>
+      <Folder Include="bin\nuget" />
+    </ItemGroup>
 
 </Project>
