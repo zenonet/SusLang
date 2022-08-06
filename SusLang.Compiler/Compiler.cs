@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.IO;
 using SusLang.Expressions;
 
@@ -7,12 +8,35 @@ namespace SusLang
 {
     public static class Compiler
     {
-        public static readonly Version CompilerVersion = new (0, 5);
-        
+        public static readonly Version CompilerVersion = new(0, 5);
+
         #region compilationNeededFields
 
         internal static Crewmate SussedColor;
-        internal static Dictionary<Crewmate, byte> Crewmates = new();
+
+        public static readonly ImmutableDictionary<Crewmate, byte> StandardCrewmates = new Dictionary<Crewmate, byte>()
+        {
+            {"red", 0},
+            {"blue", 0},
+            {"green", 0},
+            {"pink", 0},
+            {"orange", 0},
+            {"yellow", 0},
+            {"black", 0},
+            {"white", 0},
+            {"purple", 0},
+            {"brown", 0},
+            {"cyan", 0},
+            {"lime", 0},
+            {"maroon", 0},
+            {"rose", 0},
+            {"banana", 0},
+            {"gray", 0},
+            {"tan", 0},
+            {"coral", 0},
+        }.ToImmutableDictionary();
+
+        public static Dictionary<Crewmate, byte> Crewmates = new();
 
         #endregion
 
@@ -29,11 +53,8 @@ namespace SusLang
         /// <param name="code">The input code to execute</param>
         public static void Execute(string code)
         {
-            Crewmates.Clear();
-            
-            //Fill the crewmate dict with all the crewmates from the enum
-            foreach (Crewmate crewmate in Enum.GetValues<Crewmate>())
-                Crewmates.Add(crewmate, 0);
+            //Set the Crewmate values to the standard crewmates
+            Crewmates = new Dictionary<Crewmate, byte>(StandardCrewmates);
 
             ExecuteInternal(code);
         }
@@ -44,7 +65,7 @@ namespace SusLang
         /// <param name="code">The code to continue with</param>
         public static void ContinueExecute(string code)
         {
-            if(Crewmates.Count > 0)
+            if (Crewmates.Count > 0)
                 ExecuteInternal(code);
             else
                 Execute(code);
@@ -64,9 +85,9 @@ namespace SusLang
                     code = code.Substring(Environment.NewLine.Length);
                     ExecutingLine++;
                 }
-                
+
                 Expression expression = Expression.Parse(ref code);
-                if(expression != null)
+                if (expression != null)
                     expression.Execute();
                 else
                     return false;
@@ -79,21 +100,23 @@ namespace SusLang
         #region Quick and dirty logging
 
         internal static int ExecutingLine;
+
         public static class Logging
         {
             public static TextWriter Stream;
 
-            public static event Func<string> OnInputExpected; 
+            public static event Func<string> OnInputExpected;
             public static event Action<string> OnOutput;
+
             internal static string WaitForInput()
             {
                 //Fallback:
                 if (OnInputExpected is null || OnInputExpected.GetInvocationList().Length < 1)
                     return Console.ReadLine();
-                
+
                 return OnInputExpected?.Invoke();
             }
-            
+
             internal static void LogError(string error)
             {
                 LogRaw($"\nSabotage in line {ExecutingLine}: {error}\n");
@@ -108,13 +131,11 @@ namespace SusLang
             {
                 Stream ??= Console.Out;
 
-                Stream.Write(msg);  
+                Stream.Write(msg);
                 Stream.Flush();
-                
+
                 OnOutput?.Invoke(msg);
             }
-
-
         }
 
         #endregion

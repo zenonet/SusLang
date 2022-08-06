@@ -35,7 +35,7 @@ namespace SusLang.Expressions.DefaultExpressions
             //Cut RawExpression:
             code = code.Substring(RawExpression.Length);
 
-            if (color != Crewmate.Null)
+            if (color != null)
             {
                 target = color;
 

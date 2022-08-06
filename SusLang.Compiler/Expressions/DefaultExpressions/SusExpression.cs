@@ -6,10 +6,10 @@ namespace SusLang.Expressions.DefaultExpressions
         
         protected override bool OnParse(ref string code)
         {
-            target = ParseColor(RawExpression.Replace("sus", ""));
+            target = ParseColor(RawExpression[3..]);
             
-            //If _target is Crewmate.Null, return false
-            return target is not Crewmate.Null;
+            //If _target is null, return false
+            return target is not null;
         }
 
         public override bool Execute()

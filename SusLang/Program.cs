@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -38,12 +39,11 @@ You can use these options:
         {
             Console.OutputEncoding = Encoding.ASCII;
             Console.WriteLine("\n----------\nBreakpoint activated:");
-            foreach (Crewmate crewmate in Enum.GetValues<Crewmate>())
+            foreach (KeyValuePair<Crewmate, byte> crewmate in Compiler.Crewmates)
             {
-                if (crewmate is Crewmate.Null)
-                    continue;
-                byte value = Breakpoint.GetValue(crewmate);
-                Console.Write($"{crewmate}: {value}  or in ASCII:  {Encoding.ASCII.GetString(new[] {value})}");
+                
+                Console.Write($"{crewmate.Key}: {crewmate.Value}  or in ASCII:  " +
+                              $"{Encoding.ASCII.GetString(new[] {crewmate.Value})}");
             }
 
             Console.WriteLine($"Currently selected color: {Breakpoint.Selected}");

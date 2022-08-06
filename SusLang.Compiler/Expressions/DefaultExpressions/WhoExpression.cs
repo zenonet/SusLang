@@ -7,7 +7,7 @@ namespace SusLang.Expressions.DefaultExpressions
         public override bool Execute()
         {
             color = ParseColor(Compiler.Logging.WaitForInput());
-            if (color is Crewmate.Null)
+            if (color is null)
                 return false;
 
             return true;

@@ -14,32 +14,28 @@ namespace SusLang.Expressions
 
         protected static Crewmate ParseColor(string code, bool logErrors = true)
         {
-            if (code.ToLower().Replace(" ", "") != "he")
-                try
-                {
-                    Crewmate color = Enum.Parse<Crewmate>(code, true);
-                    return color;
-                }
-                catch (Exception)
-                {
-                    if(logErrors)
-                        Compiler.Logging.LogError($"Can't parse color {code}");
-                    return Crewmate.Null;
-                }
-            if (code.ToLower().Replace(" ", "") == "he") return Compiler.SussedColor;
-            try
-            {
-                Crewmate color = Enum.Parse<Crewmate>(code, true);
+            //Prepare
+            string colorString = code.ToLower().Trim();
+            
+            
+            if (colorString is "he" or "him" or "her" or "she") 
+                return Compiler.SussedColor;
+            
+            //Parse the color:
+            
+            Crewmate color = Crewmate.Parse(colorString);
+
+            if (color != null)
                 return color;
-            }
-            catch (Exception)
+
+            if (logErrors)
             {
-                if(logErrors)
-                    Compiler.Logging.LogError($"Can't parse color {code}");
-                return Crewmate.Null;
+                Compiler.Logging.LogError(
+                    $"Color not found: {code}\n" +
+                    "     Consider defining it using '#define color <name>'");
             }
 
-            return Compiler.SussedColor;
+            return null;
         }
 
         private static readonly Dictionary<string, Type> Patterns = new()
@@ -54,6 +50,7 @@ namespace SusLang.Expressions
             {@"^who\?", typeof(WhoExpression)},
             {@"^\[(?:.|\s)*", typeof(Loop)},
             {@"^\w+ wasWith \w+", typeof(SetterExpression)},
+            {@"^#define ", typeof(DefineExpression)},
             {@"^breakpoint", typeof(Breakpoint)},
 
             {@"^(?:\s|\n|\r|\t)+", typeof(DummyExpression)},
@@ -79,15 +76,16 @@ namespace SusLang.Expressions
                     Compiler.Logging.LogError($"There was a problem parsing '{Regex.Match(code, $@"[^\s\\]+").Value}'");
                     return null;
                 }
-                
-                
-                
+
+
                 expression.RawExpression = match.Value;
                 restBuffer = code.Substring(match.Length);
 
                 //Call the subclasses OnParse callback
-                expression.OnParse(ref code);
-                
+                bool success = expression.OnParse(ref code);
+
+                if (!success)
+                    return null;
 
                 break;
             }

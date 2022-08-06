@@ -13,8 +13,8 @@ namespace SusLang.Expressions.DefaultExpressions
         
         public static byte GetValue(Crewmate crewmate)
         {
-            if (crewmate is Crewmate.Null)
-                throw new ArgumentException("'Crewmate.Null' isn't supposed to be used like this!");
+            if (crewmate is null)
+                throw new ArgumentNullException(nameof(crewmate));
             return Compiler.Crewmates[crewmate];
         }
 

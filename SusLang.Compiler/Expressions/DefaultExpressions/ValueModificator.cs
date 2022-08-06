@@ -9,7 +9,7 @@ namespace SusLang.Expressions.DefaultExpressions
             string[] parts = RawExpression.Split(' ');
             
             color = ParseColor(parts[0]);
-            if (color is Crewmate.Null)
+            if (color is null)
                 return false;
             
             switch (parts[1])

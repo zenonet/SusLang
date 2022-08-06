@@ -11,7 +11,7 @@ namespace SusLang.Expressions.DefaultExpressions
             color0 = ParseColor(colors[0]);
             color1 = ParseColor(colors[1]);
             
-            return color0 is not Crewmate.Null && color1 is not Crewmate.Null;
+            return color0 is not null && color1 is not null;
         }
 
         public override bool Execute()
