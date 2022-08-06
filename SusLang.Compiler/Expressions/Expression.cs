@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
+using System.Threading;
 using SusLang.Expressions.DefaultExpressions;
 
 namespace SusLang.Expressions
@@ -9,18 +11,20 @@ namespace SusLang.Expressions
     {
         public string RawExpression;
 
+        protected Crewmate[] PreparsedColors;
+
         public virtual bool Execute() => true;
 
         protected static Crewmate ParseColor(string code, bool logErrors = true)
         {
             //Prepare
             string colorString = code.ToLower().Trim();
-            
-            if (colorString is "he" or "him" or "her" or "she") 
+
+            if (colorString is "he" or "him" or "her" or "she")
                 return Crewmate.SussedColorRef;
-            
+
             //Parse the color:
-            
+
             Crewmate color = Crewmate.Parse(colorString);
 
             if (color != null)
@@ -46,7 +50,7 @@ namespace SusLang.Expressions
             {@"^\w+ wasWith \w+", typeof(SetterExpression)},
             {@"^#define ", typeof(DefineExpression)},
             {@"^breakpoint", typeof(Breakpoint)},
-            
+
             {@"^(\w+) vented", typeof(ValueModificator)},
             {@"^(\w+) killed", typeof(ValueModificator)},
             {@"^(\w+) wasWithMe", typeof(ValueModificator)},
@@ -54,6 +58,8 @@ namespace SusLang.Expressions
 
             {@"^(?:\s|\n|\r|\t)+", typeof(DummyExpression)},
             {@"^(?:\/\/.*|(trashtalk).*)", typeof(DummyExpression)},
+
+            {@"^(\w+) \w+ ?(\w*)", typeof(CustomKeywordExpression)}
         };
 
         public static Expression Parse(ref string code)
@@ -67,14 +73,29 @@ namespace SusLang.Expressions
 
                 if (!match.Success)
                     continue;
-                expression = Activator.CreateInstance(pair.Value) as Expression;
+                
+                List<Crewmate> colors = new();
+                foreach (Group group in match.Groups)
+                {
+                    string color = group.Value.Trim();
+                    if (color.Length < 1)
+                        continue;
 
+                    Crewmate crewmate = ParseColor(color);
+                    if (crewmate == null)
+                        goto nextPattern;
+
+                    colors.Add(crewmate);
+                }
+
+                expression = Activator.CreateInstance(pair.Value) as Expression;
+                
                 if (expression is null)
                 {
                     Compiler.Logging.LogError($"There was a problem parsing '{Regex.Match(code, $@"[^\s\\]+").Value}'");
                     return null;
                 }
-
+                expression.PreparsedColors = colors.ToArray();
 
                 expression.RawExpression = match.Value;
                 restBuffer = code.Substring(match.Length);
@@ -86,6 +107,8 @@ namespace SusLang.Expressions
                     return null;
 
                 break;
+
+                nextPattern: ;
             }
 
             if (expression == null)
