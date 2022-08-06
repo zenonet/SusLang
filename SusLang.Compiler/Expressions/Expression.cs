@@ -10,16 +10,14 @@ namespace SusLang.Expressions
         public string RawExpression;
 
         public virtual bool Execute() => true;
-
-
+        
         protected static Crewmate ParseColor(string code, bool logErrors = true)
         {
             //Prepare
             string colorString = code.ToLower().Trim();
             
-            
             if (colorString is "he" or "him" or "her" or "she") 
-                return Compiler.SussedColor;
+                return Crewmate.SussedColorRef;
             
             //Parse the color:
             

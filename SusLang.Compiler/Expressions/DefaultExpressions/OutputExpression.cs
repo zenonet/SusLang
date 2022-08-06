@@ -29,30 +29,41 @@ namespace SusLang.Expressions.DefaultExpressions
 
             //Optionally specified color:
             string optColor =
-                code.Replace(RawExpression, "").Split(new[] {"\n", "//"}, StringSplitOptions.TrimEntries)[0];
-            Crewmate color = ParseColor(optColor, false);
+                code.Replace(RawExpression, "")
+                    .Split(new[] {"\n", "//"}, StringSplitOptions.TrimEntries)[0]
+                    .Trim();
+
+            Crewmate color;
+
+            if (optColor.Length > 0)
+            {
+                color = ParseColor(optColor);
+                
+                if (code == null)
+                    return false;
+            }
+            else
+            {
+                color = null;
+            }
+
 
             //Cut RawExpression:
             code = code.Substring(RawExpression.Length);
 
-            if (color != null)
-            {
-                target = color;
+            target = color;
 
-                //Cut the specified color out too
-                Regex regex = new Regex(@"\s*" + optColor + @"\s*");
-                code = regex.Replace(code, "", 1);
-            }
-            else
-            {
-                target = Compiler.SussedColor;
-            }
+            //Cut the specified color out too
+            Regex regex = new Regex(@"\s*" + optColor + @"\s*");
+            code = regex.Replace(code, "", 1);
+
 
             return true;
         }
 
         public override bool Execute()
         {
+            target ??= Compiler.SussedColor;
             switch (outputType)
             {
                 case 0: //emergencyMeeting

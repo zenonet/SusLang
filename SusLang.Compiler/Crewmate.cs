@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 
 namespace SusLang
@@ -6,12 +7,18 @@ namespace SusLang
     {
         public const Crewmate Null = null;
 
+        public static readonly Crewmate SussedColorRef = SusLang.SussedColorRef.Instance;
+        
 
-        public readonly string Name;
+        public virtual string Name { get; }
 
         private Crewmate(string name)
         {
             Name = name;
+        }
+
+        protected Crewmate()
+        {
         }
 
 
@@ -29,6 +36,26 @@ namespace SusLang
         public static implicit operator Crewmate(string color)
         {
             return new Crewmate(color);
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (obj is Crewmate crewmate)
+            {
+                return Name.Equals(crewmate.Name);
+            }
+            
+            return obj == this;
+        }
+
+        protected bool Equals(Crewmate other)
+        {
+            return Name == other.Name;
+        }
+
+        public override int GetHashCode()
+        {
+            return Name != null ? Name.GetHashCode() : 0;
         }
     }
 }

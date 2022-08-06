@@ -78,20 +78,26 @@ namespace SusLang
         /// <returns>Whether the code was executed successfully (and not errors were thrown)</returns>
         internal static bool ExecuteInternal(string code)
         {
+
+            List<Expression> expressions = new();
             while (code.Length > 0)
             {
                 while (code.StartsWith(Environment.NewLine))
                 {
-                    code = code.Substring(Environment.NewLine.Length);
+                    code = code[Environment.NewLine.Length..];
                     ExecutingLine++;
                 }
 
                 Expression expression = Expression.Parse(ref code);
                 if (expression != null)
-                    expression.Execute();
+                    expressions.Add(expression);
+                    //expression.Execute();
                 else
                     return false;
             }
+            
+            foreach (Expression expression in expressions)
+                expression.Execute();
 
             return true;
         }
