@@ -10,7 +10,7 @@ namespace SusLang.Expressions
         public string RawExpression;
 
         public virtual bool Execute() => true;
-        
+
         protected static Crewmate ParseColor(string code, bool logErrors = true)
         {
             //Prepare
@@ -38,10 +38,6 @@ namespace SusLang.Expressions
 
         private static readonly Dictionary<string, Type> Patterns = new()
         {
-            {@"^(\w+) vented", typeof(ValueModificator)},
-            {@"^(\w+) killed", typeof(ValueModificator)},
-            {@"^(\w+) wasWithMe", typeof(ValueModificator)},
-            {@"^(\w+) didVisual", typeof(ValueModificator)},
             {@"^sus (\w+)", typeof(SusExpression)},
             {@"^emergencyMeeting", typeof(OutputExpression)},
             {@"^report", typeof(OutputExpression)},
@@ -50,11 +46,15 @@ namespace SusLang.Expressions
             {@"^\w+ wasWith \w+", typeof(SetterExpression)},
             {@"^#define ", typeof(DefineExpression)},
             {@"^breakpoint", typeof(Breakpoint)},
+            
+            {@"^(\w+) vented", typeof(ValueModificator)},
+            {@"^(\w+) killed", typeof(ValueModificator)},
+            {@"^(\w+) wasWithMe", typeof(ValueModificator)},
+            {@"^(\w+) didVisual", typeof(ValueModificator)},
 
             {@"^(?:\s|\n|\r|\t)+", typeof(DummyExpression)},
             {@"^(?:\/\/.*|(trashtalk).*)", typeof(DummyExpression)},
         };
-
 
         public static Expression Parse(ref string code)
         {
