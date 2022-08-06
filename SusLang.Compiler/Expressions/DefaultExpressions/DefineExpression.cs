@@ -14,13 +14,31 @@ namespace SusLang.Expressions.DefaultExpressions
             
             string[] words = line.Split(' ');
 
-            switch (words[1])
+            switch (words[1].ToLower())
             {
                 case "color":
-                    if(words.Length != 3)
-                        Compiler.Logging.LogError($"Invalid #define pattern: #define {line}");
-                    
+                    if (words.Length != 3)
+                    {
+                        Compiler.Logging.LogError($"Invalid #define pattern: {line}");
+                        return false;
+                    }
                     Compiler.Crewmates.Add(words[2].ToLower(), 0);
+                    break;
+                
+                
+                case "suspect":
+                    if(words.Length != 3)
+                    {
+                        Compiler.Logging.LogError($"Invalid #define pattern: {line}");
+                        return false;
+                    }
+
+                    Crewmate color = ParseColor(words[2]);
+                    if (color == null)
+                        return false;
+
+                    Compiler.Crewmates[color] = 65;
+                    
                     break;
             }
 
