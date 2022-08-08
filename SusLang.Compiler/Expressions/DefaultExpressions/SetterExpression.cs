@@ -16,7 +16,7 @@ namespace SusLang.Expressions.DefaultExpressions
 
         public override bool Execute()
         {
-            Compiler.Crewmates[color0] = Compiler.Crewmates[color1];
+            Crewmates[color0] = Crewmates[color1];
             return true;
         }
     }

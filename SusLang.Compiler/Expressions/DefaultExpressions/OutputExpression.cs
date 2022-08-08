@@ -70,13 +70,13 @@ namespace SusLang.Expressions.DefaultExpressions
                     Compiler.Logging.LogProgramOutput(
                         Encoding.ASCII.GetString(new[]
                             {
-                                Compiler.Crewmates[target]
+                                Crewmates[target]
                             }
                         )
                     );
                     break;
                 case 1: //Report
-                    Compiler.Logging.LogProgramOutput(Compiler.Crewmates[target].ToString()
+                    Compiler.Logging.LogProgramOutput(Crewmates[target].ToString()
                     );
                     break;
             }

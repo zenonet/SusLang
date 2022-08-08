@@ -7,7 +7,7 @@
         <Authors>zenonet</Authors>
         <PackageVersion>1.0.0</PackageVersion>
         <RepositoryUrl>https://github.com/zenonet/SusLang</RepositoryUrl>
-        <LangVersion>11</LangVersion>
+        <LangVersion>10</LangVersion>
     </PropertyGroup>
 
     <ItemGroup>

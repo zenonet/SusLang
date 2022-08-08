@@ -41,7 +41,7 @@ namespace SusLang.Expressions.DefaultExpressions
 
         public override bool Execute()
         {
-            Compiler.Crewmates[color] = (byte) (Compiler.Crewmates[color] + addent);
+            Crewmates[color] = (byte) (Crewmates[color] + addent);
             return true;
         }
     }

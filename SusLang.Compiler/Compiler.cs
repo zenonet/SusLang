@@ -6,7 +6,7 @@ using SusLang.Expressions;
 
 namespace SusLang
 {
-    public static class Compiler
+    public class Compiler
     {
         public static readonly Version CompilerVersion = new(0, 5);
 
@@ -36,8 +36,13 @@ namespace SusLang
             {"coral", 0},
         }.ToImmutableDictionary();
 
-        public static Dictionary<Crewmate, byte> Crewmates = new();
 
+        public static Compiler CurrentCompiler { get; private set; }
+
+
+
+        public ExecutionContext ExecutionContext;
+        
         #endregion
 
 
@@ -51,21 +56,22 @@ namespace SusLang
         /// Executes a piece of code
         /// </summary>
         /// <param name="code">The input code to execute</param>
-        public static void Execute(string code)
+        public static Compiler Execute(string code)
         {
             //Set the Crewmate values to the standard crewmates
-            Crewmates = new Dictionary<Crewmate, byte>(StandardCrewmates);
+            Compiler compiler = new();
+            compiler.ExecuteInternal(code);
 
-            ExecuteInternal(code);
+            return compiler;
         }
 
         /// <summary>
         /// Executes a piece of code without resetting any changes the script made
         /// </summary>
         /// <param name="code">The code to continue with</param>
-        public static void ContinueExecute(string code)
+        public void ContinueExecute(string code)
         {
-            if (Crewmates.Count > 0)
+            if (ExecutionContext.Crewmates.Count > 0)
                 ExecuteInternal(code);
             else
                 Execute(code);
@@ -76,30 +82,37 @@ namespace SusLang
         /// </summary>
         /// <param name="code">The input code to execute</param>
         /// <returns>Whether the code was executed successfully (and not errors were thrown)</returns>
-        internal static bool ExecuteInternal(string code)
+        internal bool ExecuteInternal(string code)
         {
+            CurrentCompiler = this;
+            
+            ExecutionContext = CreateAst(code);
 
+            foreach (Expression expression in ExecutionContext)
+                expression.Execute();
+
+            return true;
+        }
+
+        public ExecutionContext CreateAst(string code)
+        {
             List<Expression> expressions = new();
             while (code.Length > 0)
             {
+                Expression expression = Expression.Parse(ref code, this);
+                if (expression != null)
+                    expressions.Add(expression);
+                else
+                    return new ExecutionContext(expressions);
+
                 while (code.StartsWith(Environment.NewLine))
                 {
                     code = code[Environment.NewLine.Length..];
                     ExecutingLine++;
                 }
-
-                Expression expression = Expression.Parse(ref code);
-                if (expression != null)
-                    expressions.Add(expression);
-                    //expression.Execute();
-                else
-                    return false;
             }
-            
-            foreach (Expression expression in expressions)
-                expression.Execute();
 
-            return true;
+            return new ExecutionContext(expressions);
         }
 
 

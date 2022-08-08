@@ -10,6 +10,9 @@ namespace SusLang.Expressions.DefaultExpressions
         protected override bool IsCuttingCode() => true;
         protected override bool OnParse(ref string code)
         {
+            //Remove the opening bracket
+            code = code[1..];
+            
             string inside = ParsingUtility.FindBetweenBrackets(ref code);
             while (inside.Length > 0)
             {
@@ -26,7 +29,7 @@ namespace SusLang.Expressions.DefaultExpressions
 
         public override bool Execute()
         {
-            while (Compiler.Crewmates[Compiler.SussedColor] > 0)
+            while (Crewmates[Compiler.SussedColor] > 0)
             {
                 foreach (Expression expression in expressions)
                 {

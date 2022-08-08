@@ -15,7 +15,7 @@ namespace SusLang.Expressions.DefaultExpressions
         {
             if (crewmate is null)
                 throw new ArgumentNullException(nameof(crewmate));
-            return Compiler.Crewmates[crewmate];
+            return Crewmates[crewmate];
         }
 
         public static Crewmate Selected => Compiler.SussedColor;
