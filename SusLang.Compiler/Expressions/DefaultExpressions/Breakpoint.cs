@@ -4,33 +4,16 @@ namespace SusLang.Expressions.DefaultExpressions
 {
     public class Breakpoint : Expression
     {
-        public static event Action OnBreakpointExecuted;
+        public static event Action<ExecutionContext> OnBreakpointExecuted;
         private static bool shouldContinue = true;
-        public static void Continue()
-        {
-            shouldContinue = true;
-        }
         
-        public static byte GetValue(Crewmate crewmate)
-        {
-            if (crewmate is null)
-                throw new ArgumentNullException(nameof(crewmate));
-            return Crewmates[crewmate];
-        }
-
-        public static Crewmate Selected => Compiler.SussedColor;
-
+        
         public override bool Execute()
         {
-            shouldContinue = false;
-            OnBreakpointExecuted?.Invoke();
+            Context.IsRunning = false;
             
-            while (!shouldContinue)
-            {
-                //Wait
-            }
-            
-            //Continue
+            OnBreakpointExecuted?.Invoke(Context);
+
             return true;
         }
     }

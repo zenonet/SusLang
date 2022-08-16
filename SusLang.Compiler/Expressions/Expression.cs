@@ -7,7 +7,9 @@ namespace SusLang.Expressions
 {
     public class Expression
     {
-        public Compiler Compiler { get; private set; }
+
+        protected ExecutionContext Context;
+        protected Crewmate Selected => Context.Selected;
         
         public string RawExpression;
 
@@ -15,11 +17,11 @@ namespace SusLang.Expressions
         
         
         public Dictionary<Crewmate, byte> Crewmates =>
-            Compiler.ExecutionContext.Crewmates;
+            Context.Crewmates;
 
         public virtual bool Execute() => true;
 
-        protected static Crewmate ParseColor(string code, bool logErrors = true)
+        protected static Crewmate ParseColor(string code, ExecutionContext context, bool logErrors = true)
         {
             //Prepare
             string colorString = code.ToLower().Trim();
@@ -29,7 +31,7 @@ namespace SusLang.Expressions
 
             //Parse the color:
 
-            Crewmate color = Crewmate.Parse(colorString, Compiler);
+            Crewmate color = Crewmate.Parse(colorString, context);
 
             if (color != null)
                 return color;
@@ -66,7 +68,7 @@ namespace SusLang.Expressions
             {@"^(\w+) \w+ ?(\w*)", typeof(CustomKeywordExpression)}
         };
 
-        public static Expression Parse(ref string code, Compiler compiler)
+        public static Expression Parse(ref string code, ExecutionContext context)
         {
             Expression expression = null;
             string restBuffer = code;
@@ -89,7 +91,7 @@ namespace SusLang.Expressions
                         if (color.Length < 1)
                             continue;
 
-                        Crewmate crewmate = ParseColor(color, false);
+                        Crewmate crewmate = ParseColor(color, context, false);
                         if (crewmate == null)
                             goto nextPattern;
 
@@ -106,7 +108,7 @@ namespace SusLang.Expressions
                     return null;
                 }
 
-                expression.Compiler = compiler;
+                expression.Context = context;
                 
                 expression.PreparsedColors = colors;
 

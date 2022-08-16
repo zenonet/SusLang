@@ -6,7 +6,7 @@ namespace SusLang.Expressions.DefaultExpressions
         
         protected override bool OnParse(ref string code)
         {
-            target = ParseColor(RawExpression[3..]);
+            target = ParseColor(RawExpression[3..], Context);
             
             //If _target is null, return false
             return target is not null;
@@ -14,7 +14,7 @@ namespace SusLang.Expressions.DefaultExpressions
 
         public override bool Execute()
         {
-            Compiler.SussedColor = target;
+            Context.Selected = target;
             return true;
         }
     }

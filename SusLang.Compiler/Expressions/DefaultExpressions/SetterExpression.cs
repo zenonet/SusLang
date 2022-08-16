@@ -8,8 +8,8 @@ namespace SusLang.Expressions.DefaultExpressions
         protected override bool OnParse(ref string code)
         {
             string[] colors = RawExpression.Split("wasWith");
-            color0 = ParseColor(colors[0]);
-            color1 = ParseColor(colors[1]);
+            color0 = ParseColor(colors[0], Context);
+            color1 = ParseColor(colors[1], Context);
             
             return color0 is not null && color1 is not null;
         }

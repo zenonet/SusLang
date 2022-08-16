@@ -16,7 +16,7 @@ namespace SusLang.Expressions.DefaultExpressions
             string inside = ParsingUtility.FindBetweenBrackets(ref code);
             while (inside.Length > 0)
             {
-                Expression expression = Expression.Parse(ref inside);
+                Expression expression = Expression.Parse(ref inside, Context);
                 if (expression is null)
                     return false;
                 
@@ -29,7 +29,7 @@ namespace SusLang.Expressions.DefaultExpressions
 
         public override bool Execute()
         {
-            while (Crewmates[Compiler.SussedColor] > 0)
+            while (Crewmates[Selected] > 0)
             {
                 foreach (Expression expression in expressions)
                 {

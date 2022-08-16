@@ -6,7 +6,7 @@ namespace SusLang.Expressions.DefaultExpressions
 
         public override bool Execute()
         {
-            color = ParseColor(Compiler.Logging.WaitForInput());
+            color = ParseColor(Compiler.Logging.WaitForInput(), Context);
             if (color is null)
                 return false;
 

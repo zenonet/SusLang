@@ -37,7 +37,7 @@ namespace SusLang.Expressions.DefaultExpressions
 
             if (optColor.Length > 0)
             {
-                color = ParseColor(optColor);
+                color = ParseColor(optColor, Context);
                 
                 if (code == null)
                     return false;
@@ -63,7 +63,7 @@ namespace SusLang.Expressions.DefaultExpressions
 
         public override bool Execute()
         {
-            target ??= Compiler.SussedColor;
+            target ??= Selected;
             switch (outputType)
             {
                 case 0: //emergencyMeeting

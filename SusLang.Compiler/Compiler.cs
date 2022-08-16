@@ -2,17 +2,16 @@
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.IO;
+using System.Linq;
 using SusLang.Expressions;
 
 namespace SusLang
 {
-    public class Compiler
+    public static class Compiler
     {
         public static readonly Version CompilerVersion = new(0, 5);
 
         #region compilationNeededFields
-
-        internal static Crewmate SussedColor;
 
         public static readonly ImmutableDictionary<Crewmate, byte> StandardCrewmates = new Dictionary<Crewmate, byte>()
         {
@@ -35,14 +34,10 @@ namespace SusLang
             {"tan", 0},
             {"coral", 0},
         }.ToImmutableDictionary();
-
-
-        public static Compiler CurrentCompiler { get; private set; }
-
-
-
-        public ExecutionContext ExecutionContext;
         
+
+        public static ExecutionContext ExecutionContext;
+
         #endregion
 
 
@@ -56,54 +51,39 @@ namespace SusLang
         /// Executes a piece of code
         /// </summary>
         /// <param name="code">The input code to execute</param>
-        public static Compiler Execute(string code)
+        public static void Execute(string code)
         {
             //Set the Crewmate values to the standard crewmates
-            Compiler compiler = new();
-            compiler.ExecuteInternal(code);
+            ExecuteInternal(code);
 
-            return compiler;
         }
-
-        /// <summary>
-        /// Executes a piece of code without resetting any changes the script made
-        /// </summary>
-        /// <param name="code">The code to continue with</param>
-        public void ContinueExecute(string code)
-        {
-            if (ExecutionContext.Crewmates.Count > 0)
-                ExecuteInternal(code);
-            else
-                Execute(code);
-        }
+        
 
         /// <summary>
         /// Executes a piece of code
         /// </summary>
         /// <param name="code">The input code to execute</param>
         /// <returns>Whether the code was executed successfully (and not errors were thrown)</returns>
-        internal bool ExecuteInternal(string code)
+        internal static bool ExecuteInternal(string code)
         {
-            CurrentCompiler = this;
-            
             ExecutionContext = CreateAst(code);
 
-            foreach (Expression expression in ExecutionContext)
-                expression.Execute();
+            ExecutionContext.Continue();
 
             return true;
         }
 
-        public ExecutionContext CreateAst(string code)
+        public static ExecutionContext CreateAst(string code)
         {
-            List<Expression> expressions = new();
+            ExecutionContext context = new(new List<Expression>());
+
             while (code.Length > 0)
             {
-                Expression expression = Expression.Parse(ref code, this);
+                Expression expression = Expression.Parse(ref code, context);
                 if (expression != null)
-                    expressions.Add(expression);
+                    (context.Expressions as List<Expression>)!.Add(expression);
                 else
-                    return new ExecutionContext(expressions);
+                    return context;
 
                 while (code.StartsWith(Environment.NewLine))
                 {
@@ -112,10 +92,9 @@ namespace SusLang
                 }
             }
 
-            return new ExecutionContext(expressions);
+            return context;
         }
-
-
+        
         #region Quick and dirty logging
 
         internal static int ExecutingLine;

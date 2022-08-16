@@ -35,7 +35,7 @@ namespace SusLang.Expressions.DefaultExpressions
                         return false;
                     }
 
-                    Crewmate color = ParseColor(words[2]);
+                    Crewmate color = ParseColor(words[2], Context);
                     if (color == null)
                         return false;
 

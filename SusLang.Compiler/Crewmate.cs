@@ -23,9 +23,9 @@ namespace SusLang
 
 
         //Parse color
-        public static Crewmate Parse(string color, Compiler compiler)
+        public static Crewmate Parse(string color, ExecutionContext context)
         {
-            Crewmate parsedCrewmate = compiler.ExecutionContext.Crewmates.FirstOrDefault(
+            Crewmate parsedCrewmate = context.Crewmates.FirstOrDefault(
                 x => x.Key.Name == color
             ).Key;
             

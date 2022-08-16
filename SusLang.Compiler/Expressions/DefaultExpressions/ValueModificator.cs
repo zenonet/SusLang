@@ -8,7 +8,7 @@ namespace SusLang.Expressions.DefaultExpressions
         {
             string[] parts = RawExpression.Split(' ');
             
-            color = ParseColor(parts[0]);
+            color = ParseColor(parts[0], Context);
             if (color is null)
                 return false;
             

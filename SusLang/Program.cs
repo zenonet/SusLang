@@ -35,22 +35,22 @@ You can use these options:
         }
 
 
-        Breakpoint.OnBreakpointExecuted += () =>
+        Breakpoint.OnBreakpointExecuted += context =>
         {
             Console.OutputEncoding = Encoding.ASCII;
             Console.WriteLine("\n----------\nBreakpoint activated:");
-            foreach (KeyValuePair<Crewmate, byte> crewmate in Compiler.Crewmates)
+            foreach (KeyValuePair<Crewmate, byte> crewmate in context.Crewmates)
             {
                 
                 Console.Write($"{crewmate.Key}: {crewmate.Value}  or in ASCII:  " +
                               $"{Encoding.ASCII.GetString(new[] {crewmate.Value})}");
             }
 
-            Console.WriteLine($"Currently selected color: {Breakpoint.Selected}");
+            Console.WriteLine($"Currently selected color: {context.Selected}");
             Console.WriteLine("Press Enter to continue program execution");
             Console.WriteLine("----------");
             Console.ReadLine();
-            Breakpoint.Continue();
+            context.Continue();
         };
 
         if (args.Length > 0)
