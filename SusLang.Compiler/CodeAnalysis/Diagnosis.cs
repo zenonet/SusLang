@@ -4,7 +4,7 @@ namespace SusLang.CodeAnalysis;
 
 public class Diagnosis
 {
-    public Diagnosis(string message, InspectionSeverity severity, int lineNumber, int columnNumber)
+    public Diagnosis(string message, InspectionSeverity severity, int lineNumber, int columnNumber = -1)
     {
         Message = message;
         Severity = severity;
