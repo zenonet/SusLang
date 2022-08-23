@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using SusLang.CodeAnalysis;
 using SusLang.Expressions;
 
 namespace SusLang;
@@ -18,6 +19,8 @@ public class ExecutionContext : IEnumerable<Expression>
     public int LineNumber;
     
     public bool IsRunning;
+    
+    public List<Diagnosis> Diagnoses = new();
 
     public void Continue()
     {
