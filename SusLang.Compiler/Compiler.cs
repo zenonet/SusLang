@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.IO;
 using System.Linq;
+using SusLang.CodeAnalysis;
 using SusLang.Expressions;
 
 namespace SusLang
@@ -34,7 +35,7 @@ namespace SusLang
             {"tan", 0},
             {"coral", 0},
         }.ToImmutableDictionary();
-        
+
 
         public static ExecutionContext ExecutionContext;
 
@@ -55,9 +56,8 @@ namespace SusLang
         {
             //Set the Crewmate values to the standard crewmates
             ExecuteInternal(code);
-
         }
-        
+
 
         /// <summary>
         /// Executes a piece of code
@@ -88,13 +88,13 @@ namespace SusLang
                 while (code.StartsWith(Environment.NewLine))
                 {
                     code = code[Environment.NewLine.Length..];
-                    ExecutingLine++;
+                    context.LineNumber++;
                 }
             }
 
             return context;
         }
-        
+
         #region Quick and dirty logging
 
         internal static int ExecutingLine;
@@ -113,6 +113,11 @@ namespace SusLang
                     return Console.ReadLine();
 
                 return OnInputExpected?.Invoke();
+            }
+
+            internal static void LogError(Diagnosis diagnosis)
+            {
+                LogRaw($"Sabotage in line {diagnosis.LineNumber}: {diagnosis.Message}");
             }
 
             internal static void LogError(string error)
