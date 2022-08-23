@@ -14,6 +14,8 @@ public class ExecutionContext : IEnumerable<Expression>
     public Crewmate Selected;
     
     public int Index = 0;
+
+    public int LineNumber;
     
     public bool IsRunning;
 
