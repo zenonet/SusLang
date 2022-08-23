@@ -1,5 +1,6 @@
 using System;
 using System.Net;
+using SusLang.CodeAnalysis;
 
 namespace SusLang.Expressions.DefaultExpressions
 {
@@ -20,7 +21,11 @@ namespace SusLang.Expressions.DefaultExpressions
                 case "color":
                     if (words.Length != 3)
                     {
-                        Compiler.Logging.LogError($"Invalid #define pattern: {line}");
+                        Compiler.Logging.LogError(
+                            new Diagnosis("Invalid color definition",
+                                InspectionSeverity.Error,
+                                Context.LineNumber)
+                        );
                         return false;
                     }
 
@@ -31,7 +36,11 @@ namespace SusLang.Expressions.DefaultExpressions
                 case "suspect":
                     if (words.Length != 3)
                     {
-                        Compiler.Logging.LogError($"Invalid #define pattern: {line}");
+                        Compiler.Logging.LogError(
+                            new Diagnosis("Invalid suspect definition",
+                                InspectionSeverity.Error,
+                                Context.LineNumber)
+                        );
                         return false;
                     }
 
@@ -45,7 +54,11 @@ namespace SusLang.Expressions.DefaultExpressions
                 case "keyword":
                     if (words.Length != 3)
                     {
-                        Compiler.Logging.LogError($"Invalid #define pattern: {line}");
+                        Compiler.Logging.LogError(
+                            new Diagnosis("Invalid keyword definition",
+                                InspectionSeverity.Error,
+                                Context.LineNumber)
+                        );
                         return false;
                     }
 
@@ -54,7 +67,12 @@ namespace SusLang.Expressions.DefaultExpressions
 
                     if (IsParsingKeywordDefinition)
                     {
-                        Compiler.Logging.LogError("Nested keyword definitions aren't supported");
+                        Compiler.Logging.LogError(
+                            new Diagnosis("Nested keyword definitions aren't supported",
+                                InspectionSeverity.Warning,
+                                Context.LineNumber)
+                        );
+                        return true;
                     }
 
                     //Parse keyword
@@ -66,7 +84,11 @@ namespace SusLang.Expressions.DefaultExpressions
 
                     if (endIndex == -1)
                     {
-                        Compiler.Logging.LogError("Keyword definition is not closed");
+                        Compiler.Logging.LogError(
+                            new Diagnosis("Keyword definition is not closed",
+                                InspectionSeverity.Error,
+                                Context.LineNumber)
+                        );
                         return false;
                     }
 
