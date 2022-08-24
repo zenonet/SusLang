@@ -1,21 +1,21 @@
 using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
+using SusLang.CodeAnalysis;
 using SusLang.Expressions.DefaultExpressions;
 
 namespace SusLang.Expressions
 {
     public class Expression
     {
-
         protected ExecutionContext Context;
         protected Crewmate Selected => Context.Selected;
-        
+
         public string RawExpression;
 
         protected Crewmate[] PreparsedColors;
-        
-        
+
+
         public Dictionary<Crewmate, byte> Crewmates =>
             Context.Crewmates;
 
@@ -25,7 +25,7 @@ namespace SusLang.Expressions
         {
             //Prepare
             string colorString = code.ToLower().Trim();
-
+            
             if (colorString is "he" or "him" or "her" or "she")
                 return Crewmate.SussedColorRef;
 
@@ -38,9 +38,9 @@ namespace SusLang.Expressions
 
             if (logErrors)
             {
-                Compiler.Logging.LogError(
+                Compiler.Logging.LogError(new Diagnosis(
                     $"Color not found: {code}\n" +
-                    "     Consider defining it using '#define color <name>'");
+                    "     Consider defining it using '#define color <name>'", InspectionSeverity.Error, context.LineNumber));
             }
 
             return null;
@@ -97,19 +97,23 @@ namespace SusLang.Expressions
 
                         colorsList.Add(crewmate);
                     }
+
                     colors = colorsList.ToArray();
                 }
 
                 expression = Activator.CreateInstance(pair.Value) as Expression;
-                
+
                 if (expression is null)
                 {
-                    Compiler.Logging.LogError($"There was a problem parsing '{Regex.Match(code, $@"[^\s\\]+").Value}'");
+                    Compiler.Logging.LogError(new Diagnosis(
+                        $"There was a problem parsing '{Regex.Match(code, $@"[^\s\\]+").Value}'",
+                        InspectionSeverity.Error,
+                        context.LineNumber));
                     return null;
                 }
 
                 expression.Context = context;
-                
+
                 expression.PreparsedColors = colors;
 
                 expression.RawExpression = match.Value;
@@ -128,7 +132,10 @@ namespace SusLang.Expressions
 
             if (expression == null)
             {
-                Compiler.Logging.LogError($"Couldn't parse '{Regex.Match(restBuffer, $@"[^\s\\]+").Value}'");
+                Compiler.Logging.LogError(new Diagnosis(
+                    $"Couldn't parse '{Regex.Match(restBuffer, $@"[^\s\\]+").Value}'",
+                    InspectionSeverity.Error,
+                    context.LineNumber));
                 return null;
             }
 
