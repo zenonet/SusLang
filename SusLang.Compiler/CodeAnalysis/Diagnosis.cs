@@ -2,7 +2,7 @@ using System.Text.Json;
 
 namespace SusLang.CodeAnalysis;
 
-public class Diagnosis
+public readonly struct Diagnosis
 {
     public Diagnosis(string message, InspectionSeverity severity, int lineNumber, int columnNumber = -1)
     {
