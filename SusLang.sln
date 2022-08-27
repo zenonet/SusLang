@@ -10,6 +10,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SusLang.BuildLoader", "SusL
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SusLang.Tools", "SusLang.Tools\SusLang.Tools.csproj", "{57CB74EB-54E9-4441-91CD-50A141EC12E7}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LanguageServerBackend", "LanguageServerBackend\LanguageServerBackend.csproj", "{FABEAE46-9A17-423F-B1C0-88885E888232}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
