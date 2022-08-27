@@ -73,8 +73,11 @@ namespace SusLang
             return true;
         }
 
-        public static ExecutionContext CreateAst(string code)
+        private static bool dontLog = false;
+        public static ExecutionContext CreateAst(string code, bool dontLog = false)
         {
+            Compiler.dontLog = dontLog;
+            
             ExecutionContext context = new(new List<Expression>());
 
             while (code.Length > 0)
@@ -132,6 +135,8 @@ namespace SusLang
 
             internal static void LogRaw(string msg)
             {
+                if(dontLog) return;
+                
                 Stream ??= Console.Out;
 
                 Stream.Write(msg);
