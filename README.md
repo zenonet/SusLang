@@ -144,4 +144,4 @@ sus red
 red vented
 emergencyMeeting
 ```
-You can find a version with explanation [here](Examples/helloWorld.sus)
+You can find a version with explanation [here](Examples/helloWorld.sus).
