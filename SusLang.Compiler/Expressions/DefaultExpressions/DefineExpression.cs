@@ -22,7 +22,8 @@ namespace SusLang.Expressions.DefaultExpressions
                     if (words.Length != 3)
                     {
                         Compiler.Logging.LogError(
-                            new Diagnosis("Invalid color definition",
+                            new Diagnosis(Context,
+                                "Invalid color definition",
                                 InspectionSeverity.Error,
                                 Context.LineNumber)
                         );
@@ -37,7 +38,8 @@ namespace SusLang.Expressions.DefaultExpressions
                     if (words.Length != 3)
                     {
                         Compiler.Logging.LogError(
-                            new Diagnosis("Invalid suspect definition",
+                            new Diagnosis(Context,
+                                "Invalid suspect definition",
                                 InspectionSeverity.Error,
                                 Context.LineNumber)
                         );
@@ -55,7 +57,8 @@ namespace SusLang.Expressions.DefaultExpressions
                     if (words.Length != 3)
                     {
                         Compiler.Logging.LogError(
-                            new Diagnosis("Invalid keyword definition",
+                            new Diagnosis(Context,
+                                "Invalid keyword definition",
                                 InspectionSeverity.Error,
                                 Context.LineNumber)
                         );
@@ -68,7 +71,8 @@ namespace SusLang.Expressions.DefaultExpressions
                     if (IsParsingKeywordDefinition)
                     {
                         Compiler.Logging.LogError(
-                            new Diagnosis("Nested keyword definitions aren't supported",
+                            new Diagnosis(Context,
+                                "Nested keyword definitions aren't supported",
                                 InspectionSeverity.Warning,
                                 Context.LineNumber)
                         );
@@ -85,7 +89,8 @@ namespace SusLang.Expressions.DefaultExpressions
                     if (endIndex == -1)
                     {
                         Compiler.Logging.LogError(
-                            new Diagnosis("Keyword definition is not closed",
+                            new Diagnosis(Context,
+                                "Keyword definition is not closed",
                                 InspectionSeverity.Error,
                                 Context.LineNumber)
                         );

@@ -38,7 +38,7 @@ namespace SusLang.Expressions
 
             if (logErrors)
             {
-                Compiler.Logging.LogError(new Diagnosis(
+                Compiler.Logging.LogError(new Diagnosis(context,
                     $"Color not found: {code}\n" +
                     "     Consider defining it using '#define color <name>'", InspectionSeverity.Error, context.LineNumber));
             }
@@ -105,7 +105,7 @@ namespace SusLang.Expressions
 
                 if (expression is null)
                 {
-                    Compiler.Logging.LogError(new Diagnosis(
+                    Compiler.Logging.LogError(new Diagnosis(context,
                         $"There was a problem parsing '{Regex.Match(code, $@"[^\s\\]+").Value}'",
                         InspectionSeverity.Error,
                         context.LineNumber));
@@ -132,7 +132,7 @@ namespace SusLang.Expressions
 
             if (expression == null)
             {
-                Compiler.Logging.LogError(new Diagnosis(
+                Compiler.Logging.LogError(new Diagnosis(context,
                     $"Couldn't parse '{Regex.Match(restBuffer, $@"[^\s\\]+").Value}'",
                     InspectionSeverity.Error,
                     context.LineNumber));
