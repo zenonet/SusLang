@@ -136,7 +136,10 @@ namespace SusLang.Expressions
                     $"Couldn't parse '{Regex.Match(restBuffer, $@"[^\s\\]+").Value}'",
                     InspectionSeverity.Error,
                     context.LineNumber));
-                return null;
+                
+                //TODO: Fix this because it doesn't make sense
+                if(Compiler.DontLog)
+                    return null;
             }
 
             if (!expression.IsCuttingCode())
