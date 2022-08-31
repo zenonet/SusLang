@@ -76,7 +76,7 @@ namespace SusLang
         internal static bool DontLog;
         public static ExecutionContext CreateAst(string code, bool dontLog = false)
         {
-            Compiler.DontLog = dontLog;
+            DontLog = dontLog;
             
             ExecutionContext context = new(new List<Expression>());
 
