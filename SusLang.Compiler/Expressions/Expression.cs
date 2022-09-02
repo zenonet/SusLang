@@ -117,7 +117,7 @@ namespace SusLang.Expressions
                 expression.PreparsedColors = colors;
 
                 expression.RawExpression = match.Value;
-                restBuffer = code.Substring(match.Length);
+                restBuffer = code[match.Length..];
 
                 //Call the subclasses OnParse callback
                 bool success = expression.OnParse(ref code);
