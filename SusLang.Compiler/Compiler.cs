@@ -123,11 +123,6 @@ namespace SusLang
                 LogRaw($"Sabotage in line {diagnosis.LineNumber}: {diagnosis.Message}");
             }
 
-            internal static void LogError(string error)
-            {
-                LogRaw($"\nSabotage in line {ExecutingLine}: {error}\n");
-            }
-
             internal static void LogProgramOutput(string msg)
             {
                 LogRaw(msg);
