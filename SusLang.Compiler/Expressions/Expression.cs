@@ -137,7 +137,6 @@ namespace SusLang.Expressions
                     InspectionSeverity.Error,
                     context.LineNumber));
                 
-                //TODO: Fix this because it doesn't make sense
                 if(Compiler.DontLog)
                     return null;
             }
