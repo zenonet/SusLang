@@ -106,7 +106,7 @@ namespace SusLang.Expressions
                 if (expression is null)
                 {
                     Compiler.Logging.LogError(new Diagnosis(context,
-                        $"There was a problem parsing '{Regex.Match(code, $@"[^\s\\]+").Value}'",
+                        $"There was a problem parsing '{Regex.Match(code, @"[^\s\\]+").Value}'",
                         InspectionSeverity.Error,
                         context.LineNumber));
                     return null;
@@ -133,7 +133,7 @@ namespace SusLang.Expressions
             if (expression == null)
             {
                 Compiler.Logging.LogError(new Diagnosis(context,
-                    $"Couldn't parse '{Regex.Match(restBuffer, $@"[^\s\\]+").Value}'",
+                    $"Couldn't parse '{Regex.Match(restBuffer, @"[^\s\\]+").Value}'",
                     InspectionSeverity.Error,
                     context.LineNumber));
                 
@@ -142,7 +142,7 @@ namespace SusLang.Expressions
                     return null;
             }
 
-            if (!expression.IsCuttingCode())
+            if (!expression!.IsCuttingCode())
                 code = restBuffer;
             return expression;
         }
