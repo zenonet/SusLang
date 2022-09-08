@@ -22,6 +22,8 @@ public class ExecutionContext : IEnumerable<Expression>
     
     public List<Diagnosis> Diagnoses = new();
 
+    public Crewmate[] Parameters = null;
+
     public void Continue()
     {
         IsRunning = true;
