@@ -47,12 +47,17 @@ public class ExecutionContext : IEnumerable<Expression>
     }
 
     /// <summary>
-    /// Creates a new ExecutionContext that contains the Expressions of this one but isn't changed in any other way.
+    /// Creates a new ExecutionContext that contains the Expressions and Parameters
+    /// of this one but isn't changed in any other way.
     /// </summary>
     /// <returns></returns>
     public ExecutionContext CloneAsNew()
     {
-        return new ExecutionContext(Expressions);
+        ExecutionContext @new = new ExecutionContext(Expressions)
+        {
+            Parameters = (Crewmate[]) Parameters.Clone(),
+        };
+        return @new;
     }
     
     public ExecutionContext(
