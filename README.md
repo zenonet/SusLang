@@ -1,3 +1,5 @@
+![](https://img.shields.io/tokei/lines/github/zenonet/SusLang)
+
 # SusLang
 A simple among-us-themed esolang written in C#.<br>
 You can find an [online interpreter](https://github.com/zenonet/SusLang/wiki/The-online-interpreter) [here](http://api.zenonet.de/SusLang/0.4/)
