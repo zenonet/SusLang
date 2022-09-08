@@ -43,6 +43,15 @@ public class ExecutionContext : IEnumerable<Expression>
         Index = 0;
         IsRunning = false;
     }
+
+    /// <summary>
+    /// Creates a new ExecutionContext that contains the Expressions of this one but isn't changed in any other way.
+    /// </summary>
+    /// <returns></returns>
+    public ExecutionContext CloneAsNew()
+    {
+        return new ExecutionContext(Expressions);
+    }
     
     public ExecutionContext(
         IEnumerable<Expression> expressions
