@@ -112,7 +112,7 @@ namespace SusLang
             internal static string WaitForInput()
             {
                 //Fallback:
-                if (OnInputExpected is null || OnInputExpected.GetInvocationList().Length < 1)
+                if (OnInputExpected == null || OnInputExpected.GetInvocationList().Length < 1)
                     return Console.ReadLine();
 
                 return OnInputExpected?.Invoke();
@@ -121,6 +121,9 @@ namespace SusLang
             internal static void LogError(Diagnosis diagnosis)
             {
                 LogRaw($"Sabotage in line {diagnosis.LineNumber}: {diagnosis.Message}");
+                
+                if(DontLog || diagnosis.Severity == InspectionSeverity.Error)
+                    Environment.Exit(1);
             }
 
             internal static void LogProgramOutput(string msg)
