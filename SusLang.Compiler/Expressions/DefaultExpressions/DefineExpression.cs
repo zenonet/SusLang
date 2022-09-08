@@ -1,5 +1,4 @@
 using System;
-using System.Net;
 using SusLang.CodeAnalysis;
 
 namespace SusLang.Expressions.DefaultExpressions
@@ -103,12 +102,14 @@ namespace SusLang.Expressions.DefaultExpressions
                         words[2].ToLower(), Compiler.CreateAst(code[..endIndex][line.Length..])
                     );
 
+                    //+19 because "#define keyword end" is 19 characters long and
+                    //we want to cut it too
+                    code = code[(endIndex + 19)..];
 
-                    break;
+                    return true;
             }
 
-            code = code.Substring(line.Length + Environment.NewLine.Length);
-
+            code = code[(line.Length + Environment.NewLine.Length)..];
 
             return true;
         }
