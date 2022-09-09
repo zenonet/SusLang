@@ -57,6 +57,11 @@ public class ExecutionContext : IEnumerable<Expression>
         {
             Parameters = (Crewmate[]) Parameters.Clone(),
         };
+        
+        foreach (Expression expression in @new.Expressions)
+        {
+            expression.Context = @new;
+        }
         return @new;
     }
     
