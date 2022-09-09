@@ -8,7 +8,7 @@ namespace SusLang.Expressions
 {
     public class Expression
     {
-        protected ExecutionContext Context;
+        public ExecutionContext Context;
         protected Crewmate Selected => Context.Selected;
 
         public string RawExpression;
