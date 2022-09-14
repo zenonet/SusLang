@@ -32,6 +32,10 @@ namespace SusLang
             return parsedCrewmate;
         }
 
+        public override string ToString()
+        {
+            return "Crewmate: " + Name;
+        }
 
         public static implicit operator Crewmate(string color)
         {

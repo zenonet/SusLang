@@ -53,7 +53,11 @@ namespace SusLang.Expressions.DefaultExpressions
 
                     break;
                 case "keyword":
-                    if (words.Length != 3)
+                    
+                    if (words[2] == "end")
+                        break;
+                    
+                    if (words.Length is < 3 or > 5)
                     {
                         Compiler.Logging.LogError(
                             new Diagnosis(Context,
@@ -63,10 +67,7 @@ namespace SusLang.Expressions.DefaultExpressions
                         );
                         return false;
                     }
-
-                    if (words[2] == "end")
-                        break;
-
+                    
                     if (IsParsingKeywordDefinition)
                     {
                         Compiler.Logging.LogError(
@@ -82,8 +83,7 @@ namespace SusLang.Expressions.DefaultExpressions
                     IsParsingKeywordDefinition = true;
 
                     int endIndex =
-                        code
-                            .IndexOf("#define keyword end", StringComparison.Ordinal);
+                        code.IndexOf("#define keyword end", StringComparison.Ordinal);
 
                     if (endIndex == -1)
                     {
@@ -98,8 +98,17 @@ namespace SusLang.Expressions.DefaultExpressions
 
                     IsParsingKeywordDefinition = false;
 
+                    ExecutionContext executionContext = Compiler.CreateAst(code[..endIndex][line.Length..]);
+
+                    executionContext.Parameters = new Crewmate[words.Length - 3];
+
+                    for (int i = 0; i < words.Length - 3; i++)
+                    {
+                        executionContext.Parameters[i] = Crewmate.Parse(words[i + 3], executionContext);
+                    }
+                    
                     CustomKeywordExpression.CustomKeywords.Add(
-                        words[2].ToLower(), Compiler.CreateAst(code[..endIndex][line.Length..])
+                        words[2].ToLower(), executionContext
                     );
 
                     //+19 because "#define keyword end" is 19 characters long and
