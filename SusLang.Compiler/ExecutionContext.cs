@@ -60,7 +60,7 @@ public class ExecutionContext : IEnumerable<Expression>
         
         foreach (Expression expression in @new.Expressions)
         {
-            expression.Context = @new;
+            expression.SetContextRecursively(@new);
         }
         return @new;
     }
