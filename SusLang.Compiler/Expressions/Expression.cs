@@ -152,5 +152,15 @@ namespace SusLang.Expressions
         }
 
         protected virtual bool IsCuttingCode() => false;
+
+        /// <summary>
+        /// Should be overriden by expressions which wrap other expressions
+        /// There, it should call SetContextRecursively on the wrapped expressions
+        /// </summary>
+        /// <param name="new">The context to set to</param>
+        public virtual void SetContextRecursively(ExecutionContext @new)
+        {
+            Context = @new;
+        }
     }
 }
