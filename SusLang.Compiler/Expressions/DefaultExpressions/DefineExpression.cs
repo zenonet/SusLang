@@ -57,7 +57,7 @@ namespace SusLang.Expressions.DefaultExpressions
                     if (words[2] == "end")
                         break;
                     
-                    if (words.Length is < 3 or > 5)
+                    if (words.Length is < 3 or > 6)
                     {
                         Compiler.Logging.LogError(
                             new Diagnosis(Context,
