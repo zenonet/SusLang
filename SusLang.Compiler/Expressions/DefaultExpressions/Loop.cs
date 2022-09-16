@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 
 namespace SusLang.Expressions.DefaultExpressions
@@ -39,6 +40,15 @@ namespace SusLang.Expressions.DefaultExpressions
             }
 
             return true;
+        }
+
+        public override void SetContextRecursively(ExecutionContext @new)
+        {
+            base.SetContextRecursively(@new);
+            foreach (Expression expression in expressions)
+            {
+                expression.SetContextRecursively(@new);
+            }
         }
     }
 }
