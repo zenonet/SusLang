@@ -31,8 +31,6 @@ namespace SusLang.Expressions.DefaultExpressions
 
                     Crewmates.Add(words[2].ToLower(), 0);
                     break;
-
-
                 case "suspect":
                     if (words.Length != 3)
                     {
@@ -73,10 +71,10 @@ namespace SusLang.Expressions.DefaultExpressions
                         Compiler.Logging.LogError(
                             new Diagnosis(Context,
                                 "Nested keyword definitions aren't supported",
-                                InspectionSeverity.Warning,
+                                InspectionSeverity.Error,
                                 Context.LineNumber)
                         );
-                        return true;
+                        return false;
                     }
 
                     //Parse keyword
@@ -95,10 +93,9 @@ namespace SusLang.Expressions.DefaultExpressions
                         );
                         return false;
                     }
-
-                    IsParsingKeywordDefinition = false;
-
-                    ExecutionContext executionContext = Compiler.CreateAst(code[..endIndex][line.Length..]);
+                    
+                    string definition = code[..endIndex][line.Length..];
+                    ExecutionContext executionContext = Compiler.CreateAst(definition);
 
                     executionContext.Parameters = new Crewmate[words.Length - 3];
 
@@ -110,6 +107,8 @@ namespace SusLang.Expressions.DefaultExpressions
                     CustomKeywordExpression.CustomKeywords.Add(
                         words[2].ToLower(), executionContext
                     );
+                    
+                    IsParsingKeywordDefinition = false;
 
                     //+19 because "#define keyword end" is 19 characters long and
                     //we want to cut it too
