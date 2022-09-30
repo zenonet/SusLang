@@ -13,13 +13,13 @@ public class ExecutionContext : IEnumerable<Expression>
     public Dictionary<Crewmate, byte> Crewmates;
 
     public Crewmate Selected;
-    
+
     public int Index = 0;
 
     public int LineNumber;
-    
+
     public bool IsRunning;
-    
+
     public List<Diagnosis> Diagnoses = new();
 
     public Crewmate[] Parameters = null;
@@ -27,21 +27,20 @@ public class ExecutionContext : IEnumerable<Expression>
     public void Continue()
     {
         IsRunning = true;
-        
 
-        
+
         foreach (Expression expression in Expressions.ToArray()[Index..])
         {
             //Index is actually the index of the next expression to be executed
             Index++;
 
             expression.Execute();
-            
 
-            
-            if(!IsRunning)
+
+            if (!IsRunning)
                 break;
         }
+
         Index = 0;
         IsRunning = false;
     }
@@ -57,14 +56,15 @@ public class ExecutionContext : IEnumerable<Expression>
         {
             Parameters = (Crewmate[]) Parameters.Clone(),
         };
-        
+
         foreach (Expression expression in @new.Expressions)
         {
             expression.SetContextRecursively(@new);
         }
+
         return @new;
     }
-    
+
     public ExecutionContext(
         IEnumerable<Expression> expressions
     )
@@ -72,8 +72,8 @@ public class ExecutionContext : IEnumerable<Expression>
         Expressions = expressions;
         Crewmates = new Dictionary<Crewmate, byte>(Compiler.StandardCrewmates);
     }
-    
-    
+
+
     public ExecutionContext(
         IEnumerable<Expression> expressions,
         Dictionary<Crewmate, byte> crewmates
@@ -81,6 +81,28 @@ public class ExecutionContext : IEnumerable<Expression>
     {
         Expressions = expressions;
         Crewmates = crewmates;
+    }
+
+    /// <summary>
+    /// Adds another contexts expressions to the end of this one.
+    /// </summary>
+    /// <param name="context">The context to add</param>
+    public void AddStart(ExecutionContext context)
+    {
+        List<Expression> expressions = Expressions.ToList();
+        expressions.AddRange(context.Expressions);
+        Expressions = expressions;
+    }
+
+    /// <summary>
+    /// Adds another contexts expressions to the end of this one.
+    /// </summary>
+    /// <param name="context">The context to add</param>
+    public void AddEnd(ExecutionContext context)
+    {
+        List<Expression> expressions = context.Expressions.ToList();
+        expressions.AddRange(Expressions);
+        Expressions = expressions;
     }
 
     public IEnumerator<Expression> GetEnumerator()
