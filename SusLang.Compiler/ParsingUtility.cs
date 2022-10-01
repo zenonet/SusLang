@@ -42,5 +42,13 @@ namespace SusLang
             code = code[relaxIndex..];
             return ret;
         }
+
+        public static void Continue(this IEnumerable<ExecutionContext> contexts)
+        {
+            foreach (ExecutionContext context in contexts)
+            {
+                context.Continue();
+            }
+        }
     }
 }
