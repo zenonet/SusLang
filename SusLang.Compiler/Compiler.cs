@@ -46,7 +46,15 @@ namespace SusLang
         /// Executes a piece of code from a file path
         /// </summary>
         /// <param name="path">The path to load the script from</param>
-        public static void ExecuteFromFile(string path) => Execute(File.ReadAllText(path));
+        public static void ExecuteFromFile(string path)
+        {
+            //Set the current directory to the directory of the file
+            string directory = Path.GetDirectoryName(path);
+            if(directory != null)
+                Directory.SetCurrentDirectory(directory);
+            
+            Execute(File.ReadAllText(path));
+        }
 
         /// <summary>
         /// Executes a piece of code
