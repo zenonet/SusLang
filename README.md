@@ -1,4 +1,5 @@
-![](https://img.shields.io/tokei/lines/github/zenonet/SusLang)
+![Lines of Code](https://img.shields.io/tokei/lines/github/zenonet/SusLang)
+![GitHub Workflow Status](https://img.shields.io/github/workflow/status/zenonet/SlowLang/.NET)
 
 # SusLang
 A simple among-us-themed esolang written in C#.<br>
