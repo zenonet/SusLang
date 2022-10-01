@@ -18,6 +18,16 @@ public class CustomKeywordExpression : Expression
         string line = code.Split(Environment.NewLine)[0];
         string[] words = line.Split(' ');
 
+        //Check if CustomKeywords contains the keyword. If not, throw an error
+        if (!CustomKeywords.ContainsKey(words[1]))
+        {
+            Compiler.Logging.LogError(new Diagnosis(Context,
+                $"Keyword '{words[1]}' is not defined",
+                InspectionSeverity.Error,
+                Context.LineNumber));
+        }
+        
+        
         keyword = CustomKeywords[words[1]].CloneAsNew();
 
         if (keyword.Parameters.Length != PreparsedColors.Length)
