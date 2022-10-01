@@ -124,29 +124,6 @@ public class ExecutionContext : IEnumerable<Expression>
         Crewmates = crewmates;
         Selected = Crewmates.Keys.First();
     }
-
-    /// <summary>
-    /// Adds another contexts expressions to the end of this one.
-    /// </summary>
-    /// <param name="context">The context to add</param>
-    public void AddStart(ExecutionContext context)
-    {
-        List<Expression> expressions = Expressions.ToList();
-        expressions.AddRange(context.Expressions);
-        Expressions = expressions;
-    }
-
-    /// <summary>
-    /// Adds another contexts expressions to the end of this one.
-    /// </summary>
-    /// <param name="context">The context to add</param>
-    public void AddEnd(ExecutionContext context)
-    {
-        List<Expression> expressions = context.Expressions.ToList();
-        expressions.AddRange(Expressions);
-        Expressions = expressions;
-    }
-
     public IEnumerator<Expression> GetEnumerator()
     {
         return Expressions.GetEnumerator();
