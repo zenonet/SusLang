@@ -46,6 +46,47 @@ public class ExecutionContext : IEnumerable<Expression>
     }
 
     /// <summary>
+    /// Executes expressions in the current ExecutionContext.
+    /// </summary>
+    /// <param name="context">The context to use the expressions from</param>
+    public void ExecuteInThisContext(ExecutionContext context)
+    {
+        Expression[] array = context.Expressions.ToArray();
+        Expression[] expressions = new Expression[array.Length];
+
+        array.CopyTo(expressions, 0);
+
+        foreach (Expression expression in expressions)
+        {
+            expression.Execute();
+        }
+    }
+
+    /// <summary>
+    /// Executes expressions in the current ExecutionContext.
+    /// </summary>
+    /// <param name="expressions">An array of expressions to execute</param>
+    public void ExecuteInThisContext(Expression[] expressions)
+    {
+        Expression[] copiedExpressions = new Expression[expressions.Length];
+        expressions.CopyTo(copiedExpressions, 0);
+
+        //Change the context to this one
+        foreach (Expression copiedExpression in copiedExpressions)
+        {
+            copiedExpression.SetContextRecursively(this);
+        }
+
+        foreach (Expression expression in copiedExpressions)
+        {
+            expression.Execute();
+
+            if (!IsRunning)
+                break;
+        }
+    }
+
+    /// <summary>
     /// Creates a new ExecutionContext that contains the Expressions and Parameters
     /// of this one but isn't changed in any other way.
     /// </summary>
