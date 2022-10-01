@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 using SusLang.CodeAnalysis;
 
 namespace SusLang.Expressions.DefaultExpressions
@@ -51,10 +52,10 @@ namespace SusLang.Expressions.DefaultExpressions
 
                     break;
                 case "keyword":
-                    
+
                     if (words[2] == "end")
                         break;
-                    
+
                     if (words.Length is < 3 or > 6)
                     {
                         Compiler.Logging.LogError(
@@ -65,7 +66,7 @@ namespace SusLang.Expressions.DefaultExpressions
                         );
                         return false;
                     }
-                    
+
                     if (IsParsingKeywordDefinition)
                     {
                         Compiler.Logging.LogError(
@@ -93,7 +94,7 @@ namespace SusLang.Expressions.DefaultExpressions
                         );
                         return false;
                     }
-                    
+
                     string definition = code[..endIndex][line.Length..];
                     ExecutionContext executionContext = Compiler.CreateAst(definition);
 
@@ -103,11 +104,11 @@ namespace SusLang.Expressions.DefaultExpressions
                     {
                         executionContext.Parameters[i] = Crewmate.Parse(words[i + 3], executionContext);
                     }
-                    
+
                     CustomKeywordExpression.CustomKeywords.Add(
                         words[2].ToLower(), executionContext
                     );
-                    
+
                     IsParsingKeywordDefinition = false;
 
                     //+19 because "#define keyword end" is 19 characters long and
@@ -115,9 +116,36 @@ namespace SusLang.Expressions.DefaultExpressions
                     code = code[(endIndex + 19)..];
 
                     return true;
+                case "import":
+                    //Get the path (using a range index because i want to allow spaces in the path)
+                    string path = string.Join("", words[2..]);
+
+                    if (!File.Exists(path))
+                    {
+                        Compiler.Logging.LogError(
+                            new Diagnosis(Context,
+                                "Invalid import path",
+                                InspectionSeverity.Error,
+                                Context.LineNumber)
+                        );
+                        return false;
+                    }
+
+                    //Read the file
+                    string file = File.ReadAllText(path);
+                    
+                    //Parse the file in a way that the context of all the expressions is the current context
+                    ExecutionContext context = Compiler.CreateAst(file, contextToSet:Context);
+
+                    //Execute it in the current context
+                    Context.ExecuteInThisContext(context);
+
+                    break;
             }
 
-            code = code[(line.Length + Environment.NewLine.Length)..];
+            code = code[(line.Length + 
+                         (code.EndsWith(Environment.NewLine) ? Environment.NewLine.Length : 0)
+                         )..];
 
             return true;
         }
