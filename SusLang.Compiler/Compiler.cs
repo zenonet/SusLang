@@ -50,9 +50,9 @@ namespace SusLang
         {
             //Set the current directory to the directory of the file
             string directory = Path.GetDirectoryName(path);
-            if(directory != null)
+            if (directory != null)
                 Directory.SetCurrentDirectory(directory);
-            
+
             Execute(File.ReadAllText(path));
         }
 
@@ -82,15 +82,26 @@ namespace SusLang
         }
 
         internal static bool DontLog;
-        public static ExecutionContext CreateAst(string code, bool dontLog = false)
+
+        /// <summary>
+        /// Creates an Abstract Syntax Tree from a piece of code
+        ///
+        /// Caution when using contextToSet since using it will create an
+        /// ExecutionContext whose expressions don't have it set as their context
+        /// </summary>
+        /// <param name="code">The code to parse</param>
+        /// <param name="dontLog">Whether to not log errors while parsing</param>
+        /// <param name="contextToSet">The context that should be set in all newly parsed expressions</param>
+        /// <returns>A new Execution context that contains all expressions that were parsed</returns>
+        public static ExecutionContext CreateAst(string code, bool dontLog = false, ExecutionContext contextToSet = null)
         {
             DontLog = dontLog;
             
-            ExecutionContext context = new(new List<Expression>());
+            ExecutionContext context = new (new List<Expression>());
 
             while (code.Length > 0)
             {
-                Expression expression = Expression.Parse(ref code, context);
+                Expression expression = Expression.Parse(ref code, contextToSet ?? context);
                 if (expression != null)
                     (context.Expressions as List<Expression>)!.Add(expression);
                 else
@@ -129,8 +140,8 @@ namespace SusLang
             internal static void LogError(Diagnosis diagnosis)
             {
                 LogRaw($"Sabotage in line {diagnosis.LineNumber}: {diagnosis.Message}");
-                
-                if(DontLog || diagnosis.Severity == InspectionSeverity.Error)
+
+                if (DontLog || diagnosis.Severity == InspectionSeverity.Error)
                     Environment.Exit(1);
             }
 
@@ -141,8 +152,8 @@ namespace SusLang
 
             internal static void LogRaw(string msg)
             {
-                if(DontLog) return;
-                
+                if (DontLog) return;
+
                 Stream ??= Console.Out;
 
                 Stream.Write(msg);
