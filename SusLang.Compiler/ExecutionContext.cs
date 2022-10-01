@@ -28,7 +28,6 @@ public class ExecutionContext : IEnumerable<Expression>
     {
         IsRunning = true;
 
-
         foreach (Expression expression in Expressions.ToArray()[Index..])
         {
             //Index is actually the index of the next expression to be executed
@@ -112,6 +111,7 @@ public class ExecutionContext : IEnumerable<Expression>
     {
         Expressions = expressions;
         Crewmates = new Dictionary<Crewmate, byte>(Compiler.StandardCrewmates);
+        Selected = Crewmates.Keys.First();
     }
 
 
@@ -122,6 +122,7 @@ public class ExecutionContext : IEnumerable<Expression>
     {
         Expressions = expressions;
         Crewmates = crewmates;
+        Selected = Crewmates.Keys.First();
     }
 
     /// <summary>
