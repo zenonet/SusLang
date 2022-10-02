@@ -48,6 +48,8 @@ namespace SusLang
         /// <param name="path">The path to load the script from</param>
         public static void ExecuteFromFile(string path)
         {
+            path = Path.GetFullPath(path);
+
             //Set the current directory to the directory of the file
             string directory = Path.GetDirectoryName(path);
             if (directory != null)
@@ -96,8 +98,8 @@ namespace SusLang
         public static ExecutionContext CreateAst(string code, bool dontLog = false, ExecutionContext contextToSet = null)
         {
             DontLog = dontLog;
-            
-            ExecutionContext context = new (new List<Expression>());
+
+            ExecutionContext context = new(new List<Expression>());
 
             while (code.Length > 0)
             {
