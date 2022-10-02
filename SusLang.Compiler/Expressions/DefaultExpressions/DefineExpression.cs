@@ -105,8 +105,14 @@ namespace SusLang.Expressions.DefaultExpressions
                         executionContext.Parameters[i] = Crewmate.Parse(words[i + 3], executionContext);
                     }
 
+                    if(CustomKeywordExpression.CustomKeywords.ContainsKey(words[2]))
+                        Compiler.Logging.LogError(new Diagnosis(Context,
+                            "Keyword already defined",
+                            InspectionSeverity.Error,
+                            Context.LineNumber));
+                    
                     CustomKeywordExpression.CustomKeywords.Add(
-                        words[2].ToLower(), executionContext
+                        words[2], executionContext
                     );
 
                     IsParsingKeywordDefinition = false;
