@@ -43,7 +43,7 @@ You can use these options:
             {
                 
                 Console.Write($"{crewmate.Key}: {crewmate.Value}  or in ASCII:  " +
-                              $"{Encoding.ASCII.GetString(new[] {crewmate.Value})}");
+                              $"{Encoding.ASCII.GetString(new[] {crewmate.Value})}\n");
             }
 
             Console.WriteLine($"Currently selected color: {context.Selected}");
