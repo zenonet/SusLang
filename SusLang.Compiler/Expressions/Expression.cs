@@ -65,7 +65,7 @@ namespace SusLang.Expressions
             {@"^(?:\s|\n|\r|\t)+", typeof(DummyExpression)},
             {@"^(?:\/\/.*|(trashtalk).*)", typeof(DummyExpression)},
 
-            {@"^(\w+) \w+ ?(\w*)", typeof(CustomKeywordExpression)}
+            {@"^(?:(\w+) )?\w+ ?(?: (\w*))?", typeof(CustomKeywordExpression)}
         };
 
         public static Expression Parse(ref string code, ExecutionContext context)
