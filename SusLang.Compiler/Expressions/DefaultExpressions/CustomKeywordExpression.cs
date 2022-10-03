@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using SusLang.CodeAnalysis;
 
 namespace SusLang.Expressions.DefaultExpressions;
@@ -18,24 +19,34 @@ public class CustomKeywordExpression : Expression
         string line = code.Split(Environment.NewLine)[0];
         string[] words = line.Split(' ');
 
+        int parameterCount = words.Length - 1;
+
+        //This means that as long as the parameterCount is not 0, the keyword will be at index 1
+        int keywordIndex = parameterCount > 0 ? 1 : 0;
+
+
         //Check if CustomKeywords contains the keyword. If not, throw an error
-        if (!CustomKeywords.ContainsKey(words[1]))
+        if (!CustomKeywords.ContainsKey(words[keywordIndex]))
         {
             Compiler.Logging.LogError(new Diagnosis(Context,
                 $"Keyword '{words[1]}' is not defined",
                 InspectionSeverity.Error,
                 Context.LineNumber));
         }
-        
-        
-        keyword = CustomKeywords[words[1]].CloneAsNew();
+
+
+        keyword = CustomKeywords[words[keywordIndex]].CloneAsNew();
 
         if (keyword.Parameters.Length != PreparsedColors.Length)
             Compiler.Logging.LogError(new Diagnosis(Context,
-                $"Invalid parameters in call of keyword {words[1]}",
+                $"Invalid parameters in call of keyword {words[keywordIndex]}",
                 InspectionSeverity.Error,
                 Context.LineNumber));
-            
+
+        //If there are no parameters, we can just return
+        if (PreparsedColors.Length <= 0)
+            goto codeSplitting;
+        
         leftColor = PreparsedColors[0];
 
         //Initialize the outerParams array
@@ -55,6 +66,7 @@ public class CustomKeywordExpression : Expression
             };
         }
 
+        codeSplitting:
         code = code[line.Length..];
 
         return true;
@@ -67,7 +79,7 @@ public class CustomKeywordExpression : Expression
         {
             keyword.Crewmates[keyword.Parameters[i]] = Context.Crewmates[outerParams[i]];
         }
-            
+
         //Execute the custom keyword
         keyword.Continue();
 
