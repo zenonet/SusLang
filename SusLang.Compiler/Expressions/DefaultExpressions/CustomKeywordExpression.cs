@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using SusLang.CodeAnalysis;
 
 namespace SusLang.Expressions.DefaultExpressions;
@@ -24,18 +25,36 @@ public class CustomKeywordExpression : Expression
         //This means that as long as the parameterCount is not 0, the keyword will be at index 1
         int keywordIndex = parameterCount > 0 ? 1 : 0;
 
-
-        //Check if CustomKeywords contains the keyword. If not, throw an error
-        if (!CustomKeywords.ContainsKey(words[keywordIndex]))
+        if (CustomKeywords.ContainsKey(words[keywordIndex]))
         {
-            Compiler.Logging.LogError(new Diagnosis(Context,
+            //Set keyword to the keyword that was found
+            keyword = CustomKeywords[words[keywordIndex]].CloneAsNew();
+        }
+        else
+        {
+            //Set keyword to the keyword a crewmate points to
+            
+            Diagnosis keywordNotDefinedDiagnosis = new(Context,
                 $"Keyword '{words[1]}' is not defined",
                 InspectionSeverity.Error,
-                Context.LineNumber));
+                Context.LineNumber);
+
+            //Check if the keyword is a Crewmate (that might point to a CustomKeyword)
+            Crewmate crewmate = Crewmate.Parse(words[keywordIndex], Context);
+
+            if (crewmate == null)
+                Compiler.Logging.LogError(keywordNotDefinedDiagnosis);
+
+            if (Crewmates.ContainsKey(crewmate!))
+            {
+                if (CustomKeywords.Count < Crewmates[crewmate])
+                    Compiler.Logging.LogError(keywordNotDefinedDiagnosis);
+                
+
+                // Set keyword to the custom keyword that the crewmate points to
+                keyword = CustomKeywords.ToArray()[Crewmates[crewmate]].Value;
+            }
         }
-
-
-        keyword = CustomKeywords[words[keywordIndex]].CloneAsNew();
 
         if (keyword.Parameters.Length != PreparsedColors.Length)
             Compiler.Logging.LogError(new Diagnosis(Context,
@@ -46,7 +65,7 @@ public class CustomKeywordExpression : Expression
         //If there are no parameters, we can just return
         if (PreparsedColors.Length <= 0)
             goto codeSplitting;
-        
+
         leftColor = PreparsedColors[0];
 
         //Initialize the outerParams array
