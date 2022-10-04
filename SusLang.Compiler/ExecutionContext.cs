@@ -24,6 +24,8 @@ public class ExecutionContext : IEnumerable<Expression>
 
     public Crewmate[] Parameters = null;
 
+    public readonly Crewmate SussedColorRef;
+
     public void Continue()
     {
         IsRunning = true;
@@ -112,6 +114,8 @@ public class ExecutionContext : IEnumerable<Expression>
         Expressions = expressions;
         Crewmates = new Dictionary<Crewmate, byte>(Compiler.StandardCrewmates);
         Selected = Crewmates.Keys.First();
+
+        SussedColorRef = new SussedColorRef(this);
     }
 
 
@@ -123,6 +127,8 @@ public class ExecutionContext : IEnumerable<Expression>
         Expressions = expressions;
         Crewmates = crewmates;
         Selected = Crewmates.Keys.First();
+        
+        SussedColorRef = new SussedColorRef(this);
     }
     public IEnumerator<Expression> GetEnumerator()
     {

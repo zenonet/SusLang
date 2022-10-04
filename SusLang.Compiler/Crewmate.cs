@@ -1,4 +1,3 @@
-using System;
 using System.Linq;
 
 namespace SusLang
@@ -6,9 +5,6 @@ namespace SusLang
     public class Crewmate
     {
         public const Crewmate Null = null;
-
-        public static readonly Crewmate SussedColorRef = SusLang.SussedColorRef.Instance;
-        
 
         public virtual string Name { get; }
 

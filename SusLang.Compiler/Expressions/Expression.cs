@@ -27,7 +27,7 @@ namespace SusLang.Expressions
             string colorString = code.ToLower().Trim();
             
             if (colorString is "he" or "him" or "her" or "she")
-                return Crewmate.SussedColorRef;
+                return context.SussedColorRef;
 
             //Parse the color:
 
