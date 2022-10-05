@@ -22,4 +22,8 @@
       <None Remove="bin\**" />
     </ItemGroup>
 
+    <ItemGroup>
+      <PackageReference Include="SoftCircuits.OrderedDictionary" Version="2.1.0" />
+    </ItemGroup>
+
 </Project>
