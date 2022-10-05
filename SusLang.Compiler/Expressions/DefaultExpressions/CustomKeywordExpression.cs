@@ -1,14 +1,16 @@
 using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Diagnostics;
 using System.Linq;
+using SoftCircuits.Collections;
 using SusLang.CodeAnalysis;
 
 namespace SusLang.Expressions.DefaultExpressions;
 
 public class CustomKeywordExpression : Expression
 {
-    public static readonly Dictionary<string, ExecutionContext> CustomKeywords = new();
+    public static readonly OrderedDictionary<string, ExecutionContext> CustomKeywords = new();
 
     private Crewmate leftColor;
     private ExecutionContext keyword;
@@ -52,7 +54,7 @@ public class CustomKeywordExpression : Expression
                 
 
                 // Set keyword to the custom keyword that the crewmate points to
-                keyword = CustomKeywords.ToArray()[Crewmates[crewmate]].Value;
+                keyword = CustomKeywords.ByIndex[Crewmates[crewmate]];
             }
         }
 
