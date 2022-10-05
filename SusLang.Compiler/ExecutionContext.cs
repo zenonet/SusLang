@@ -24,7 +24,7 @@ public class ExecutionContext : IEnumerable<Expression>
 
     public Crewmate[] Parameters = null;
 
-    public readonly Crewmate SussedColorRef;
+    public readonly SussedColorRef SussedColorRef;
 
     public void Continue()
     {
@@ -94,7 +94,7 @@ public class ExecutionContext : IEnumerable<Expression>
     /// <returns></returns>
     public ExecutionContext CloneAsNew()
     {
-        ExecutionContext @new = new ExecutionContext(Expressions)
+        ExecutionContext @new = new (Expressions)
         {
             Parameters = (Crewmate[]) Parameters.Clone(),
         };
