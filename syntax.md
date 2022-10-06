@@ -9,6 +9,9 @@ The values of all colors/variables are 0 by default.
 ### The sus statement
 
 You can select a color/variable using the `sus`-Statement
+What "selecting" means, is explained in the following:
+
+<br>
 
 ### Statements for modifying the sus-meter
 
@@ -30,7 +33,7 @@ For example, you can increase cyan's sus-meter by 10 using
 
 ```cyan killed```
 
-<br><br>
+<br>
 
 ### Output Statements
 
@@ -61,7 +64,7 @@ cyan vented
 ```
 to get to `A` in ASCII, you can use `#define suspect` as described [here](https://github.com/zenonet/SusLang/wiki/Define-Expressions#define-suspect).
 
-<br><br>
+<br>
 
 <h4>The Who?-Statement</h4>
 
