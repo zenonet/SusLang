@@ -1,0 +1,75 @@
+// Create a function that adds to numbers together and returns the result
+#define keyword plus red green
+    blue wasWith green
+    sus blue
+    [
+        red vented
+        blue wasWithMe
+    ]
+#define keyword end
+
+// Create a function that subtracts two numbers and returns the result
+#define keyword minus red green
+    blue wasWith green
+
+    sus blue
+    [
+        red wasWithMe
+        blue wasWithMe
+    ]
+#define keyword end
+
+// Create a function that multiplies two numbers and returns the result
+#define keyword times red green
+
+    //Buffer of factor 2
+    cyan wasWith green
+
+    sus cyan
+    [
+        orange wasWith red //Buffer blue because factor2 will change in this loop
+        sus orange //Select orange as the counter for the coming loop
+        [
+            
+            blue vented //Increase the output
+            
+            orange wasWithMe //Decrease the inner counter
+        ]
+        
+        sus cyan //Reselect the counter of the first loop
+        cyan wasWithMe //Decrease the outer counter
+    ]
+
+    red wasWith blue //Copy the result to red
+#define keyword end
+
+// Create a function that divides two numbers and returns the result
+#define keyword dividedBy red blue
+    // red / blue = purple
+
+    orange wasWith red
+    yellow wasWith blue
+    sus orange
+    [
+        [
+            white wasWith black
+            orange wasWithMe
+            yellow wasWithMe
+
+            sus yellow 
+            [
+                sus orange 
+                [
+                    sus white
+                ]
+            ] 
+            white vented
+        ]
+        purple vented
+        yellow wasWith blue
+        sus orange
+    ]
+
+    red wasWith purple
+
+#define keyword end
