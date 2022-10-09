@@ -14,7 +14,7 @@ namespace SusLang.Expressions.DefaultExpressions
 
         public override bool Execute()
         {
-            Context.Selected = target;
+            Context.Crewmates.Selected = target;
             return true;
         }
     }

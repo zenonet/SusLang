@@ -10,10 +10,8 @@ public class ExecutionContext : IEnumerable<Expression>
 {
     public IEnumerable<Expression> Expressions;
 
-    public Dictionary<Crewmate, byte> Crewmates;
-
-    public Crewmate Selected;
-
+    public CrewmateList Crewmates;
+    
     public int Index = 0;
 
     public int LineNumber;
@@ -23,8 +21,6 @@ public class ExecutionContext : IEnumerable<Expression>
     public List<Diagnosis> Diagnoses = new();
 
     public Crewmate[] Parameters = null;
-
-    public readonly SussedColorRef SussedColorRef;
 
     public void Continue()
     {
@@ -112,23 +108,19 @@ public class ExecutionContext : IEnumerable<Expression>
     )
     {
         Expressions = expressions;
-        Crewmates = new Dictionary<Crewmate, byte>(Compiler.StandardCrewmates);
-        Selected = Crewmates.Keys.First();
-
-        SussedColorRef = new SussedColorRef(this);
+        Crewmates = new (Compiler.StandardCrewmates);
+        Crewmates.Selected = Crewmates.Keys.First();
     }
 
-
+    
     public ExecutionContext(
         IEnumerable<Expression> expressions,
-        Dictionary<Crewmate, byte> crewmates
+        CrewmateList crewmates
     )
     {
         Expressions = expressions;
         Crewmates = crewmates;
-        Selected = Crewmates.Keys.First();
-        
-        SussedColorRef = new SussedColorRef(this);
+        Crewmates.Selected = Crewmates.Keys.First();
     }
     public IEnumerator<Expression> GetEnumerator()
     {

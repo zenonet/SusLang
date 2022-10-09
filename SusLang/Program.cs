@@ -46,7 +46,7 @@ You can use these options:
                               $"{Encoding.ASCII.GetString(new[] {crewmate.Value})}\n");
             }
 
-            Console.WriteLine($"Currently selected color: {context.Selected}");
+            Console.WriteLine($"Currently selected color: {context.Crewmates.Selected}");
             Console.WriteLine("Press Enter to continue program execution");
             Console.WriteLine("----------");
             Console.ReadLine();

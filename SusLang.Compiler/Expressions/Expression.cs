@@ -9,14 +9,14 @@ namespace SusLang.Expressions
     public class Expression
     {
         public ExecutionContext Context;
-        protected Crewmate Selected => Context.Selected;
+        protected Crewmate Selected => Context.Crewmates.Selected;
 
         public string RawExpression;
 
         protected Crewmate[] PreparsedColors;
 
 
-        public Dictionary<Crewmate, byte> Crewmates =>
+        public CrewmateList Crewmates =>
             Context.Crewmates;
 
         public virtual bool Execute() => true;
@@ -27,7 +27,7 @@ namespace SusLang.Expressions
             string colorString = code.ToLower().Trim();
             
             if (colorString is "he" or "him" or "her" or "she")
-                return context.SussedColorRef;
+                return Crewmate.RefToSelectedInstance;
 
             //Parse the color:
 
@@ -105,7 +105,7 @@ namespace SusLang.Expressions
 
                 if (expression is null)
                 {
-                    Compiler.Logging.LogError(new Diagnosis(context,
+                    Compiler.Logging.LogError(new (context,
                         $"There was a problem parsing '{Regex.Match(code, @"[^\s\\]+").Value}'",
                         InspectionSeverity.Error,
                         context.LineNumber));
