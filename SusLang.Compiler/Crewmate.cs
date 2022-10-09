@@ -1,4 +1,7 @@
+using System.Collections.Generic;
 using System.Linq;
+using SoftCircuits.Collections;
+using SusLang.Expressions.DefaultExpressions;
 
 namespace SusLang;
 
@@ -10,8 +13,7 @@ namespace SusLang;
 
         public static readonly Crewmate RefToSelectedInstance = new();
         
-        // ReSharper disable once PossibleUnintendedReferenceComparison
-        public bool RefToSelected => this == RefToSelectedInstance;
+        public bool RefToSelected => ReferenceEquals(this, RefToSelectedInstance);
 
         private Crewmate(string name)
         {
@@ -30,18 +32,23 @@ namespace SusLang;
                 x => x.Key.Name == color
             ).Key;
 
-            /*
+            
             if (parsedCrewmate == null)
             {
                 //Check if it might be a pointer referencing
-                Dictionary<string,ExecutionContext> keywords = CustomKeywordExpression.CustomKeywords;
+                OrderedDictionary<string,ExecutionContext> keywords = CustomKeywordExpression.CustomKeywords;
                 if (keywords.ContainsKey(color))
                 {
-                    //Return the index of the keyword in CustomKeywordExpression.CustomKeywords
-                    ExecutionContext keyword 
+                    // Check if there is a keyword with the same name as the color
+                    if (!keywords.ContainsKey(color))
+                        return null;
+                    
+                    // Get the index of the keyword
+                    int index = keywords.IndexOf(color);
+                    return new (index.ToString());
                 }
             }
-            */
+            
             return parsedCrewmate;
         }
 
