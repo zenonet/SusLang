@@ -11,7 +11,7 @@ namespace SusLang.BuildLoader
         static void Main()
         {
             //Prepare SusLang interpreter
-            SusLang.Compiler.Logging.Stream = Console.Out;
+            Compiler.Logging.Stream = Console.Out;
             
             //Get the current assembly
             Assembly asm = Assembly.GetAssembly(typeof(Program));
@@ -46,7 +46,7 @@ namespace SusLang.BuildLoader
             string script = Encoding.ASCII.GetString(buffer);
             
             //Execute the script
-            SusLang.Compiler.Execute(script);
+            Compiler.Execute(script);
             
             Console.WriteLine("\n\nProgram finished. Press any key to exit");
             Console.Read();

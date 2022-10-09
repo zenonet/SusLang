@@ -8,7 +8,7 @@ namespace SusLang.Expressions.DefaultExpressions
     {
         protected override bool IsCuttingCode() => true;
 
-        public static bool IsParsingKeywordDefinition = false;
+        public static bool IsParsingKeywordDefinition;
 
         protected override bool OnParse(ref string code)
         {

@@ -12,7 +12,7 @@ public class ExecutionContext : IEnumerable<Expression>
 
     public CrewmateList Crewmates;
     
-    public int Index = 0;
+    public int Index ;
 
     public int LineNumber;
 
@@ -20,7 +20,7 @@ public class ExecutionContext : IEnumerable<Expression>
 
     public List<Diagnosis> Diagnoses = new();
 
-    public Crewmate[] Parameters = null;
+    public Crewmate[] Parameters;
 
     public void Continue()
     {

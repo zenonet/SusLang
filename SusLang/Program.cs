@@ -56,13 +56,13 @@ You can use these options:
         if (args.Length > 0)
         {
             if (File.Exists(args[0]))
-                SusLang.Compiler.ExecuteFromFile(args[0]);
+                Compiler.ExecuteFromFile(args[0]);
             else
             {
                 switch (args[0].ToLower())
                 {
                     case "-version" or "-v":
-                        Console.WriteLine("SusLang interpreter version: " + SusLang.Compiler.CompilerVersion);
+                        Console.WriteLine("SusLang interpreter version: " + Compiler.CompilerVersion);
                         break;
                     case "-info" or "-i":
                         Console.WriteLine(

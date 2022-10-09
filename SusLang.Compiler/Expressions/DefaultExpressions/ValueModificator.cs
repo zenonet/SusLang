@@ -1,48 +1,47 @@
-namespace SusLang.Expressions.DefaultExpressions
+namespace SusLang.Expressions.DefaultExpressions;
+
+public class ValueModificator : Expression
 {
-    public class ValueModificator : Expression
+    private short addent;
+    private Crewmate color;
+    protected override bool OnParse(ref string code)
     {
-        private short addent;
-        private Crewmate color;
-        protected override bool OnParse(ref string code)
+        string[] parts = RawExpression.Split(' ');
+            
+        color = ParseColor(parts[0], Context);
+        if (color is null)
+            return false;
+            
+        switch (parts[1])
         {
-            string[] parts = RawExpression.Split(' ');
-            
-            color = ParseColor(parts[0], Context);
-            if (color is null)
-                return false;
-            
-            switch (parts[1])
+            case "vented":
             {
-                case "vented":
-                {
-                    addent = 1;
-                    break;
-                }
-                case "killed":
-                {
-                    addent = 10;
-                    break;
-                }
-                case "wasWithMe":
-                {
-                    addent = -1;
-                    break;
-                }
-                case "didVisual":
-                {
-                    addent = -10;
-                    break;
-                }
+                addent = 1;
+                break;
             }
-
-            return true;
+            case "killed":
+            {
+                addent = 10;
+                break;
+            }
+            case "wasWithMe":
+            {
+                addent = -1;
+                break;
+            }
+            case "didVisual":
+            {
+                addent = -10;
+                break;
+            }
         }
 
-        public override bool Execute()
-        {
-            Crewmates[color] = (byte) (Crewmates[color] + addent);
-            return true;
-        }
+        return true;
+    }
+
+    public override bool Execute()
+    {
+        Crewmates[color] = (byte) (Crewmates[color] + addent);
+        return true;
     }
 }

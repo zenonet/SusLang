@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 
 namespace SusLang.Expressions.DefaultExpressions
@@ -17,7 +16,7 @@ namespace SusLang.Expressions.DefaultExpressions
             string inside = ParsingUtility.FindBetweenBrackets(ref code);
             while (inside.Length > 0)
             {
-                Expression expression = Expression.Parse(ref inside, Context);
+                Expression expression = Parse(ref inside, Context);
                 if (expression is null)
                     return false;
                 

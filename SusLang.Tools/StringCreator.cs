@@ -26,7 +26,7 @@ namespace SusLang.Tools
             output = "sus cyan\n" + output;
             Console.WriteLine(output + "\n\n\n\n\n\n");
             
-            SusLang.Compiler.Execute(output);
+            Compiler.Execute(output);
         }
 
         public static string CreateSusLangScriptForString(string input, string variableToUse, bool comment = false, bool useHeSyntax = false, bool tacticallyOvershoot = true)

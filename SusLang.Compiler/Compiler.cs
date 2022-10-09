@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.IO;
-using System.Linq;
 using SusLang.CodeAnalysis;
 using SusLang.Expressions;
 
