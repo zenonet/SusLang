@@ -56,7 +56,7 @@ public class CustomKeywordExpression : Expression
 
         if (keyword.Parameters.Length != PreparsedColors.Length)
             Compiler.Logging.LogError(new Diagnosis(Context,
-                $"Invalid parameters in call of keyword {words[keywordIndex]}",
+                $"Invalid parameters in call of keyword '{words[keywordIndex]}'",
                 InspectionSeverity.Error,
                 Context.LineNumber));
 

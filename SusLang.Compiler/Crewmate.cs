@@ -31,23 +31,6 @@ namespace SusLang;
                 x => x.Key.Name == color
             ).Key;
 
-            
-            if (parsedCrewmate == null)
-            {
-                //Check if it might be a pointer referencing
-                OrderedDictionary<string,ExecutionContext> keywords = CustomKeywordExpression.CustomKeywords;
-                if (keywords.ContainsKey(color))
-                {
-                    // Check if there is a keyword with the same name as the color
-                    if (!keywords.ContainsKey(color))
-                        return null;
-                    
-                    // Get the index of the keyword
-                    int index = keywords.IndexOf(color);
-                    return new (index.ToString());
-                }
-            }
-            
             return parsedCrewmate;
         }
 
