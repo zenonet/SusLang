@@ -19,9 +19,9 @@ jobs:
     - name: Restore dependencies
       run: dotnet restore
     - name: Build for linux 64
-      run: dotnet publish -r linux-x64 -p:PublishSingleFile=true --self-contained true
+      run: dotnet publish SusLang -r linux-x64 -p:PublishSingleFile=true --self-contained true
     - name: Build for windows (x86)
-      run: dotnet publish -r win-x86 -p:PublishSingleFile=true --self-contained true
+      run: dotnet publish SusLang -r win-x86 -p:PublishSingleFile=true --self-contained true
     - name: Upload build artifacts
       uses: actions/upload-artifact@v3
       with:
