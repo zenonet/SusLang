@@ -1,0 +1,29 @@
+name: My .NET
+
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: 6.0.x
+    - name: Restore dependencies
+      run: dotnet restore
+    - name: Build for linux 64
+      run: dotnet publish -r linux-x64 -p:PublishSingleFile=true --self-contained true
+    - name: Build for windows (x86)
+      run: dotnet publish -r win-x86 -p:PublishSingleFile=true --self-contained true
+    - name: Upload build artifacts
+      uses: actions/upload-artifact@v3
+      with:
+        name: MSIX Package
+        path: SusLang/bin/Release/publish
