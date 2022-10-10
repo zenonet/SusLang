@@ -38,7 +38,7 @@ public class SetterExpression : Expression
         if (isKeywordReference)
         {
             // Get the index of the keyword
-            int index = CustomKeywordExpression.CustomKeywords.IndexOf(keywordName) + 1;
+            int index = CustomKeywordExpression.CustomKeywords.IndexOf(keywordName);
 
             // Check if the index can be casted to a byte
             if (index > 255)

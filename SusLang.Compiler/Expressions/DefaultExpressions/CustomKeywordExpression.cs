@@ -12,6 +12,8 @@ public class CustomKeywordExpression : Expression
     private ExecutionContext keyword;
 
     private Crewmate[] outerParams;
+    
+    private Crewmate keywordPointer;
 
     protected override bool OnParse(ref string code)
     {
@@ -27,6 +29,12 @@ public class CustomKeywordExpression : Expression
         {
             //Set keyword to the keyword that was found
             keyword = CustomKeywords[words[keywordIndex]].CloneAsNew();
+            
+            if (keyword.Parameters.Length != PreparsedColors.Length)
+                Compiler.Logging.LogError(new (Context,
+                    $"Keyword '{words[keywordIndex]}' expects {keyword.Parameters.Length} parameters, but was invoked with {PreparsedColors.Length}",
+                    InspectionSeverity.Error,
+                    Context.LineNumber));
         }
         else
         {
@@ -45,20 +53,9 @@ public class CustomKeywordExpression : Expression
 
             if (Crewmates.ContainsKey(crewmate!))
             {
-                if (CustomKeywords.Count < Crewmates[crewmate])
-                    Compiler.Logging.LogError(keywordNotDefinedDiagnosis);
-                
-
-                // Set keyword to the custom keyword that the crewmate points to
-                keyword = CustomKeywords.ByIndex[Crewmates[crewmate]];
+                keywordPointer = crewmate;
             }
         }
-
-        if (keyword.Parameters.Length != PreparsedColors.Length)
-            Compiler.Logging.LogError(new Diagnosis(Context,
-                $"Invalid parameters in call of keyword '{words[keywordIndex]}'",
-                InspectionSeverity.Error,
-                Context.LineNumber));
 
         //If there are no parameters, we can just return
         if (PreparsedColors.Length <= 0)
@@ -91,6 +88,24 @@ public class CustomKeywordExpression : Expression
 
     public override bool Execute()
     {
+        if(keywordPointer != null)
+        {
+            if (CustomKeywords.Count <= Crewmates[keywordPointer])
+                Compiler.Logging.LogError(new(Context,
+                    $"Null pointer exception, '{keywordPointer.Name}' doesn't point to any keyword",
+                    InspectionSeverity.Error,
+                    Context.LineNumber));
+
+            // Set keyword to the custom keyword that the crewmate points to
+            keyword = CustomKeywords.ByIndex[Crewmates[keywordPointer]];
+            
+            if (keyword.Parameters.Length != PreparsedColors.Length)
+                Compiler.Logging.LogError(new (Context,
+                    $"Keyword expects {keyword.Parameters.Length} parameters, but was invoked with {PreparsedColors.Length}",
+                    InspectionSeverity.Error,
+                    Context.LineNumber));
+        }
+
         //Copy the values from the outer scope into the custom keyword
         for (int i = 0; i < keyword.Parameters.Length; i++)
         {
