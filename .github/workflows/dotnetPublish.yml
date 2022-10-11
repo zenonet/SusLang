@@ -25,10 +25,10 @@ jobs:
     - name: Upload linux build
       uses: actions/upload-artifact@v3
       with:
-        name: MSIX Package
+        name: Linux-x64
         path: SusLang/bin/Release/net5.0/linux-x64/publish
     - name: Upload windows build
       uses: actions/upload-artifact@v3
       with:
-        name: MSIX Package
+        name: Win-x86
         path: SusLang/bin/Release/net5.0/win-x86/publish
