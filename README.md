@@ -23,7 +23,8 @@ If you want to learn more about SusLang, you can do so in our wiki: https://gith
 
 A simple hello-world-script in SusLang looks like this:
 
-```sus cyan
+```suslang
+sus cyan
 cyan killed
 cyan killed
 cyan killed
