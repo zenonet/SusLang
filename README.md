@@ -4,7 +4,7 @@
 # SusLang
 
 A simple among-us-themed esolang written in C#.<br>
-You can find an online interpreter [here](http://api.zenonet.de/SusLang/0.4/)
+You can find an online interpreter [here](http://api.zenonet.de/SusLang/0.4/).
 
 ## The file format
 
