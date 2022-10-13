@@ -6,25 +6,24 @@ namespace SusLang.Expressions.DefaultExpressions
     {
         private readonly Queue<Expression> expressions = new();
 
-
         protected override bool IsCuttingCode() => true;
+
         protected override bool OnParse(ref string code)
         {
             //Remove the opening bracket
             code = code[1..];
-            
+
             string inside = ParsingUtility.FindBetweenBrackets(ref code);
             while (inside.Length > 0)
             {
                 Expression expression = Parse(ref inside, Context);
                 if (expression is null)
                     return false;
-                
+
                 expressions.Enqueue(expression);
             }
 
             return true;
-
         }
 
         public override bool Execute()
