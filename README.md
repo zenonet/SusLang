@@ -9,7 +9,7 @@ You can find an online interpreter [here](http://api.zenonet.de/SusLang/0.4/).
 ## The file format
 
 SusLang is an interpreted language which means that there are no compiled SusLang-files. 
-The only file format this language uses is the .sus format for source code files
+The only file format this language uses is the .sus format for source code files.
 
 ## The syntax
 
