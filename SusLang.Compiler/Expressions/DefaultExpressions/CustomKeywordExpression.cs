@@ -41,7 +41,7 @@ public class CustomKeywordExpression : Expression
             //Set keyword to the keyword a crewmate points to
             
             Diagnosis keywordNotDefinedDiagnosis = new(Context,
-                $"Keyword '{words[1]}' is not defined",
+                $"Keyword '{words[keywordIndex]}' is not defined",
                 InspectionSeverity.Error,
                 Context.LineNumber);
 
