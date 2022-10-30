@@ -6,6 +6,7 @@ using System.Text;
 using SusLang;
 using SusLang.Expressions.DefaultExpressions;
 using SusLang.BuildEngine;
+using SusLang.Expressions;
 
 public static class Program
 {
@@ -14,17 +15,17 @@ public static class Program
 SusLang [option or path to source file]
 You can use these options:
     -version    to print out the compiler version
-    -info   to print out the link to the github repo
-    -build  to create a .exe file of a script that can run without SusLang or Dotnet. Syntax: -build {sourcePath} {destinationPath}
-    -addpath   adds the directory of this executable to path
-    -removepath   removes the directory of this executable from path
-    -translate  to generate a script that outputs a user defined string. Syntax: -translate {colorToUse} {parameters}
+    -info    to print out the link to the github repo
+    -help    displays this help text
+    -build    to create a .exe file of a script that can run without SusLang or Dotnet. Syntax: -build {sourcePath} {destinationPath}
+    -addpath    adds the directory of this executable to path
+    -removepath    removes the directory of this executable from path
+    -translate    to generate a script that outputs a user defined string. Syntax: -translate {colorToUse} {parameters}
         You can use the following parameters:
             -comment or -cmt   to let the generator comment the script
             -tacticallyOvershoot or -to   might make scripts a little bit shorter
             -heSyntax or -hs    to make the generator select the color first and then access it using 'he'
         After that the generator will ask you to input your string";
-    
 
     static void Main(string[] args)
     {
@@ -41,7 +42,6 @@ You can use these options:
             Console.WriteLine("\n----------\nBreakpoint activated:");
             foreach (KeyValuePair<Crewmate, byte> crewmate in context.Crewmates)
             {
-                
                 Console.Write($"{crewmate.Key}: {crewmate.Value}  or in ASCII:  " +
                               $"{Encoding.ASCII.GetString(new[] {crewmate.Value})}\n");
             }
@@ -95,15 +95,15 @@ You can use these options:
                         }
 
                         break;
-                    case "-translate" or "tr":
+                    case "-translate" or "-tr":
                         string color = args[1];
                         bool tacticallyOvershoot = args.Contains("-tacticallyOvershoot") || args.Contains("-to");
                         bool comment = args.Contains("-comment") || args.Contains("-cmt");
                         bool useHeSyntax = args.Contains("-heSyntax") || args.Contains("-hs");
-                        
+
                         Console.WriteLine("Please enter your string here:");
                         string text = Console.ReadLine()!.Replace("\\n", "\n");
-                        
+
                         Console.WriteLine(
                             SusLang.Tools.StringCreator.CreateSusLangScriptForString(
                                 text,
@@ -114,16 +114,47 @@ You can use these options:
                         );
 
                         break;
+                    case "-help" or "-h":
+                        Console.WriteLine(Help);
+                        break;
 
                     default:
-                        Console.WriteLine($"File {args[0]} not found");
+                        Console.WriteLine($"File {args[0]} not found. \n"
+                                          + "Use -help for help");
                         break;
                 }
             }
         }
         else
         {
-            Console.WriteLine(Help);
+            Console.WriteLine("Welcome to the SusLang Shell!\n"
+                              + "Use 'quit', 'stop', ':q' or 'exit' to exit");
+            RunShell();
+        }
+    }
+
+    public static void RunShell()
+    {
+        // We need this so that the amogus symbol can be printed out
+        Console.OutputEncoding = Encoding.UTF8;
+
+        // Create an empty Execution context
+        ExecutionContext context = new(Array.Empty<Expression>());
+        while (true)
+        {
+            // If there is something written in this line, do a line break
+            if(Console.CursorLeft != 0)
+                Console.WriteLine();
+            
+            Console.Write("ඞ > ");
+            string line = Console.ReadLine();
+
+            if (line!.Trim() is "quit" or "stop" or ":q" or "exit")
+                Environment.Exit(0);
+
+            Expression expression = Expression.Parse(ref line, context);
+
+            context.ExecuteInThisContext(new[] {expression});
         }
     }
 
@@ -133,6 +164,7 @@ You can use these options:
         Stream stdOut = Console.OpenStandardOutput();
         while (true)
         {
+            //TODO
         }
     }
 
