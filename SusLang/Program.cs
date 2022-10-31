@@ -29,13 +29,6 @@ You can use these options:
 
     static void Main(string[] args)
     {
-        if (args.Length > 0 && args[0] is "-api")
-        {
-            RunApi();
-            return;
-        }
-
-
         Breakpoint.OnBreakpointExecuted += context =>
         {
             Console.OutputEncoding = Encoding.ASCII;
@@ -155,16 +148,6 @@ You can use these options:
             Expression expression = Expression.Parse(ref line, context);
 
             context.ExecuteInThisContext(new[] {expression});
-        }
-    }
-
-    public static void RunApi()
-    {
-        Stream stdIn = Console.OpenStandardInput();
-        Stream stdOut = Console.OpenStandardOutput();
-        while (true)
-        {
-            //TODO
         }
     }
 
