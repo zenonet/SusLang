@@ -28,7 +28,7 @@ You can use these options:
         After that the generator will ask you to input your string";
 
     private const string SusLangAsciiArt =
-@"   _____           _                       
+        @"   _____           _                       
   / ____|         | |                      
  | (___  _   _ ___| |     __ _ _ __   __ _ 
   \___ \| | | / __| |    / _` | '_ \ / _` |
@@ -158,19 +158,21 @@ You can use these options:
             string code = "";
 
             bool requireMoreInput = false;
-            
+
             // While there are unclosed codeblocks, ask for more input
             do
             {
                 // If this is not the first line
-                if(requireMoreInput)
+                if (requireMoreInput)
                 {
                     // Fix indentation
                     Console.Write("    ");
                 }
 
                 // Add the new input to the code
-                code += Console.ReadLine();
+                code += Console.ReadLine() + Environment.NewLine;
+
+                requireMoreInput = false;
                 
                 // If the code contains a loop
                 if (code.Contains('['))
@@ -181,11 +183,16 @@ You can use these options:
                     // If the loop isn't closed, require more input
                     requireMoreInput = ParsingUtility.FindBetweenBrackets(ref sub) == null;
                 }
-                else
-                    requireMoreInput = false;
-                
+                // If the code contains a keyword definition
+                if (code.Contains("#define keyword")
+                         && !code.Contains("#define keyword end"))
+                {
+                    // Require more input
+                    requireMoreInput = true;
+                }
+
             } while (requireMoreInput);
-            
+
             if (code!.Trim() is "quit" or "stop" or ":q" or "exit")
                 Environment.Exit(0);
 
