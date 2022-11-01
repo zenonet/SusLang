@@ -119,13 +119,11 @@ namespace SusLang
         }
 
         #region Quick and dirty logging
-
-        internal static int ExecutingLine;
-
         public static class Logging
         {
             public static TextWriter Stream;
 
+            public static bool ThrowRuntimeError;
             public static event Func<string> OnInputExpected;
             public static event Action<string> OnOutput;
 
@@ -142,6 +140,9 @@ namespace SusLang
             {
                 LogRaw($"Sabotage in line {diagnosis.LineNumber}: {diagnosis.Message}");
 
+                if (ThrowRuntimeError)
+                    throw new SusLangException(diagnosis);
+                
                 if (DontLog || diagnosis.Severity == InspectionSeverity.Error)
                     Environment.Exit(1);
             }
@@ -161,6 +162,18 @@ namespace SusLang
                 Stream.Flush();
 
                 OnOutput?.Invoke(msg);
+            }
+
+            /// <summary>
+            /// This error is only to be able to catch SusLang errors in c# code. 
+            /// </summary>
+            public class SusLangException : Exception
+            {
+                public readonly Diagnosis Diagnosis;
+                public SusLangException(Diagnosis diagnosis)
+                {
+                    Diagnosis = diagnosis;
+                }
             }
         }
 
