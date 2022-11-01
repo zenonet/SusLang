@@ -26,6 +26,16 @@ You can use these options:
             -tacticallyOvershoot or -to   might make scripts a little bit shorter
             -heSyntax or -hs    to make the generator select the color first and then access it using 'he'
         After that the generator will ask you to input your string";
+    
+    private const string SusLangAsciiArt =
+@"   _____           _                       
+  / ____|         | |                      
+ | (___  _   _ ___| |     __ _ _ __   __ _ 
+  \___ \| | | / __| |    / _` | '_ \ / _` |
+  ____) | |_| \__ \ |___| (_| | | | | (_| |
+ |_____/ \__,_|___/______\__,_|_| |_|\__, |
+                                      __/ |
+                                     |___/ ";
 
     static void Main(string[] args)
     {
@@ -120,8 +130,8 @@ You can use these options:
         }
         else
         {
-            Console.WriteLine("Welcome to the SusLang Shell!\n"
-                              + "Use 'quit', 'stop', ':q' or 'exit' to exit");
+            Console.WriteLine($"Welcome to the\n{SusLangAsciiArt}\nShell!\n\n"
+                              + "Use 'quit', 'stop', ':q' or 'exit' to exit\n");
             RunShell();
         }
     }
