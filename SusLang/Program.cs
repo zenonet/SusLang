@@ -26,7 +26,7 @@ You can use these options:
             -tacticallyOvershoot or -to   might make scripts a little bit shorter
             -heSyntax or -hs    to make the generator select the color first and then access it using 'he'
         After that the generator will ask you to input your string";
-    
+
     private const string SusLangAsciiArt =
 @"   _____           _                       
   / ____|         | |                      
@@ -140,7 +140,7 @@ You can use these options:
     {
         // We need this so that the amogus symbol can be printed out
         Console.OutputEncoding = Encoding.UTF8;
-        
+
         // Make the SusLang Logging throw SusLangExceptions instead of exiting
         // This is needed so the shell can continue after an error occured
         Compiler.Logging.ThrowRuntimeError = true;
@@ -150,28 +150,57 @@ You can use these options:
         while (true)
         {
             // If there is something written in this line, do a line break
-            if(Console.CursorLeft != 0)
+            if (Console.CursorLeft != 0)
                 Console.WriteLine();
-            
-            Console.Write("ඞ > ");
-            string line = Console.ReadLine();
 
-            if (line!.Trim() is "quit" or "stop" or ":q" or "exit")
+            Console.Write("ඞ > ");
+
+            string code = "";
+
+            bool requireMoreInput = false;
+            
+            // While there are unclosed codeblocks, ask for more input
+            do
+            {
+                // If this is not the first line
+                if(requireMoreInput)
+                {
+                    // Fix indentation
+                    Console.Write("    ");
+                }
+
+                // Add the new input to the code
+                code += Console.ReadLine();
+                
+                // If the code contains a loop
+                if (code.Contains('['))
+                {
+                    // Get all the code from the opening bracket to the end of the code
+                    string sub = code[code.IndexOf('[')..];
+
+                    // If the loop isn't closed, require more input
+                    requireMoreInput = ParsingUtility.FindBetweenBrackets(ref sub) == null;
+                }
+                else
+                    requireMoreInput = false;
+                
+            } while (requireMoreInput);
+            
+            if (code!.Trim() is "quit" or "stop" or ":q" or "exit")
                 Environment.Exit(0);
 
             try
             {
                 // Create an AST using the inputted line and use the context for it
-                ExecutionContext executionContext = 
-                    Compiler.CreateAst(line, false, context);
-                
+                ExecutionContext executionContext =
+                    Compiler.CreateAst(code, false, context);
+
                 executionContext.Continue();
             }
             catch (Compiler.Logging.SusLangException)
             {
                 // Just continue
             }
-
         }
     }
 
