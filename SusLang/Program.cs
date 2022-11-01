@@ -140,6 +140,10 @@ You can use these options:
     {
         // We need this so that the amogus symbol can be printed out
         Console.OutputEncoding = Encoding.UTF8;
+        
+        // Make the SusLang Logging throw SusLangExceptions instead of exiting
+        // This is needed so the shell can continue after an error occured
+        Compiler.Logging.ThrowRuntimeError = true;
 
         // Create an empty Execution context
         ExecutionContext context = new(Array.Empty<Expression>());
@@ -155,9 +159,19 @@ You can use these options:
             if (line!.Trim() is "quit" or "stop" or ":q" or "exit")
                 Environment.Exit(0);
 
-            Expression expression = Expression.Parse(ref line, context);
+            try
+            {
+                // Create an AST using the inputted line and use the context for it
+                ExecutionContext executionContext = 
+                    Compiler.CreateAst(line, false, context);
+                
+                executionContext.Continue();
+            }
+            catch (Compiler.Logging.SusLangException)
+            {
+                // Just continue
+            }
 
-            context.ExecuteInThisContext(new[] {expression});
         }
     }
 
