@@ -92,7 +92,7 @@ public class CustomKeywordExpression : Expression
         {
             if (CustomKeywords.Count <= Crewmates[keywordPointer])
                 Compiler.Logging.LogError(new(Context,
-                    $"Null pointer exception, '{keywordPointer.Name}' doesn't point to any keyword",
+                    $"Null pointer exception, color '{keywordPointer.Name}' doesn't point to any keyword",
                     InspectionSeverity.Error,
                     Context.LineNumber));
 
