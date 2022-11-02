@@ -66,7 +66,7 @@ to get to `A` in ASCII, you can use `#define suspect` as described [here](https:
 
 <br>
 
-<h4>The Who?-Statement</h4>
+### The Who?-Statement
 
 Using the line `who?` you can let the interpreter wait for the user to input a color. This color will then be selected.
 
@@ -74,14 +74,23 @@ However this Statement isn't compatible with all platforms.
 
 <br>
 
-<h4>Loops</h4>
+### Loops
 
 You can put parts of your code in brackets (`[]`) to create a loop. This loop will run until the selected colors value turns 0.
 If you want to learn more about SusLang-Loops, you can read [this](https://github.com/zenonet/SusLang/wiki/Loops) wiki article.
 
 <br>
 
-<h4>Comments</h4>
+### The wasWith Statement
+
+You can use `<colorA> wasWith <colorB>` to assign colorB's value to colorA.<br>
+This is simmilar to the `=` Statement is other (less sussy) languages.
+
+However, you can also use `wasWith` to to create a pointer to a keyword as described [here](https://github.com/zenonet/SusLang/wiki/Keyword-Pointers).
+
+<br>
+
+### Comments
 
 The interpreter will ignore any text in a source file that is behind `trashtalk` or `//`. You can use this to explain your code.
 
