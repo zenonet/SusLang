@@ -70,7 +70,7 @@ to get to `A` in ASCII, you can use `#define suspect` as described [here](https:
 
 Using the line `who?` you can let the interpreter wait for the user to input a color. This color will then be selected.
 
-However this Statement isn't compatible with all platforms.
+However this Statement only works in console builds. Also, `who?` is sadly currently the only way of having the user input data.
 
 <br>
 
