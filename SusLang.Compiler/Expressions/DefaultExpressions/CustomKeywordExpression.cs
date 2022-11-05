@@ -6,13 +6,13 @@ namespace SusLang.Expressions.DefaultExpressions;
 
 public class CustomKeywordExpression : Expression
 {
-    public static readonly OrderedDictionary<string, ExecutionContext> CustomKeywords = new();
+    public static readonly OrderedDictionary<string, IKeywordDefinition> CustomKeywords = new();
 
     private Crewmate leftColor;
-    private ExecutionContext keyword;
+    private IKeyword keyword;
 
-    private Crewmate[] outerParams;
-    
+    private Parameters outerParams;
+
     private Crewmate keywordPointer;
 
     protected override bool OnParse(ref string code)
@@ -28,11 +28,12 @@ public class CustomKeywordExpression : Expression
         if (CustomKeywords.ContainsKey(words[keywordIndex]))
         {
             //Set keyword to the keyword that was found
-            keyword = CustomKeywords[words[keywordIndex]].CloneAsNew();
+            IKeywordDefinition keywordDefinition = CustomKeywords[words[keywordIndex]];
+            keyword = keywordDefinition.CreateKeyword();
             
-            if (keyword.Parameters.Length != PreparsedColors.Length)
+            if (keywordDefinition.ParameterCount != PreparsedColors.Length)
                 Compiler.Logging.LogError(new (Context,
-                    $"Keyword '{words[keywordIndex]}' expects {keyword.Parameters.Length} parameters, but was invoked with {PreparsedColors.Length}",
+                    $"Keyword '{words[keywordIndex]}' expects {keywordDefinition.ParameterCount} parameters, but was invoked with {PreparsedColors.Length}",
                     InspectionSeverity.Error,
                     Context.LineNumber));
         }
@@ -57,7 +58,7 @@ public class CustomKeywordExpression : Expression
             }
         }
 
-        //If there are no parameters, we can just return
+        //If there are no parameters, we can just do the code splitting and return
         if (PreparsedColors.Length <= 0)
             goto codeSplitting;
 
@@ -97,11 +98,12 @@ public class CustomKeywordExpression : Expression
                     Context.LineNumber));
 
             // Set keyword to the custom keyword that the crewmate points to
-            keyword = CustomKeywords.ByIndex[Crewmates[keywordPointer]];
+            IKeywordDefinition keywordDefinition = CustomKeywords.ByIndex[Crewmates[keywordPointer]];
+            keyword = keywordDefinition.CreateKeyword();
             
-            if (keyword.Parameters.Length != PreparsedColors.Length)
+            if (keywordDefinition.ParameterCount != PreparsedColors.Length)
                 Compiler.Logging.LogError(new (Context,
-                    $"Keyword expects {keyword.Parameters.Length} parameters, but was invoked with {PreparsedColors.Length}",
+                    $"Keyword expects {keywordDefinition.ParameterCount} parameters, but was invoked with {PreparsedColors.Length}",
                     InspectionSeverity.Error,
                     Context.LineNumber));
         }
@@ -113,7 +115,7 @@ public class CustomKeywordExpression : Expression
         }
 
         //Execute the custom keyword
-        keyword.Continue();
+        keyword.Execute(Context, outerParams);
 
         //Copy the values from the custom keyword back to the outer scope
         for (int i = 0; i < keyword.Parameters.Length; i++)
