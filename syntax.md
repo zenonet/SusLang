@@ -95,3 +95,12 @@ However, you can also use `wasWith` to to create a pointer to a keyword as descr
 The interpreter will ignore any text in a source file that is behind `trashtalk` or `//`. You can use this to explain your code.
 
 For example you could write `trashtalk this is for writing an A` and the interpreter will completely ignore it
+
+## He-Syntax
+
+Instead of writing the name of a color, you can also use `he` or `she` to use the currently selected color.<br>
+Example:
+```
+red sus
+he killed // This will increase red by 10
+```
