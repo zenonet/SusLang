@@ -41,7 +41,9 @@ You can use these options:
     {
         Breakpoint.OnBreakpointExecuted += context =>
         {
+            // TODO: Check out why this line is needed
             Console.OutputEncoding = Encoding.ASCII;
+            
             Console.WriteLine("\n----------\nBreakpoint activated:");
             foreach (KeyValuePair<Crewmate, byte> crewmate in context.Crewmates)
             {
