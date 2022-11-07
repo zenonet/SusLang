@@ -91,9 +91,7 @@ namespace SusLang.Expressions
                         if (color.Length < 1)
                             continue;
 
-                        Crewmate crewmate = ParseColor(color, context, false);
-                        if (crewmate == null)
-                            goto nextPattern;
+                        Crewmate crewmate = ParseColor(color, context);
 
                         colorsList.Add(crewmate);
                     }
