@@ -22,7 +22,7 @@ public class SetterExpression : Expression
         
         // If there is no @ symbol specifying that a keyword is meant, then parse the second color
         if (!colors[1].StartsWith('@'))
-            color1 = ParseColor(colors[1].Substring(1), Context, logErrors: false);
+            color1 = ParseColor(colors[1], Context, logErrors: false);
 
 
         //Check if it might be a pointer referencing
