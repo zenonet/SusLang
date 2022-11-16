@@ -197,6 +197,11 @@ You can use these options:
 
             if (code!.Trim() is "quit" or "stop" or ":q" or "exit")
                 Environment.Exit(0);
+            if (code!.Trim() is "clear")
+            {
+                // Reset all the colors to 0
+                context.Crewmates.Reset();
+            }
 
             try
             {
