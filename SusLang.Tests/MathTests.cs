@@ -77,7 +77,7 @@ public class MathTests
     {
         string additionCode = File.ReadAllText("../../../CodeSamples/division.sus");
 
-        (Crewmate divident, Crewmate divisor, Crewmate output) = GetOperators(additionCode);
+        (Crewmate dividend, Crewmate divisor, Crewmate output) = GetOperators(additionCode);
 
         byte val1 = GetRandomByte();
         byte val2 = GetRandomByte();
@@ -87,14 +87,14 @@ public class MathTests
             val2 = 21;
 
         // Note that the byte cast will do the overflow stuff meaning it would convert int 257 to byte 1
-        // The Math.Ceiling is because this implementation of division cleils the result
+        // The Math.Ceiling is because this implementation of division ceils the result
         // So, technically I just fixed a bug by breaking the test 
         byte outputVal = (byte) Math.Ceiling(val1 / (float)val2);
 
 
         ExecutionContext context = Compiler.CreateAst(additionCode);
 
-        context.Crewmates[divident] = val1;
+        context.Crewmates[dividend] = val1;
         context.Crewmates[divisor] = val2;
 
         testOutputHelper.WriteLine("Attempting to calculate {0} / {1}", val1, val2);
