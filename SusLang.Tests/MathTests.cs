@@ -3,14 +3,10 @@ using Assert = Xunit.Assert;
 
 namespace SusLang.Tests;
 
-public class MathTests
+public class MathTests : TestBase
 {
-    private readonly ITestOutputHelper testOutputHelper;
-    private readonly Random random = new();
-
-    public MathTests(ITestOutputHelper testOutputHelper)
+    public MathTests(ITestOutputHelper testOutputHelper) : base(testOutputHelper)
     {
-        this.testOutputHelper = testOutputHelper;
     }
 
 
@@ -33,12 +29,12 @@ public class MathTests
         context.Crewmates[addent1] = val1;
         context.Crewmates[addent2] = val2;
 
-        testOutputHelper.WriteLine("Attempting to calculate {0} + {1}", val1, val2);
-        testOutputHelper.WriteLine("Expected output: {0}", outputVal);
+        TestOutputHelper.WriteLine("Attempting to calculate {0} + {1}", val1, val2);
+        TestOutputHelper.WriteLine("Expected output: {0}", outputVal);
 
         context.Continue();
 
-        testOutputHelper.WriteLine("Result: {0}", context.Crewmates[output]);
+        TestOutputHelper.WriteLine("Result: {0}", context.Crewmates[output]);
 
         Assert.Equal(outputVal, context.Crewmates[output]);
     }
@@ -62,12 +58,12 @@ public class MathTests
         context.Crewmates[addent1] = val1;
         context.Crewmates[addent2] = val2;
 
-        testOutputHelper.WriteLine("Attempting to calculate {0} * {1}", val1, val2);
-        testOutputHelper.WriteLine("Expected output: {0}", outputVal);
+        TestOutputHelper.WriteLine("Attempting to calculate {0} * {1}", val1, val2);
+        TestOutputHelper.WriteLine("Expected output: {0}", outputVal);
 
         context.Continue();
 
-        testOutputHelper.WriteLine("Result: {0}", context.Crewmates[output]);
+        TestOutputHelper.WriteLine("Result: {0}", context.Crewmates[output]);
 
         Assert.Equal(outputVal, context.Crewmates[output]);
     }
@@ -97,29 +93,13 @@ public class MathTests
         context.Crewmates[dividend] = val1;
         context.Crewmates[divisor] = val2;
 
-        testOutputHelper.WriteLine("Attempting to calculate {0} / {1}", val1, val2);
-        testOutputHelper.WriteLine("Expected output: {0}", outputVal);
+        TestOutputHelper.WriteLine("Attempting to calculate {0} / {1}", val1, val2);
+        TestOutputHelper.WriteLine("Expected output: {0}", outputVal);
 
         context.Continue();
 
-        testOutputHelper.WriteLine("Result: {0}", context.Crewmates[output]);
+        TestOutputHelper.WriteLine("Result: {0}", context.Crewmates[output]);
 
         Assert.Equal(outputVal, context.Crewmates[output]);
-    }
-
-    private (Crewmate, Crewmate, Crewmate) GetOperators(string code)
-    {
-        string op1 = code.Split("//-op1")[1].Split('\n')[0].Trim();
-        string op2 = code.Split("//-op2")[1].Split('\n')[0].Trim();
-        string output = code.Split("//-output")[1].Split('\n')[0].Trim();
-
-        return (op1, op2, output);
-    }
-
-    private byte GetRandomByte()
-    {
-        byte[] bytes = new byte[1];
-        random.NextBytes(bytes);
-        return bytes[0];
     }
 }
