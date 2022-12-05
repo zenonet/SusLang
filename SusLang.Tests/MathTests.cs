@@ -1,3 +1,5 @@
+using System;
+using System.IO;
 using Xunit.Abstractions;
 using Assert = Xunit.Assert;
 
