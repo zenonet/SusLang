@@ -44,5 +44,7 @@ Global
 		{C867710A-1263-4D77-8248-A81283C150CA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C867710A-1263-4D77-8248-A81283C150CA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C867710A-1263-4D77-8248-A81283C150CA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FABEAE46-9A17-423F-B1C0-88885E888232}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FABEAE46-9A17-423F-B1C0-88885E888232}.Debug|Any CPU.Build.0 = Debug|Any CPU
 	EndGlobalSection
 EndGlobal
