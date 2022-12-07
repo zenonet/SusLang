@@ -1,5 +1,7 @@
 //-output blue
 
+#define color minus
+
 #define keyword plus red green
     blue wasWith green
     sus blue
