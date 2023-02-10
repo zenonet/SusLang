@@ -29,6 +29,17 @@ namespace SusLang.Expressions.DefaultExpressions
                         );
                         return false;
                     }
+                    
+                    if(Crewmate.Parse(words[2], Context) != null)
+                    {
+                        Compiler.Logging.LogError(
+                            new Diagnosis(Context,
+                                "Color already defined",
+                                InspectionSeverity.Error,
+                                Context.LineNumber)
+                        );
+                        return false;
+                    }
 
                     Crewmates.Add(words[2].ToLower(), 0);
                     break;
