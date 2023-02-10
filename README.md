@@ -1,5 +1,5 @@
 ![Lines of Code](https://img.shields.io/tokei/lines/github/zenonet/SusLang)
-![GitHub Workflow Status](https://img.shields.io/github/workflow/status/zenonet/SusLang/.NET)
+![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/zenonet/SusLang/dotnetPublish.yml)
 
 # SusLang
 

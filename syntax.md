@@ -100,6 +100,7 @@ For example you could write `trashtalk this is for writing an A` and the interpr
 
 Instead of writing the name of a color, you can also use `he` or `she` to use the currently selected color.<br>
 Example:
+
 ```
 red sus
 he killed // This will increase red by 10
