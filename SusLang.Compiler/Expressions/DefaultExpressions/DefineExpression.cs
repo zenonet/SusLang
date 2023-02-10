@@ -126,6 +126,9 @@ namespace SusLang.Expressions.DefaultExpressions
                         words[2], executionContext
                     );
 
+                    // Update the line number of the outer context + 1 for the #define keyword end line
+                    Context.LineNumber += executionContext.LineNumber + 1;
+                    
                     IsParsingKeywordDefinition = false;
 
                     //+19 because "#define keyword end" is 19 characters long and
