@@ -1,0 +1,92 @@
+@using System.Text
+@using SusLang.Expressions.DefaultExpressions
+@inject IJSRuntime JS
+
+<textarea id="codeTextArea" @bind="codeText" spellcheck="false" style="height: 300px; width: 100%; overflow:hidden" autofocus oninput="this.style.height = 'auto'; this.style.height = (this.scrollHeight) + 'px';"/><br/>
+
+<button id="runButton" class="btn btn-primary" @onclick="OnButtonClick" style="margin-top: 15px; margin-bottom: 15px">@ButtonText</button>
+<br/>
+
+<textarea class="form-control" id="outputTextArea" disabled="disabled" style="height: 70%; width: 100%; overflow:hidden" autofocus spellcheck="false" autocomplete="off" oninput="this.style.height = 'auto'; this.style.height = (this.scrollHeight) + 'px';">@output
+</textarea>
+
+@code {
+    internal string codeText = "";
+    string ButtonText = "Run";
+
+    private string output = "";
+
+    volatile bool running = false;
+
+    private void OnButtonClick()
+    {
+        SaveScript();
+
+        if (running)
+            return;
+
+        output = "";
+        StateHasChanged();
+
+        Task.Run(RunCode);
+    }
+
+    private void SaveScript()
+    {
+    // Save the script to a cookie using jsinterop
+        JS.InvokeVoidAsync("setCookie", "script", codeText);
+    }
+
+    private async void LoadScript()
+    {
+        string? code = await JS.InvokeAsync<string?>("getCookie", "script");
+        Console.WriteLine(code);
+        if (code != null)
+            codeText = code;
+        StateHasChanged();
+
+        await JS.InvokeVoidAsync("updateSize");
+    }
+
+    private async void RunCode()
+    {
+        running = true;
+
+
+        CustomKeywordExpression.CustomKeywords.Clear();
+        ButtonText = "Creating AST...";
+        Compiler.Logging.ThrowRuntimeError = true;
+
+        Compiler.Logging.OnOutput += s =>
+        {
+            output += s;
+            StateHasChanged();
+            Task.Delay(1);
+        };
+
+        try
+        {
+            ExecutionContext? ast = await Task.Run(() => Compiler.CreateAst(codeText));
+
+            ButtonText = "Running...";
+
+            await Task.Run(() => { ast.Continue(); });
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+        }
+        running = false;
+
+        ButtonText = "Run";
+        StateHasChanged();
+    }
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+
+        LoadScript();
+    }
+
+}
