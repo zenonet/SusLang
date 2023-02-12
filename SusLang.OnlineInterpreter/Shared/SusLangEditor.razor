@@ -22,14 +22,17 @@
 <button id="runButton" class="btn btn-primary" @onclick="OnButtonClick" style="margin-top: 0.5vh; margin-bottom: 0.5vh">@ButtonText</button>
 <br/>
 
-<textarea class="form-control" id="outputTextArea" disabled="disabled" style="height: 70%; width: 100%; overflow:hidden" autofocus spellcheck="false" autocomplete="off" oninput="this.style.height = 'auto'; this.style.height = (this.scrollHeight) + 'px';">@output
+<textarea class="form-control" id="outputTextArea" disabled="disabled" style="height: 10vh; width: 100%;" autofocus spellcheck="false" autocomplete="off" >@output
 </textarea>
 
 @code {
-    internal string codeText = "";
+    internal string codeText { get; set; } = "";
     string ButtonText = "Run";
 
     private string output = "";
+
+
+    Example[] examples = Array.Empty<Example>();
 
     volatile bool running = false;
 
@@ -66,17 +69,18 @@
     private async void RunCode()
     {
         running = true;
-
+        Compiler.Logging.Stream = new StringWriter();
 
         CustomKeywordExpression.CustomKeywords.Clear();
         ButtonText = "Creating AST...";
         Compiler.Logging.ThrowRuntimeError = true;
 
-        Compiler.Logging.OnOutput += s =>
+        Compiler.Logging.OnOutput += async s =>
         {
-            output += s;
+            output = Compiler.Logging.Stream.ToString()!;
+            await JS.InvokeVoidAsync("updateSize");
             StateHasChanged();
-            Task.Delay(1);
+            await Task.Delay(1);
         };
 
         try

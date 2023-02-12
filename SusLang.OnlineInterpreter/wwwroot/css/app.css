@@ -1,6 +1,7 @@
 @import url('open-iconic/font/css/open-iconic-bootstrap.min.css');
 
 textarea {
+    font-family: Consolas, "Courier New", Courier, monospace;
     padding: 12px 20px;
     box-sizing: content-box;
     border: 2px solid #bfbfbf;
@@ -8,11 +9,11 @@ textarea {
     background-color: #f6f6f6;
     font-size: 16px;
     outline: none;
-    resize: none;
 }
 
 html, body {
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    overflow: hidden;
 }
 
 h1:focus {
