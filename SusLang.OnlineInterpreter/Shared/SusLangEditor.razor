@@ -1,10 +1,25 @@
 @using System.Text
+@using System.Text.Json
 @using SusLang.Expressions.DefaultExpressions
 @inject IJSRuntime JS
+@inject HttpClient Http
 
-<textarea id="codeTextArea" @bind="codeText" spellcheck="false" style="height: 300px; width: 100%; overflow:hidden" autofocus oninput="this.style.height = 'auto'; this.style.height = (this.scrollHeight) + 'px';"/><br/>
+<link href="css/app.css" rel="stylesheet" asp-append-version="true"/>
 
-<button id="runButton" class="btn btn-primary" @onclick="OnButtonClick" style="margin-top: 15px; margin-bottom: 15px">@ButtonText</button>
+<select class="form-control" @bind="@SelectedExamplePath" style="width: 10vw; margin-top:0.3vh; margin-bottom: 0.3vh; display: inline-block;">
+
+    @foreach (Example t in examples)
+    {
+        <option value="@t.Path">@t.Name</option>
+    }
+
+</select>
+<button class="btn btn-primary" @onclick="LoadExample" style=" margin-top:0.3vh; margin-bottom: 0.3vh; display: inline-block;">Load Example</button>
+
+
+<textarea id="codeTextArea" @bind="codeText" spellcheck="false" style="height: 56vh; width: 90%; horiz-align: center" autofocus/><br/>
+
+<button id="runButton" class="btn btn-primary" @onclick="OnButtonClick" style="margin-top: 0.5vh; margin-bottom: 0.5vh">@ButtonText</button>
 <br/>
 
 <textarea class="form-control" id="outputTextArea" disabled="disabled" style="height: 70%; width: 100%; overflow:hidden" autofocus spellcheck="false" autocomplete="off" oninput="this.style.height = 'auto'; this.style.height = (this.scrollHeight) + 'px';">@output
@@ -82,11 +97,32 @@
         StateHasChanged();
     }
 
-    protected override void OnInitialized()
+    protected override async Task OnInitializedAsync()
     {
-        base.OnInitialized();
+        await base.OnInitializedAsync();
+
+        examples = await LoadExampleNames();
 
         LoadScript();
+    }
+
+    private async Task<Example[]> LoadExampleNames()
+    {
+        return JsonSerializer.Deserialize<Example[]>(await Http.GetStringAsync("Examples/list.json"))!;
+    }
+
+    public string? SelectedExamplePath { get; set; }
+
+    private async void LoadExample()
+    {
+        if (SelectedExamplePath == null)
+        {
+            Console.WriteLine("No example selected");
+            return;
+        }
+
+        codeText = await Http.GetStringAsync("Examples/" + SelectedExamplePath);
+        StateHasChanged();
     }
 
 }
