@@ -109,7 +109,7 @@ You can use these options:
                         Console.WriteLine("Please enter your string here:");
                         string text = Console.ReadLine()!.Replace("\\n", "\n");
 
-                        Console.WriteLine(
+                        Console.WriteLine("Generate SusLang Code:\n" +
                             SusLang.Tools.StringCreator.CreateSusLangScriptForString(
                                 text,
                                 color,
@@ -119,7 +119,7 @@ You can use these options:
                         );
 
                         break;
-                    case "-help" or "-h":
+                    case "help" + "-help" or "-h":
                         Console.WriteLine(Help);
                         break;
 
