@@ -7,10 +7,10 @@
 <link href="css/app.css" rel="stylesheet" asp-append-version="true"/>
 
 <select class="form-control" @bind="@SelectedExamplePath" style="width: 10vw; margin-top:0.3vh; margin-bottom: 0.3vh; display: inline-block;">
-
+    <option value="-1">-Select Example to load-</option>
     @foreach (Example t in examples)
     {
-        <option value="@t.Path">@t.Name</option>
+        <option value="@t.Path">@t.Name@modified</option>
     }
 
 </select>
@@ -22,7 +22,7 @@
 <button id="runButton" class="btn btn-primary" @onclick="OnButtonClick" style="margin-top: 0.5vh; margin-bottom: 0.5vh">@ButtonText</button>
 <br/>
 
-<textarea class="form-control" id="outputTextArea" disabled="disabled" style="height: 10vh; width: 100%;" autofocus spellcheck="false" autocomplete="off" >@output
+<textarea class="form-control" id="outputTextArea" disabled="disabled" style="height: 10vh; width: 90%; horiz-align: center;" autofocus spellcheck="false" autocomplete="off" >@output
 </textarea>
 
 @code {
