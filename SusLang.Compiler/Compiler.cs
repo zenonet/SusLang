@@ -138,11 +138,17 @@ namespace SusLang
 
             internal static void LogError(Diagnosis diagnosis)
             {
-                LogRaw($"Sabotage in line {diagnosis.LineNumber}: {diagnosis.Message}");
+                if (diagnosis.Severity == InspectionSeverity.Error)
+                {
+                    LogRaw($"Sabotage in line {diagnosis.LineNumber}: {diagnosis.Message}");
 
-                if (ThrowRuntimeError)
-                    throw new SusLangException(diagnosis);
-                
+                    if (ThrowRuntimeError)
+                        throw new SusLangException(diagnosis);
+                }else if(diagnosis.Severity == InspectionSeverity.Warning)
+                    LogRaw($"Warning in line {diagnosis.LineNumber}: {diagnosis.Message}");
+                else if(diagnosis.Severity == InspectionSeverity.Hint)
+                    LogRaw($"Hint for line {diagnosis.LineNumber}: {diagnosis.Message}");
+
                 if (DontLog || diagnosis.Severity == InspectionSeverity.Error)
                     Environment.Exit(1);
             }
@@ -170,6 +176,7 @@ namespace SusLang
             public class SusLangException : Exception
             {
                 public readonly Diagnosis Diagnosis;
+
                 public SusLangException(Diagnosis diagnosis)
                 {
                     Diagnosis = diagnosis;

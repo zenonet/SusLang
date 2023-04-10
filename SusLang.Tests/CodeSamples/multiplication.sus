@@ -1,0 +1,27 @@
+//-op1 red
+//-op2 blue
+//-output green
+
+// Funfact (For you, for me it's a painfact):
+// I just spent half an hour trying to find a bug in the interpreter or in the unit test 
+// unil i noticed i forgot this sus-statement
+sus red
+//It's important that something is selected at this point, that is not 0 because otherwise the loop won't even start
+[
+    orange wasWith blue //Buffer blue because factor2 will change in this loop
+    sus orange //Select orange as the counter for the coming loop
+    [
+        
+        green vented //Increase the output
+        
+        orange wasWithMe //Decrease the counter
+    ]
+    
+    sus red //Reselect the counter of the first loop
+    red wasWithMe //Decrease the counter of the first loop
+]
+
+//Print the output variable as a number
+sus green 
+report //Outputs 6
+

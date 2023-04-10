@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFramework>net5.0</TargetFramework>
+        <TargetFramework>net7.0</TargetFramework>
         <RootNamespace>SusLang</RootNamespace>
         <Company>zenonet</Company>
         <Authors>zenonet</Authors>
@@ -12,14 +12,17 @@
 
     <ItemGroup>
       <Compile Remove="bin\**" />
+      <Compile Remove="obj\**" />
     </ItemGroup>
 
     <ItemGroup>
       <EmbeddedResource Remove="bin\**" />
+      <EmbeddedResource Remove="obj\**" />
     </ItemGroup>
 
     <ItemGroup>
       <None Remove="bin\**" />
+      <None Remove="obj\**" />
     </ItemGroup>
 
     <ItemGroup>

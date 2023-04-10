@@ -1,0 +1,19 @@
+//-op1 lime
+//-op2 cyan
+//-output lime
+
+//Select the counting variable for the loop
+sus cyan
+[
+    //Increase addend 1
+    lime vented
+    
+    //Decrease addend 2
+    cyan wasWithMe
+    
+    //When addend 2 becomes 0, the loop will exit and the addition is done
+]
+
+//Output the result
+sus lime
+report

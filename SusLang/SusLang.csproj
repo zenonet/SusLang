@@ -2,13 +2,25 @@
 
     <PropertyGroup>
         <OutputType>Exe</OutputType>
-        <TargetFramework>net5.0</TargetFramework>
+        <TargetFramework>net7.0</TargetFramework>
     </PropertyGroup>
 
     <ItemGroup>
       <ProjectReference Include="..\SusLang.BuildEngine\SusLang.BuildEngine.csproj" />
       <ProjectReference Include="..\SusLang.Compiler\SusLang.Compiler.csproj" />
       <ProjectReference Include="..\SusLang.Tools\SusLang.Tools.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Compile Remove="obj\**" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <EmbeddedResource Remove="obj\**" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Remove="obj\**" />
     </ItemGroup>
 
 </Project>

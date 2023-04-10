@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>SusLang.OnlineInterpreter</title>
+    <base href="/" />
+    <link href="css/bootstrap/bootstrap.min.css" rel="stylesheet" />
+    <link href="css/app.css" rel="stylesheet"/>
+    <link rel="icon" type="image/png" href="favicon.png" />
+    <link href="SusLang.OnlineInterpreter.styles.css" rel="stylesheet" />
+    <script>
+        function setCookie(cname, cvalue) {
+            const d = new Date();
+            d.setTime(d.getTime() + 31536000000); //One year
+            let expires = "expires="+ d.toUTCString();
+            document.cookie = cname + "=" + encodeURIComponent(cvalue) + ";" + expires + ";path=/";
+        }
+
+        function getCookie(cname) {
+            let name = cname + "=";
+            let decodedCookie = decodeURIComponent(document.cookie);
+            let ca = decodedCookie.split(';');
+            for(let i = 0; i <ca.length; i++) {
+                let c = ca[i];
+                while (c.charAt(0) == ' ') {
+                    c = c.substring(1);
+                }
+                if (c.indexOf(name) == 0) {
+                    return decodeURIComponent(c.substring(name.length, c.length));
+                }
+            }
+            return "";
+        }
+        
+        function updateSize() {
+            //document.getElementById("codeTextArea").oninput();
+            //document.getElementById("outputTextArea").oninput();
+        }
+        
+        function allowTabs(){
+            document.getElementById('codeTextArea').addEventListener('keydown', function(e) {
+                if (e.key == 'Tab') {
+                    e.preventDefault();
+                    var start = this.selectionStart;
+                    var end = this.selectionEnd;
+
+                    // set textarea value to: text before caret + tab + text after caret
+                    this.value = this.value.substring(0, start) +
+                    "\t" + this.value.substring(end);
+
+                    // put caret at right position again
+                    this.selectionStart =
+                    this.selectionEnd = start + 1;
+                }
+            });
+        }
+
+    </script>
+</head>
+
+<body>
+    <div id="app" style="height: 100%">
+        <svg class="loading-progress">
+            <circle r="40%" cx="50%" cy="50%" />
+            <circle r="40%" cx="50%" cy="50%" />
+        </svg>
+        <div class="loading-progress-text"></div>
+    </div>
+
+    <div id="blazor-error-ui">
+        An unhandled error has occurred.
+        <a href="" class="reload">Reload</a>
+        <a class="dismiss">🗙</a>
+    </div>
+    <script src="_framework/blazor.webassembly.js"></script>
+</body>
+
+</html>

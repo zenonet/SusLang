@@ -1,0 +1,45 @@
+// Provided by 0x1f401
+
+//Set dividend to 10:
+sus red
+he killed
+
+//Set divisor to 2:
+sus blue
+he vented
+he vented
+
+// red / blue = purple
+
+orange wasWith red
+yellow wasWith blue
+sus orange
+[
+    [
+        white wasWith black
+        // subtract 1 from divisor and dividend
+        orange wasWithMe
+        yellow wasWithMe
+        // check if divisor is 0
+        sus yellow
+        [
+            // check if dividend is 0
+            sus orange 
+            [
+                // only if subtraction continues
+                sus white
+            ]
+        ]
+        // check if subtraction has to continue
+        white vented
+    ]
+    // increase result
+    purple vented
+    // restors divisor
+    yellow wasWith blue
+    // exit if dividend is 0
+    sus orange
+]
+// output result
+sus purple
+report //Outputs 5

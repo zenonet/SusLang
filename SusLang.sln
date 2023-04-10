@@ -12,6 +12,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SusLang.Tools", "SusLang.To
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LanguageServerBackend", "LanguageServerBackend\LanguageServerBackend.csproj", "{FABEAE46-9A17-423F-B1C0-88885E888232}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SusLang.Tests", "SusLang.Tests\SusLang.Tests.csproj", "{C867710A-1263-4D77-8248-A81283C150CA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SusLang.OnlineInterpreter", "SusLang.OnlineInterpreter\SusLang.OnlineInterpreter.csproj", "{0F93D7B3-B472-49D7-9EA6-B83BAB7F7BA3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -38,5 +42,15 @@ Global
 		{57CB74EB-54E9-4441-91CD-50A141EC12E7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{57CB74EB-54E9-4441-91CD-50A141EC12E7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{57CB74EB-54E9-4441-91CD-50A141EC12E7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C867710A-1263-4D77-8248-A81283C150CA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C867710A-1263-4D77-8248-A81283C150CA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C867710A-1263-4D77-8248-A81283C150CA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C867710A-1263-4D77-8248-A81283C150CA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FABEAE46-9A17-423F-B1C0-88885E888232}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FABEAE46-9A17-423F-B1C0-88885E888232}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0F93D7B3-B472-49D7-9EA6-B83BAB7F7BA3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0F93D7B3-B472-49D7-9EA6-B83BAB7F7BA3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0F93D7B3-B472-49D7-9EA6-B83BAB7F7BA3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0F93D7B3-B472-49D7-9EA6-B83BAB7F7BA3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

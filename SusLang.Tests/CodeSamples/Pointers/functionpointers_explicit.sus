@@ -1,0 +1,24 @@
+//-output blue
+
+#define color minus
+
+#define keyword plus red green
+    blue wasWith green
+    sus blue
+    [
+        red vented
+        blue wasWithMe
+    ]
+#define keyword end
+
+#define keyword minus red green
+    blue wasWith green
+    sus blue
+    [
+        red wasWithMe
+        blue wasWithMe
+    ]
+#define keyword end
+
+// Should return 1 because minus is the 2nd keyword defined
+blue wasWith @minus

@@ -29,6 +29,17 @@ namespace SusLang.Expressions.DefaultExpressions
                         );
                         return false;
                     }
+                    
+                    if(Crewmate.Parse(words[2], Context) != null)
+                    {
+                        Compiler.Logging.LogError(
+                            new Diagnosis(Context,
+                                "Color already defined",
+                                InspectionSeverity.Error,
+                                Context.LineNumber)
+                        );
+                        return false;
+                    }
 
                     Crewmates.Add(words[2].ToLower(), 0);
                     break;
@@ -115,6 +126,9 @@ namespace SusLang.Expressions.DefaultExpressions
                         words[2], executionContext
                     );
 
+                    // Update the line number of the outer context + 1 for the #define keyword end line
+                    Context.LineNumber += executionContext.LineNumber + 1;
+                    
                     IsParsingKeywordDefinition = false;
 
                     //+19 because "#define keyword end" is 19 characters long and

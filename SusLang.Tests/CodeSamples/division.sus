@@ -1,0 +1,27 @@
+//-op1 red
+//-op2 blue
+//-output purple
+
+// red / blue = purple
+orange wasWith red
+yellow wasWith blue
+sus orange
+[
+    [
+        white wasWith black
+        orange wasWithMe
+        yellow wasWithMe
+        sus yellow 
+        [
+            sus orange 
+            [
+                sus white
+            ]
+        ] 
+        white vented
+    ]
+    purple vented
+    yellow wasWith blue
+    sus orange
+]
+red wasWith purple

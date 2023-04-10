@@ -38,7 +38,7 @@ namespace SusLang.Expressions
 
             if (logErrors)
             {
-                Compiler.Logging.LogError(new Diagnosis(context,
+                Compiler.Logging.LogError(new (context,
                     $"Color not found: {code}\n" +
                     "     Consider defining it using '#define color <name>'", InspectionSeverity.Error, context.LineNumber));
             }
@@ -53,7 +53,7 @@ namespace SusLang.Expressions
             {@"^report", typeof(OutputExpression)},
             {@"^who\?", typeof(WhoExpression)},
             {@"^\[(?:.|\s)*", typeof(Loop)},
-            {@"^\w+ wasWith \w+", typeof(SetterExpression)},
+            {@"^\w+ wasWith (?:@|.)?\w+", typeof(SetterExpression)},
             {@"^#define ", typeof(DefineExpression)},
             {@"^breakpoint", typeof(Breakpoint)},
 
@@ -91,9 +91,7 @@ namespace SusLang.Expressions
                         if (color.Length < 1)
                             continue;
 
-                        Crewmate crewmate = ParseColor(color, context, false);
-                        if (crewmate == null)
-                            goto nextPattern;
+                        Crewmate crewmate = ParseColor(color, context);
 
                         colorsList.Add(crewmate);
                     }

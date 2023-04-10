@@ -1,0 +1,132 @@
+@using System.Text
+@using System.Text.Json
+@using SusLang.Expressions.DefaultExpressions
+@inject IJSRuntime JS
+@inject HttpClient Http
+
+<link href="css/app.css" rel="stylesheet" asp-append-version="true"/>
+
+<select class="form-control" @bind="@SelectedExamplePath" style="width: 10vw; margin-top:0.3vh; margin-bottom: 0.3vh; display: inline-block;">
+    <option value="-1">-Select Example to load-</option>
+    @foreach (Example t in examples)
+    {
+        <option value="@t.Path">@t.Name@modified</option>
+    }
+
+</select>
+<button class="btn btn-primary" @onclick="LoadExample" style=" margin-top:0.3vh; margin-bottom: 0.3vh; display: inline-block;">Load Example</button>
+
+
+<textarea id="codeTextArea" @bind="codeText" spellcheck="false" style="height: 56vh; width: 90%; horiz-align: center" autofocus/><br/>
+
+<button id="runButton" class="btn btn-primary" @onclick="OnButtonClick" style="margin-top: 0.5vh; margin-bottom: 0.5vh">@ButtonText</button>
+<br/>
+
+<textarea class="form-control" id="outputTextArea" disabled="disabled" style="height: 10vh; width: 90%; horiz-align: center;" autofocus spellcheck="false" autocomplete="off" >@output
+</textarea>
+
+@code {
+    internal string codeText { get; set; } = "";
+    string ButtonText = "Run";
+
+    private string output = "";
+
+
+    Example[] examples = Array.Empty<Example>();
+
+    volatile bool running = false;
+
+    private void OnButtonClick()
+    {
+        SaveScript();
+
+        if (running)
+            return;
+
+        output = "";
+        StateHasChanged();
+
+        Task.Run(RunCode);
+    }
+
+    private void SaveScript()
+    {
+    // Save the script to a cookie using jsinterop
+        JS.InvokeVoidAsync("setCookie", "script", codeText);
+    }
+
+    private async void LoadScript()
+    {
+        string? code = await JS.InvokeAsync<string?>("getCookie", "script");
+        Console.WriteLine(code);
+        if (code != null)
+            codeText = code;
+        StateHasChanged();
+
+        await JS.InvokeVoidAsync("updateSize");
+    }
+
+    private async void RunCode()
+    {
+        running = true;
+        Compiler.Logging.Stream = new StringWriter();
+
+        CustomKeywordExpression.CustomKeywords.Clear();
+        ButtonText = "Creating AST...";
+        Compiler.Logging.ThrowRuntimeError = true;
+
+        Compiler.Logging.OnOutput += async s =>
+        {
+            output = Compiler.Logging.Stream.ToString()!;
+            await JS.InvokeVoidAsync("updateSize");
+            StateHasChanged();
+            await Task.Delay(1);
+        };
+
+        try
+        {
+            ExecutionContext? ast = await Task.Run(() => Compiler.CreateAst(codeText));
+
+            ButtonText = "Running...";
+
+            await Task.Run(() => { ast.Continue(); });
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+        }
+        running = false;
+
+        ButtonText = "Run";
+        StateHasChanged();
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+
+        examples = await LoadExampleNames();
+
+        LoadScript();
+    }
+
+    private async Task<Example[]> LoadExampleNames()
+    {
+        return JsonSerializer.Deserialize<Example[]>(await Http.GetStringAsync("Examples/list.json"))!;
+    }
+
+    public string? SelectedExamplePath { get; set; }
+
+    private async void LoadExample()
+    {
+        if (SelectedExamplePath == null)
+        {
+            Console.WriteLine("No example selected");
+            return;
+        }
+
+        codeText = await Http.GetStringAsync("Examples/" + SelectedExamplePath);
+        StateHasChanged();
+    }
+
+}

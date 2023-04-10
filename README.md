@@ -1,10 +1,10 @@
 ![Lines of Code](https://img.shields.io/tokei/lines/github/zenonet/SusLang)
-![GitHub Workflow Status](https://img.shields.io/github/workflow/status/zenonet/SusLang/.NET)
+![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/zenonet/SusLang/dotnetPublish.yml)
 
 # SusLang
 
 A simple among-us-themed esolang written in C#.<br>
-You can find an online interpreter [here](http://api.zenonet.de/SusLang/0.4/).
+You can find an online interpreter [here](http://api.zenonet.de/SusLang/0.4/). There is also an experimental online interpreter for the not yet released version 0.5 [here](http://api.zenonet.de/SusLang/0.5/).
 
 ## The file format
 

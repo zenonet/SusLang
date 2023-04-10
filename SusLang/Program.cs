@@ -41,7 +41,9 @@ You can use these options:
     {
         Breakpoint.OnBreakpointExecuted += context =>
         {
+            // TODO: Check out why this line is needed
             Console.OutputEncoding = Encoding.ASCII;
+            
             Console.WriteLine("\n----------\nBreakpoint activated:");
             foreach (KeyValuePair<Crewmate, byte> crewmate in context.Crewmates)
             {
@@ -107,7 +109,7 @@ You can use these options:
                         Console.WriteLine("Please enter your string here:");
                         string text = Console.ReadLine()!.Replace("\\n", "\n");
 
-                        Console.WriteLine(
+                        Console.WriteLine("Generate SusLang Code:\n" +
                             SusLang.Tools.StringCreator.CreateSusLangScriptForString(
                                 text,
                                 color,
@@ -117,7 +119,7 @@ You can use these options:
                         );
 
                         break;
-                    case "-help" or "-h":
+                    case "help" + "-help" or "-h":
                         Console.WriteLine(Help);
                         break;
 
@@ -195,6 +197,11 @@ You can use these options:
 
             if (code!.Trim() is "quit" or "stop" or ":q" or "exit")
                 Environment.Exit(0);
+            if (code!.Trim() is "clear")
+            {
+                // Reset all the colors to 0
+                context.Crewmates.Reset();
+            }
 
             try
             {
