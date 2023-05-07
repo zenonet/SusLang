@@ -90,6 +90,11 @@ However, you can also use `wasWith` to to create a pointer to a keyword as descr
 
 <br>
 
+### Define-Statements
+
+Define Statements are executed before running the actual code (no matter where in the code they are). They can do things like defining new colors or creating custom keywords.
+You can learn more about define statements [here](https://github.com/zenonet/SusLang/wiki/Define-Expressions). Define statements always start with `#define`
+
 ### Comments
 
 The interpreter will ignore any text in a source file that is behind `trashtalk` or `//`. You can use this to explain your code.
