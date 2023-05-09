@@ -17,7 +17,7 @@ You can use these options:
     -version    to print out the compiler version
     -info    to print out the link to the github repo
     -help    displays this help text
-    -build    to create a .exe file of a script that can run without SusLang or Dotnet. Syntax: -build {sourcePath} {destinationPath}
+    -build    to create a .exe file of a script that can run without SusLang or Dotnet. Syntax: -build {sourcePath} [destinationPath]
     -addpath    adds the directory of this executable to path
     -removepath    removes the directory of this executable from path
     -translate    to generate a script that outputs a user defined string. Syntax: -translate {colorToUse} {parameters}
@@ -74,8 +74,15 @@ You can use these options:
                             "SusLang is an among-us-themed esolang written in C#. Visit https://github.com/zenonet/SusLang for more information");
                         break;
                     case "-build" or "-b":
-                        BuildEngine.BuildSusLangScriptFromFile(args[1], args[2]);
-                        Console.WriteLine($"Successfully built {args[1]} to {args[2]}");
+                        if(args.Length is < 2 or > 3)
+                            Console.WriteLine("Invalid arguments. -build takes 2 arguments: the source path, and optionally the destination path");
+                        
+                        string destination = args.Length == 2 
+                            ? Path.GetFileNameWithoutExtension(args[1]) + ".exe" 
+                            : args[2];
+                        
+                        BuildEngine.BuildSusLangScriptFromFile(args[1], destination);
+                        Console.WriteLine($"Successfully built {args[1]} to {destination}");
                         break;
                     case "-addpath" or "-ap":
                         Console.WriteLine(
