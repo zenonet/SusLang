@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Net;
+using System.Net.Http;
 using System.Text;
 
 namespace SusLang.BuildEngine
@@ -13,9 +14,13 @@ namespace SusLang.BuildEngine
         public static void BuildSusLangScript(string script, string destinationPath)
         {
             //Create the .exe Loader file
-            using (WebClient wc = new WebClient())
-                wc.DownloadFile("http://api.zenonet.de/SusLang/SusLangBuildLoader.exe", destinationPath);
-            
+            using (HttpClient client = new())
+            {
+                // Download the base build loader exe file
+                HttpResponseMessage response = client.GetAsync("http://api.zenonet.de/SusLang/SusLangBuildLoader.exe").Result;
+                File.WriteAllBytes(destinationPath, response.Content.ReadAsByteArrayAsync().Result);
+            }
+
             //Open a fileStream to this file
             FileStream stream = File.Open(destinationPath, FileMode.Append);
             
