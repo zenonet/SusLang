@@ -21,16 +21,14 @@ To modify the sus-meter of a color/variable, there are 4 different statements al
 
 These statements are used to change the value of the variables:
 
-**killed** increases the sus-meter of a color by 10
-
-**vented** increases the sus-meter of a color by 1
-
-**didVisual** decreases the sus-meter of a color by 10
-
-**wasWithMe** decreases the sus-meter of a color by 1
+| Keyword      | Description |
+| ----------- | ----------- |
+|**killed**| increases the sus-meter of a color by 10|
+|**vented**| increases the sus-meter of a color by 1|
+|**didVisual**| decreases the sus-meter of a color by 10|
+|**wasWithMe**| decreases the sus-meter of a color by 1|
 
 For example, you can increase cyan's sus-meter by 10 using
-
 ```cyan killed```
 
 <br>
@@ -89,6 +87,11 @@ This is simmilar to the `=` Statement is other (less sussy) languages.
 However, you can also use `wasWith` to to create a pointer to a keyword as described [here](https://github.com/zenonet/SusLang/wiki/Keyword-Pointers).
 
 <br>
+
+### Define-Statements
+
+Define Statements are executed before running the actual code (no matter where in the code they are). They can do things like defining new colors or creating custom keywords.
+You can learn more about define statements [here](https://github.com/zenonet/SusLang/wiki/Define-Expressions). Define statements always start with `#define`
 
 ### Comments
 
