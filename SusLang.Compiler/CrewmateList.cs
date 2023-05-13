@@ -13,10 +13,10 @@ public class CrewmateList : Dictionary<Crewmate, byte>
 
     public new byte this[Crewmate index]
     {
-        get => index.RefToSelected ? base[Selected] : base[index];
+        get => index.IsRefToSelected ? base[Selected] : base[index];
         set
         {
-            if (index.RefToSelected)
+            if (index.IsRefToSelected)
                 base[Selected] = value;
             else
                 base[index] = value;

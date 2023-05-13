@@ -8,7 +8,7 @@ public sealed class Crewmate
 
     public static readonly Crewmate RefToSelectedInstance = new();
 
-    public bool RefToSelected => ReferenceEquals(this, RefToSelectedInstance);
+    public bool IsRefToSelected => ReferenceEquals(this, RefToSelectedInstance);
 
     private Crewmate(string name)
     {
