@@ -1,5 +1,8 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
+using System.Reflection;
+using System.Runtime.Serialization;
 using System.Text.RegularExpressions;
 using SusLang.CodeAnalysis;
 using SusLang.Expressions.DefaultExpressions;
@@ -25,7 +28,7 @@ namespace SusLang.Expressions
         {
             //Prepare
             string colorString = code.ToLower().Trim();
-            
+
             if (colorString is "he" or "him" or "her" or "she")
                 return Crewmate.RefToSelectedInstance;
 
@@ -38,7 +41,7 @@ namespace SusLang.Expressions
 
             if (logErrors)
             {
-                Compiler.Logging.LogError(new (context,
+                Compiler.Logging.LogError(new(context,
                     $"Color not found: {code}\n" +
                     "     Consider defining it using '#define color <name>'", InspectionSeverity.Error, context.LineNumber));
             }
@@ -99,11 +102,12 @@ namespace SusLang.Expressions
                     colors = colorsList.ToArray();
                 }
 
-                expression = Activator.CreateInstance(pair.Value) as Expression;
+                expression = FormatterServices.GetUninitializedObject(pair.Value) as Expression;
+                //expression = Activator.CreateInstance(pair.Value) as Expression;
 
                 if (expression is null)
                 {
-                    Compiler.Logging.LogError(new (context,
+                    Compiler.Logging.LogError(new(context,
                         $"There was a problem parsing '{Regex.Match(code, @"[^\s\\]+").Value}'",
                         InspectionSeverity.Error,
                         context.LineNumber));
@@ -134,8 +138,8 @@ namespace SusLang.Expressions
                     $"Couldn't parse '{Regex.Match(restBuffer, @"[^\s\\]+").Value}'",
                     InspectionSeverity.Error,
                     context.LineNumber));
-                
-                if(Compiler.DontLog)
+
+                if (Compiler.DontLog)
                     return null;
             }
 
@@ -159,6 +163,10 @@ namespace SusLang.Expressions
         public virtual void SetContextRecursively(ExecutionContext @new)
         {
             Context = @new;
+        }
+
+        public Expression()
+        {
         }
     }
 }
