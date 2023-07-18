@@ -13,7 +13,7 @@ The only file format this language uses is the .sus format for source code files
 
 ## The syntax
 
-The syntax explanation has moved to [this](https://github.com/zenonet/SusLang/blob/master/syntax.md) markdown file.
+The language sytax is documented [here](https://github.com/zenonet/SusLang/blob/master/syntax.md).
 
 ## The wiki
 
