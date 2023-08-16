@@ -4,12 +4,14 @@ namespace SusLang.Expressions.DefaultExpressions
 {
     public class Loop : Expression
     {
-        private readonly Queue<Expression> expressions = new();
+        private Queue<Expression> expressions;
 
         protected override bool IsCuttingCode() => true;
 
         protected override bool OnParse(ref string code)
         {
+            expressions = new();
+            
             //Remove the opening bracket
             code = code[1..];
 
