@@ -5,6 +5,10 @@
 A simple among-us-themed esolang written in C#.<br>
 You can find an online interpreter [here](http://api.zenonet.de/SusLang/0.4/). There is also an experimental online interpreter for the not yet released version 0.5 [here](http://api.zenonet.de/SusLang/0.5/).
 
+## The concept
+
+Every player color from Among Us is a one-byte variable. This byte stores how sus that person is. You can increase variables by saying people did suspicious things like venting or killing. 
+
 ## The file format
 
 SusLang is an interpreted language which means that there are no compiled SusLang-files. 
