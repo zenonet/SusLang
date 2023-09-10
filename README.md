@@ -7,7 +7,7 @@ You can find an online interpreter [here](http://api.zenonet.de/SusLang/0.4/). T
 
 ## The concept
 
-Every player color from Among Us is a one-byte variable. This byte stores how sus that person is. You can increase variables by saying people did suspicious things like venting or killing. 
+Every player color from Among Us is a one-byte variable. This byte stores how sus that person is. You can increase variables by saying people did suspicious things like venting or killing. Additionally, a color becomes less sus, when you tell everybody that they did a visual task or were with you.
 
 ## The file format
 
