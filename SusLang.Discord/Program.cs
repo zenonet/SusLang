@@ -2,14 +2,14 @@
 using DSharpPlus.Entities;
 using DSharpPlus.EventArgs;
 using SusLang;
-using SusLang.Expressions;
 using ExecutionContext = SusLang.ExecutionContext;
+using Expression = SusLang.Expressions.Expression;
 
 string apiKey = File.ReadAllText("apiKey.txt");
 
 Dictionary<ulong, ExecutionContext> channels = new();
 
-var client = new DiscordClient(new DiscordConfiguration()
+var client = new DiscordClient(new()
 {
     Token = apiKey,
     TokenType = TokenType.Bot,
@@ -18,6 +18,7 @@ var client = new DiscordClient(new DiscordConfiguration()
 client.MessageCreated += MessageReceived;
 
 Compiler.Logging.ThrowRuntimeError = true;
+Compiler.LoopTimeout = 15;
 
 
 await client.ConnectAsync();
@@ -31,32 +32,13 @@ Task Log(DiscordClient msg, MessageCreateEventArgs args)
     return Task.CompletedTask;
 }
 
-bool ExecuteExpressionWithTimeout(Expression exp, float seconds = 5) {
-    Action<object> longMethod = (monitorSync) =>
-    {
-        exp.Execute();
-        lock (monitorSync) {
-            Monitor.Pulse(monitorSync);
-        }
-    };
-    object monitorSync = new();
-    bool timedOut;
-    lock (monitorSync) {
-        longMethod.BeginInvoke(monitorSync, null, null);
-        timedOut = !Monitor.Wait(monitorSync, TimeSpan.FromSeconds(seconds)); // waiting 30 secs
-        Console.WriteLine("Monitorus lool");
-    }
-
-    if (timedOut)
-    {
-        Console.WriteLine("Fuck you");
-    }
-
-    return timedOut;
-}
-
 async Task MessageReceived(DiscordClient _, MessageCreateEventArgs args)
 {
+
+
+    if (args.Author.IsCurrent || args.Channel.Name != "suslang")
+        return;
+    
     Console.WriteLine($"Received message {args.Message.Content}");
     ulong channelId = args.Channel.Id;
     
@@ -87,12 +69,16 @@ async Task MessageReceived(DiscordClient _, MessageCreateEventArgs args)
 
     try
     {
-        ExecutionContext ast = Compiler.CreateAst(content);
 
         Compiler.Logging.OnOutput += OnOutput;
 
+        ExecutionContext ast = Compiler.CreateAst(content);
+
+        channels[channelId].Expressions = new List<Expression>();
+        channels[channelId].ExecuteInThisContext(ast);
+        /*
         Expression[] expressions = ast.Expressions.ToArray();
-        
+
         foreach (Expression expression in expressions)
         {
             expression.SetContextRecursively(channels[channelId]);
@@ -101,14 +87,13 @@ async Task MessageReceived(DiscordClient _, MessageCreateEventArgs args)
                 // If the method timed out
                 await client.SendMessageAsync(args.Channel, "That timed out. Fuck you");
             }
-        }
-        Compiler.Logging.OnOutput -= OnOutput;
+        }*/
 
         await args.Message.CreateReactionAsync(DiscordEmoji.FromName(client, ":white_check_mark:"));
     }
-    catch
+    finally
     {
-        // ignore loool
+        Compiler.Logging.OnOutput -= OnOutput;
     }
 
 }
