@@ -1,4 +1,6 @@
 using System.Collections.Generic;
+using System.Diagnostics;
+using SusLang.CodeAnalysis;
 
 namespace SusLang.Expressions.DefaultExpressions
 {
@@ -30,8 +32,12 @@ namespace SusLang.Expressions.DefaultExpressions
 
         public override bool Execute()
         {
+            Stopwatch sw = Stopwatch.StartNew();
             while (Crewmates[Selected] > 0)
             {
+                if (Compiler.LoopTimeout != -1 && sw.Elapsed.TotalSeconds > Compiler.LoopTimeout)
+                    Compiler.Logging.LogError(new(Context, "Loop timed out", InspectionSeverity.Error, Context.LineNumber));
+                    
                 foreach (Expression expression in expressions)
                 {
                     if (!expression.Execute())
