@@ -48,15 +48,7 @@ public class ExecutionContext : IEnumerable<Expression>
     /// <param name="context">The context to use the expressions from</param>
     public void ExecuteInThisContext(ExecutionContext context)
     {
-        Expression[] array = context.Expressions.ToArray();
-        Expression[] expressions = new Expression[array.Length];
-
-        array.CopyTo(expressions, 0);
-
-        foreach (Expression expression in expressions)
-        {
-            expression.Execute();
-        }
+        ExecuteInThisContext(context.Expressions.ToArray());
     }
 
     /// <summary>
