@@ -9,11 +9,6 @@ You can find an online interpreter [here](http://api.zenonet.de/SusLang/0.4/). T
 
 Every player color from Among Us is a one-byte variable. This byte stores how sus that person is. You can increase variables by saying people did suspicious things like venting or killing. Additionally, a color becomes less sus, when you tell everybody that they did a visual task or were with you.
 
-## The file format
-
-SusLang is an interpreted language which means that there are no compiled SusLang-files. 
-The only file format this language uses is the .sus format for source code files.
-
 ## The syntax
 
 The language sytax is documented [here](https://github.com/zenonet/SusLang/blob/master/syntax.md).
@@ -21,6 +16,11 @@ The language sytax is documented [here](https://github.com/zenonet/SusLang/blob/
 ## The wiki
 
 If you want to learn more about SusLang, you can do so in our wiki: https://github.com/zenonet/SusLang/wiki
+
+## The file format
+
+SusLang is an interpreted language which means that there are no compiled SusLang-files. 
+The only file format this language uses is the .sus format for source code files.
 
 ## Hello World Script
 
